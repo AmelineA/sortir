@@ -18,10 +18,15 @@ h1, h2, h3, h4, h5, h6{
     color: #78cce2;
 }
 
+h1{
+    margin-bottom: 20px;
+}
+
 main{
     flex-grow: 1;
     display: flex;
     flex-direction: column;
+    align-items: center;
 }
 
 
@@ -41,8 +46,31 @@ main{
 }
 
 /***********************************FOOTER***************************************/
+.btn-primary{
+    background-color: #4e7988;
+    border: none;
+}
+
+.btn-primary:hover{
+    background-color: #005066;
+}
+
+.form-control{
+    margin: 10px 0;
+}
+
+
+/***********************************FOOTER***************************************/
 footer{
     display: flex;
     justify-content: center;
     width: 100%;
+}
+
+.nav a{
+    color: #e4eff0;
+}
+
+.nav a:hover{
+    color: #78cce2;
 }
