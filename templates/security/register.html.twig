@@ -6,12 +6,11 @@
 
 
     <h1>Gérer mon compte</h1>
-    <div>
+
         {{ form_start(registerForm, {'attr':{'class':'col-sm-6', 'novalidate': 'novalidate'}}) }}
         {{ form_widget(registerForm) }}
                 <button class="btn btn-md btn-primary">Enregistrer</button>
         {{ form_end(registerForm) }}
-    </div>
 
 
 {% endblock %}
