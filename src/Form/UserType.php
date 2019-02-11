@@ -15,7 +15,7 @@ class UserType extends AbstractType
     {
         $builder
             ->add('username', TextType::class, [
-                'label'=>'mon Pseudo',
+                'label'=>'Mon pseudo',
                 'attr'=>[
                     'placeholder'=>'ex:yoyo44',
                     'class'=>'form-control'
@@ -36,21 +36,21 @@ class UserType extends AbstractType
                 ]
             ])
             ->add('telephone', TextType::class, [
-                'label'=>'téléphone',
+                'label'=>'Téléphone',
                 'attr'=>[
                     'placeholder'=>'ex : 0699999999',
                     'class'=>'form-control'
                 ]
             ])
             ->add('email', TextType::class, [
-                'label'=>'telephone',
+                'label'=>'Email',
                 'attr'=>[
                     'placeholder'=>'ex : monEmail@Email.com',
                     'class'=>'form-control'
                 ]
             ])
             ->add('password', PasswordType::class, [
-                'label'=>'mot de passe',
+                'label'=>'Mot de passe',
                 'attr'=>[
                     'placeholder'=>'ex: K!4851o$',
                     'class'=>'form-control'
