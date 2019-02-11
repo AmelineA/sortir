@@ -19,7 +19,12 @@ security:
             guard:
                 authenticators:
                     - App\Security\UserAuthenticator
-
+            remember-me:
+                secret: '%kernel.secret%'
+                lifetime: 31536000
+                path: /
+                httponly: true
+                remember-me-parameter: _remember_me
             # activate different ways to authenticate
 
             # http_basic: true
