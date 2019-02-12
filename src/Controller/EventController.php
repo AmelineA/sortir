@@ -16,7 +16,6 @@ class EventController extends AbstractController
      */
     public function createEvent(Request $request)
     {
-
         $event=new Event();
         $event->setState("published");
         $event->setOrganizer($this->getUser());
@@ -55,7 +54,10 @@ class EventController extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $eventRepo = $em->getRepository(Event::class);
         $event = $eventRepo->find($idEvent);
-        if(!empty($this->getUser())){
+        $nb=$event->getParticipants();
+        $nb->count($nb);
+
+        if(!empty($this->getUser()) && $nb < $event->getMaxNumber()){
             $user = $this->getUser();
             $alreadySignedOn = $eventRepo->alreadySignedOn($user, $idEvent);
             if($event->getState()==='ouvert'){
@@ -82,7 +84,6 @@ class EventController extends AbstractController
      *     name="withdraw_event",
      *     requirements={"idEvent" = "\d+"}
      *     )
-     *
      */
     public function withdraw($idEvent)
     {
@@ -90,6 +91,7 @@ class EventController extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $eventRepo = $em->getRepository(Event::class);
         $event = $eventRepo->find($idEvent);
+
 
         if ($event->getState()==='ouvert'){
             $event->removeParticipant($this->getUser());
