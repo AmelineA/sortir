@@ -15,9 +15,13 @@
             </div>
             <nav class="nav">
                 <a href="{{ path('home') }}" class="nav-link">Accueil</a>
-                <a href="#" class="nav-link">Mon Profil</a>
-                <a href="#" class="nav-link">Créer une sortie</a>
-                <a href="#" class="nav-link">Se déconnecter</a>
+                {% if app.user %}
+                <a href="{{ path('app_register') }}" class="nav-link">Mon Profil</a>
+                <a href="{{ path('create_event') }}" class="nav-link">Créer une sortie</a>
+                <a href="{{ path('app_logout') }}" class="nav-link">Se déconnecter</a>
+                {% else %}
+                    <a href="{{ path('app_login') }}" class="nav-link">Se connecter</a>
+                {% endif %}
             </nav>
         </header>
 
@@ -36,7 +40,7 @@
 
         <footer>
             <nav class="nav">
-                <a href="#" class="nav-link">Accueil</a>
+                <a href="{{ path('home') }}" class="nav-link">Accueil</a>
                 <a href="#" class="nav-link">FAQ</a>
                 <a href="#" class="nav-link">CGU</a>
                 <a href="#" class="nav-link">Contact</a>
