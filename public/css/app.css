@@ -31,6 +31,12 @@ main{
 
 
 /***********************************HEADER***************************************/
+header{
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
 
 #site-title{
     font-size: 3em;
