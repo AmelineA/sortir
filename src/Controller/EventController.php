@@ -11,9 +11,6 @@ use Symfony\Component\Routing\Annotation\Route;
 class EventController extends AbstractController
 {
 
-
-
-
     /**
      * @Route("/creer-une-sortie", name="create_event")
      */
