@@ -4,6 +4,12 @@
 
 {% block content %}
 
+    {{ form_start(searchEventForm) }}
+    {{ form_widget(searchEventForm) }}
+    {{ form_end(searchEventForm) }}
+
+
+
     <table class="table table-striped">
         <tr>
             <th>Nom de la sortie</th>

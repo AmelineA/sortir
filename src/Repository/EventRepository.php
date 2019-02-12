@@ -33,17 +33,39 @@ class EventRepository extends ServiceEntityRepository
 
 
 
-    public function findListEventsBy($user, $site, $organizer, $signedOn)
+    public function findListEventsBy($user, $site, $signedOn)
     {
+        $today=new \DateTime();
         $qb=$this->createQueryBuilder('e');
 
-        $qb->andWhere('e.organizer=:user');
-        $qb->andWhere();
-        $qb->setParameter('user', $user);
 
-       
+        //liste les events dont le user est l'organisateur
+
+            $qb->andWhere('e.organizer=:user');
+            $qb->setParameter('user', $user);
 
 
+        //liste les events déjà passés
+
+            $qb->andWhere('e.rdvTime<:today');
+            $qb->setParameter('today', $today);
+
+
+        //liste les events par site
+
+            $qb->andWhere('e.site=:site');
+            $qb->setParameter('site', $site);
+
+
+        //liste les events entre date et date
+
+            $qb->andWhere('e.rdvTime>$dateStart');
+            $qb->andWhere('e.rdvTime<$dateEnd');
+            $qb->setParameter('dateStart', $dateStart);
+            $qb->setParameter('dateEnd', $dateEnd);
+
+        $query=$qb->getQuery();
+        return $query->getResult();
     }
 
     // /**
