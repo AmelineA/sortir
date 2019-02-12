@@ -19,6 +19,21 @@ class EventRepository extends ServiceEntityRepository
         parent::__construct($registry, Event::class);
     }
 
+    public function alreadySignedOn(User $user, $idEvent)
+    {
+        $qb = $this->createQueryBuilder('e');
+        $qb->join('e.participants', 'p')
+            ->addSelect('p')
+            ->andWhere('e.id = :idEvent')
+            ->andWhere('p. = :idUser')
+            ->setParameters([
+                'idEvent' => $idEvent,
+                'idUser' => $user->getId()
+            ]);
+        $query = $qb->getQuery();
+        return $query->getResult();
+    }
+
     // /**
     //  * @return Event[] Returns an array of Event objects
     //  */

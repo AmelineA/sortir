@@ -43,11 +43,11 @@ header{
     font-weight: bold;
     display: flex;
     align-items: baseline;
-    color: #0c8c61;
+    color: #78cce2;
 }
 
 #site-title img{
-    height: 60px;
+    height: 40px;
     margin-right: 10px;
 }
 
