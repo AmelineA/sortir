@@ -18,42 +18,42 @@ class UserType extends AbstractType
                 'label'=>'Mon pseudo',
                 'attr'=>[
                     'placeholder'=>'ex:yoyo44',
-                    'class'=>'form-control'
+                    'class'=>'form-control col-10'
                 ]
             ])
             ->add('name', TextType::class, [
                 'label'=>'Nom',
                 'attr'=>[
                     'placeholder'=>'Mon nom',
-                    'class'=>'form-control'
+                    'class'=>'form-control col-10'
                 ]
             ])
             ->add('firstName', TextType::class, [
                 'label'=>'Prénom',
                 'attr'=>[
                     'placeholder'=>'Mon Prénom',
-                    'class'=>'form-control'
+                    'class'=>'form-control col-10'
                 ]
             ])
             ->add('telephone', TextType::class, [
                 'label'=>'Téléphone',
                 'attr'=>[
                     'placeholder'=>'ex : 0699999999',
-                    'class'=>'form-control'
+                    'class'=>'form-control col-10'
                 ]
             ])
             ->add('email', TextType::class, [
                 'label'=>'Email',
                 'attr'=>[
                     'placeholder'=>'ex : monEmail@Email.com',
-                    'class'=>'form-control'
+                    'class'=>'form-control col-10'
                 ]
             ])
             ->add('password', PasswordType::class, [
                 'label'=>'Mot de passe',
                 'attr'=>[
                     'placeholder'=>'ex: K!4851o$',
-                    'class'=>'form-control'
+                    'class'=>'form-control col-10'
                 ]
             ])
 
