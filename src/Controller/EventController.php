@@ -43,23 +43,33 @@ class EventController extends AbstractController
 
 
     /**
+     * Sign on a user to an event if the user is connected,
+     * if the inscriptions for this event are opened,
+     * if user is not already signed on
      * @Route("/s'inscrire/{idEvent}", name="sign_on_to_event")
+     * @param $idEvent
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function signOnToEvent($idEvent)
     {
         $em = $this->getDoctrine()->getManager();
         $eventRepo = $em->getRepository(Event::class);
         $event = $eventRepo->find($idEvent);
-
         if(!empty($this->getUser())){
+            $user = $this->getUser();
+            $alreadySignedOn = $eventRepo->alreadySignedOn($user, $idEvent);
             if($event->getState()==='opened'){
-
+                if(empty($alreadySignedOn)){
+                    $event->addParticipant($this->getUser());
+                    $em->persist($event);
+                    $em->flush();
+                }else{
+                    $this->addFlash('alert', "Vous êtes déjà inscrit à cet évènement");
+                }
+            }else{
+                $this->addFlash('alert', "Les inscriptions sont fermées pour cet évènement");
             }
         }
-        //if statut event is open
-
-        //then signon
-
 
         return $this->redirectToRoute('home');
     }

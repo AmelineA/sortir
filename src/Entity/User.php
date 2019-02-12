@@ -86,10 +86,14 @@ class User implements UserInterface
         $this->signedOnEvents = new ArrayCollection();
     }
 
+
+    
     public function getId(): ?int
     {
         return $this->id;
     }
+
+
 
     /**
      * A visual identifier that represents this user.
@@ -101,12 +105,16 @@ class User implements UserInterface
         return (string) $this->username;
     }
 
+
+
     public function setUsername(string $username): self
     {
         $this->username = $username;
 
         return $this;
     }
+
+
 
     /**
      * @see UserInterface
@@ -117,12 +125,14 @@ class User implements UserInterface
         return array_unique($roles);
     }
 
+
     public function setRoles(array $roles): self
     {
         $this->roles[] = $roles;
 
         return $this;
     }
+
 
     /**
      * @see UserInterface
@@ -173,6 +183,8 @@ class User implements UserInterface
         return $this->firstName;
     }
 
+
+
     public function setFirstName(string $firstName): self
     {
         $this->firstName = $firstName;
@@ -180,10 +192,14 @@ class User implements UserInterface
         return $this;
     }
 
+
+
     public function getTelephone(): ?string
     {
         return $this->telephone;
     }
+
+
 
     public function setTelephone(string $telephone): self
     {
@@ -192,10 +208,14 @@ class User implements UserInterface
         return $this;
     }
 
+
+
     public function getEmail(): ?string
     {
         return $this->email;
     }
+
+
 
     public function setEmail(string $email): self
     {
@@ -204,10 +224,14 @@ class User implements UserInterface
         return $this;
     }
 
+
+
     public function getActivated(): ?bool
     {
         return $this->activated;
     }
+
+
 
     public function setActivated(bool $activated): self
     {
@@ -216,6 +240,7 @@ class User implements UserInterface
         return $this;
     }
 
+
     /**
      * @return Collection|Event[]
      */
@@ -223,6 +248,8 @@ class User implements UserInterface
     {
         return $this->organizedEvents;
     }
+
+
 
     public function addOrganizedEvent(Event $organizedEvent): self
     {
@@ -233,6 +260,8 @@ class User implements UserInterface
 
         return $this;
     }
+
+
 
     public function removeOrganizedEvent(Event $organizedEvent): self
     {
@@ -247,10 +276,14 @@ class User implements UserInterface
         return $this;
     }
 
+
+
     public function getSite(): ?Site
     {
         return $this->site;
     }
+
+
 
     public function setSite(?Site $site): self
     {
@@ -259,6 +292,8 @@ class User implements UserInterface
         return $this;
     }
 
+
+
     /**
      * @return Collection|Event[]
      */
@@ -266,6 +301,8 @@ class User implements UserInterface
     {
         return $this->signedOnEvents;
     }
+
+
 
     public function addSignedOnEvent(Event $signedOnEvent): self
     {
@@ -276,6 +313,8 @@ class User implements UserInterface
 
         return $this;
     }
+
+
 
     public function removeSignedOnEvent(Event $signedOnEvent): self
     {

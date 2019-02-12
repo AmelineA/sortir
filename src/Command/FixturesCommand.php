@@ -1,6 +1,7 @@
 <?php
 namespace App\Command;
 
+use App\Entity\Event;
 use App\Entity\Site;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
@@ -49,32 +50,74 @@ class FixturesCommand extends Command
         $conn->query('TRUNCATE user');
         $conn->query('TRUNCATE site');
         $conn->query('TRUNCATE event');
+        $conn->query('TRUNCATE event_user');
 
         //reactivate FK checks
         $conn->query('SET FOREIGN_KEY_CHECKS = 1');
 
-        //$allUser = [];
-
-        //site (Nantes, Rennes,, Niort)
+        //site (Nantes, Rennes, Niort)
+        $sites = ['Nantes', 'Rennes', 'Niort'];
+        $allSites = [];
+        foreach($sites as $s){
             $site = new Site();
-            $site->setName('Nantes');
+            $site->setName($s);
+            $allSites[] = $site;
             $this->em->persist($site);
-            $this->em->flush();
+        }
+        $this->em->flush();
 
-        for ($i=0;$i<30; $i++){
+        $allUser = [];
+        //default user known from us
+        $defaultUser = new User();
+        $defaultUser->setUsername('FAG');
+        $defaultUser->setName('FAG');
+        $defaultUser->setFirstName('FAG');
+        $defaultUser->setEmail('fag@email.fr');
+        $defaultUser->setSite($faker->randomElement($allSites));
+        $defaultUser->setTelephone('0101010101');
+        $defaultUser->setPassword($this->encoder->encodePassword($defaultUser, $defaultUser->getUsername()));
+        $defaultUser->setActivated(true);
+        $allUser[] = $defaultUser;
+        $this->em->persist($defaultUser);
+
+        for ($i=0;$i<10; $i++){
             $user = new User();
             $user->setUsername($faker->unique()->userName);
             $user->setName($faker->name);
             $user->setFirstName($faker->firstName);
             $user->setEmail($faker->unique()->email);
-            $user->setSite($site);
+            $user->setSite($faker->randomElement($allSites));
             $user->setTelephone($faker->randomNumber([10, true]));
             $user->setPassword($this->encoder->encodePassword($user, $user->getUsername()));
             $user->setActivated(true);
-           // $allUser[] = $user;
+            $allUser[] = $user;
             $this->em->persist($user);
         }
+        $this->em->flush();
 
+        $state = ['ouvert', 'fermé', 'en création', 'terminé'];
+        $allEvents = [];
+        for($i=0; $i<10; $i++){
+            $event = new Event();
+            $event->setName($faker->unique()->name);
+            $event->setOrganizer($faker->randomElement($allUser));
+            $event->setState($faker->randomElement($state));
+            $event->setSite($faker->randomElement($allSites));
+            $event->setDuration(120);
+            $event->setMaxNumber(10);
+            $event->setRdvTime($faker->dateTimeBetween("+days", "+20 days"));
+            $event->setSignOnDeadline($faker->dateTimeBetween("-2 days", "+10 days"));
+            $allEvents[] = $event;
+            $this->em->persist($event);
+        }
+        $this->em->flush();
+
+        foreach ($allEvents as $e){
+            for($j=0; $j<6; $j++){
+                $e->addParticipant($faker->randomElement($allUser));
+            }
+            $this->em->persist($e);
+        }
         $this->em->flush();
 
         $io->success('done !');

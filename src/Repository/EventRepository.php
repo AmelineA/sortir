@@ -21,6 +21,7 @@ class EventRepository extends ServiceEntityRepository
     }
 
 
+
     public function listEventsBySite(User $user)
     {
         $site=$user->getSite();
@@ -35,36 +36,55 @@ class EventRepository extends ServiceEntityRepository
 
     public function findListEventsBy($user, $site, $signedOn)
     {
-        $today=new \DateTime();
-        $qb=$this->createQueryBuilder('e');
+        $today = new \DateTime();
+        $qb = $this->createQueryBuilder('e');
 
 
         //liste les events dont le user est l'organisateur
 
-            $qb->andWhere('e.organizer=:user');
-            $qb->setParameter('user', $user);
+        $qb->andWhere('e.organizer=:user');
+        $qb->setParameter('user', $user);
 
 
         //liste les events déjà passés
 
-            $qb->andWhere('e.rdvTime<:today');
-            $qb->setParameter('today', $today);
+        $qb->andWhere('e.rdvTime<:today');
+        $qb->setParameter('today', $today);
 
 
         //liste les events par site
 
-            $qb->andWhere('e.site=:site');
-            $qb->setParameter('site', $site);
+        $qb->andWhere('e.site=:site');
+        $qb->setParameter('site', $site);
 
 
         //liste les events entre date et date
 
-            $qb->andWhere('e.rdvTime>$dateStart');
-            $qb->andWhere('e.rdvTime<$dateEnd');
-            $qb->setParameter('dateStart', $dateStart);
-            $qb->setParameter('dateEnd', $dateEnd);
+        $qb->andWhere('e.rdvTime>$dateStart');
+        $qb->andWhere('e.rdvTime<$dateEnd');
+        $qb->setParameter('dateStart', $dateStart);
+        $qb->setParameter('dateEnd', $dateEnd);
 
-        $query=$qb->getQuery();
+        $query = $qb->getQuery();
+        return null;
+    }
+
+
+
+
+    public function alreadySignedOn(User $user, $idEvent)
+    {
+        $qb = $this->createQueryBuilder('e');
+        $qb->join('e.participants', 'p')
+            ->addSelect('p')
+            ->andWhere('e.id = :idEvent')
+            ->andWhere('p. = :idUser')
+            ->setParameters([
+                'idEvent' => $idEvent,
+                'idUser' => $user->getId()
+            ]);
+        $query = $qb->getQuery();
+
         return $query->getResult();
     }
 
