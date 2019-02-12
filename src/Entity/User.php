@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -58,11 +60,23 @@ class User implements UserInterface
      */
     private $activated;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Event", mappedBy="organizer")
+     */
+    private $organizedEvents;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Site", inversedBy="users")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $site;
+
 
     public function __construct()
     {
         $this->roles[] = 'ROLE_USER';
         $this->activated = true;
+        $this->organizedEvents = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -191,6 +205,49 @@ class User implements UserInterface
     public function setActivated(bool $activated): self
     {
         $this->activated = $activated;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Event[]
+     */
+    public function getOrganizedEvents(): Collection
+    {
+        return $this->organizedEvents;
+    }
+
+    public function addOrganizedEvent(Event $organizedEvent): self
+    {
+        if (!$this->organizedEvents->contains($organizedEvent)) {
+            $this->organizedEvents[] = $organizedEvent;
+            $organizedEvent->setOrganizer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrganizedEvent(Event $organizedEvent): self
+    {
+        if ($this->organizedEvents->contains($organizedEvent)) {
+            $this->organizedEvents->removeElement($organizedEvent);
+            // set the owning side to null (unless already changed)
+            if ($organizedEvent->getOrganizer() === $this) {
+                $organizedEvent->setOrganizer(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getSite(): ?Site
+    {
+        return $this->site;
+    }
+
+    public function setSite(?Site $site): self
+    {
+        $this->site = $site;
 
         return $this;
     }

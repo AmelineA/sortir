@@ -51,6 +51,18 @@ class Event
      */
     private $state;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="organizedEvents")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $organizer;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Site", inversedBy="events")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $site;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -136,6 +148,30 @@ class Event
     public function setState(string $state): self
     {
         $this->state = $state;
+
+        return $this;
+    }
+
+    public function getOrganizer(): ?User
+    {
+        return $this->organizer;
+    }
+
+    public function setOrganizer(?User $organizer): self
+    {
+        $this->organizer = $organizer;
+
+        return $this;
+    }
+
+    public function getSite(): ?Site
+    {
+        return $this->site;
+    }
+
+    public function setSite(?Site $site): self
+    {
+        $this->site = $site;
 
         return $this;
     }
