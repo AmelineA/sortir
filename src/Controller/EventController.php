@@ -58,7 +58,7 @@ class EventController extends AbstractController
         if(!empty($this->getUser())){
             $user = $this->getUser();
             $alreadySignedOn = $eventRepo->alreadySignedOn($user, $idEvent);
-            if($event->getState()==='opened'){
+            if($event->getState()==='ouvert'){
                 if(empty($alreadySignedOn)){
                     $event->addParticipant($this->getUser());
                     $em->persist($event);
@@ -69,6 +69,7 @@ class EventController extends AbstractController
             }else{
                 $this->addFlash('alert', "Les inscriptions sont fermées pour cet évènement");
             }
+            $this->addFlash('success', "Merci, Vous êtes inscrit à la sortie !");
         }
 
         return $this->redirectToRoute('home');
@@ -76,15 +77,28 @@ class EventController extends AbstractController
 
 
     /**
-     * @Route("/se-désister", name="withdraw_event")
+     * @Route(
+     *     "/se-désister/{idEvent}",
+     *     name="withdraw_event",
+     *     requirements={"idEvent" = "\d+"}
+     *     )
+     *
      */
-    public function withdraw()
+    public function withdraw($idEvent)
     {
 
+        $em = $this->getDoctrine()->getManager();
+        $eventRepo = $em->getRepository(Event::class);
+        $event = $eventRepo->find($idEvent);
 
+        if ($event->getState()==='ouvert'){
+            $event->removeParticipant($this->getUser());
+            $em->persist($event);
+            $em->flush();
+            $this->addFlash('success', "Vous vous êtes désisté de la sortie !");
+        }
 
         return $this->redirectToRoute('home');
     }
-
 
 }
