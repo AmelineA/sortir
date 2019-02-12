@@ -2,6 +2,43 @@
 
 {% block title %}{{ parent() }}Accueil{% endblock %}
 
-{% block body %}
+{% block content %}
+
+    <table class="table table-striped">
+        <tr>
+            <th>Nom de la sortie</th>
+            <th>Date de la sortie</th>
+            <th>Clôture</th>
+            <th>Inscrits / Places</th>
+            <th>Etat</th>
+            <th>Inscrit</th>
+            <th>Organisateur</th>
+            <th>Actions</th>
+
+
+        </tr>
+        {% for event in events %}
+            <tr>
+
+                <td>{{ event.name }}</td>
+                <td> {{ event.rdvTime }} </td>
+                <td> {{ event.signOnDeadline }} </td>
+                <td> / {{ event.maxNumber }} </td>
+                <td> {{ event.state }} </td>
+                <td> {{ event.name }} </td>
+                <td> {{ event.organizer.firstName }} , {{ event.organizer.name }} </td>
+                <td> {{ event.rdvTime }} </td>
+
+
+                <td><a href="{{ path('display_event', {'eventId':event.id}) }}"><button class="btn btn-sm btn-primary">Voir l'événement</button></a>
+                    <a href="{{ path('sign_on_to_event', {'eventId':event.id}) }}"><button class="btn btn-sm btn-primary">S'inscrire</button></a>
+                    <a href="{{ path('withdraw_event', {'eventId':event.id}) }}"><button class="btn btn-sm btn-primary">Se désinscrire</button></a></td>
+            </tr>
+        {% endfor %}
+
+    </table>
+
+
+
 
 {% endblock %}

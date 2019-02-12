@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Event;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -17,6 +18,32 @@ class EventRepository extends ServiceEntityRepository
     public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, Event::class);
+    }
+
+
+    public function listEventsBySite(User $user)
+    {
+        $site=$user->getSite();
+        $qb=$this->createQueryBuilder('e');
+        $qb->andWhere('e.site=:site');
+        $qb->setParameter('site', $site);
+        $query=$qb->getQuery();
+        return $query->getResult();
+    }
+
+
+
+    public function findListEventsBy($user, $site, $organizer, $signedOn)
+    {
+        $qb=$this->createQueryBuilder('e');
+
+        $qb->andWhere('e.organizer=:user');
+        $qb->andWhere();
+        $qb->setParameter('user', $user);
+
+       
+
+
     }
 
     // /**
@@ -47,4 +74,6 @@ class EventRepository extends ServiceEntityRepository
         ;
     }
     */
+
+
 }
