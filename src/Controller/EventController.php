@@ -11,9 +11,6 @@ use Symfony\Component\Routing\Annotation\Route;
 class EventController extends AbstractController
 {
 
-
-
-
     /**
      * @Route("/creer-une-sortie", name="create_event")
      */
@@ -44,6 +41,40 @@ class EventController extends AbstractController
 
     }
 
+
+    /**
+     * @Route("/s'inscrire/{idEvent}", name="sign_on_to_event")
+     */
+    public function signOnToEvent($idEvent)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $eventRepo = $em->getRepository(Event::class);
+        $event = $eventRepo->find($idEvent);
+
+        if(!empty($this->getUser())){
+            if($event->getState()==='opened'){
+
+            }
+        }
+        //if statut event is open
+
+        //then signon
+
+
+        return $this->redirectToRoute('home');
+    }
+
+
+    /**
+     * @Route("/se-désister", name="withdraw_event")
+     */
+    public function withdraw()
+    {
+
+
+
+        return $this->redirectToRoute('home');
+    }
 
 
 }

@@ -71,12 +71,18 @@ class User implements UserInterface
      */
     private $site;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Event", mappedBy="participants")
+     */
+    private $SignedOnEvents;
+
 
     public function __construct()
     {
         $this->roles[] = 'ROLE_USER';
         $this->activated = true;
         $this->organizedEvents = new ArrayCollection();
+        $this->SignedOnEvents = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -248,6 +254,34 @@ class User implements UserInterface
     public function setSite(?Site $site): self
     {
         $this->site = $site;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Event[]
+     */
+    public function getSignedOnEvents(): Collection
+    {
+        return $this->SignedOnEvents;
+    }
+
+    public function addSignedOnEvent(Event $signedOnEvent): self
+    {
+        if (!$this->SignedOnEvents->contains($signedOnEvent)) {
+            $this->SignedOnEvents[] = $signedOnEvent;
+            $signedOnEvent->addParticipant($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSignedOnEvent(Event $signedOnEvent): self
+    {
+        if ($this->SignedOnEvents->contains($signedOnEvent)) {
+            $this->SignedOnEvents->removeElement($signedOnEvent);
+            $signedOnEvent->removeParticipant($this);
+        }
 
         return $this;
     }
