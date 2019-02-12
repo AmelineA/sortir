@@ -46,9 +46,9 @@ class User implements UserInterface
     /**
      * @Assert\NotBlank(message="Veuillez renseigner le champ nom !")
      * @Assert\Length(
-     *     min="15",
+     *     min="3",
      *     max="30",
-     *     minMessage="15 caractères minimum svp !",
+     *     minMessage="3 caractères minimum svp !",
      *     maxMessage="30 caractères maximum svp !"
      * )
      * @ORM\Column(type="string", length=30)
@@ -58,9 +58,9 @@ class User implements UserInterface
     /**
      * @Assert\NotBlank(message="Veuillez renseigner le champ prénom !")
      * @Assert\Length(
-     *     min="15",
+     *     min="3",
      *     max="30",
-     *     minMessage="15 caractères minimum svp !",
+     *     minMessage="3 caractères minimum svp !",
      *     maxMessage="30 caractères maximum svp !"
      * )
      * @ORM\Column(type="string", length=30)

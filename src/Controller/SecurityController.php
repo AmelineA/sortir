@@ -36,14 +36,18 @@ class SecurityController extends AbstractController
 
     /**
      * @Route(
-     *     "/creer-un-compte-utilisateur",
+     *     "/mon-profil/{id}",
+     *     requirements={"id"="\d+"},
      *     name="app_register",
      *     methods={"GET", "POST"}
      *     )
      */
-    public function register(UserPasswordEncoderInterface $encoder, Request $request )
+    public function register(int $id, UserPasswordEncoderInterface $encoder, Request $request )
     {
-        $user =new User();
+        //$user =new User();
+        $em=$this->getDoctrine()->getRepository(User::class);
+        $user = $em->find($id);
+
         $registerForm = $this->createForm(UserType::class, $user);
         $registerForm->handleRequest($request);
 
@@ -58,7 +62,7 @@ class SecurityController extends AbstractController
             $em->flush();
 
 
-            $this->addFlash("success", 'Votre compte a bien été créé ! ');
+            $this->addFlash("success", 'Votre compte a bien été modifié ! ');
             return $this->redirectToRoute('home');
         }
 
