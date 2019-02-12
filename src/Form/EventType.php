@@ -15,12 +15,12 @@ class EventType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name',           TextType::class, ['label'=>'Intitulé : '])
-            ->add('rdvTime',        DateTimeType::class, ['label'=>'Heure et date du rendez-vous : '])
-            ->add('duration',       IntegerType::class, ['label'=>'Durée : '])
-            ->add('signOnDeadline', DateTimeType::class, ['label'=>'Date limite d\'inscription : '])
-            ->add('maxNumber',      IntegerType::class, ['label'=>'Nombre maximal d\'inscrits : '])
-            ->add('description',    TextType::class, ['label'=>'Infos sortie : '])
+            ->add('name',           TextType::class, ['label'=>'Intitulé : ', 'attr'=>['class'=>'form-control']])
+            ->add('rdvTime',        DateTimeType::class, ['label'=>'Heure et date du rendez-vous : ', 'attr'=>['class'=>'form-control']])
+            ->add('duration',       IntegerType::class, ['label'=>'Durée : ', 'attr'=>['class'=>'form-control']])
+            ->add('signOnDeadline', DateTimeType::class, ['label'=>'Date limite d\'inscription : ', 'attr'=>['class'=>'form-control']])
+            ->add('maxNumber',      IntegerType::class, ['label'=>'Nombre maximal d\'inscrits : ', 'attr'=>['class'=>'form-control']])
+            ->add('description',    TextType::class, ['label'=>'Infos sortie : ', 'attr'=>['class'=>'form-control']])
         ;
     }
 
