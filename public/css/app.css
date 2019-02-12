@@ -31,6 +31,12 @@ main{
 
 
 /***********************************HEADER***************************************/
+header{
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
 
 #site-title{
     font-size: 3em;
@@ -45,7 +51,7 @@ main{
     margin-right: 10px;
 }
 
-/***********************************FOOTER***************************************/
+/***********************************BUTTONS***************************************/
 .btn-primary{
     background-color: #4e7988;
     border: none;
@@ -55,10 +61,17 @@ main{
     background-color: #005066;
 }
 
+
+/***********************************FORM***************************************/
 .form-control{
     margin: 10px 0;
 }
 
+#user div{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 
 /***********************************FOOTER***************************************/
 footer{

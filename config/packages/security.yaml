@@ -23,8 +23,9 @@ security:
                 secret: '%kernel.secret%'
                 lifetime: 31536000
                 path: /
-                httponly: true
                 remember-me-parameter: _remember_me
+            logout:
+                path: app_logout
             # activate different ways to authenticate
 
             # http_basic: true
