@@ -80,7 +80,7 @@ class FixturesCommand extends Command
         $allUser[] = $defaultUser;
         $this->em->persist($defaultUser);
 
-        for ($i=0;$i<10; $i++){
+        for ($i=0;$i<30; $i++){
             $user = new User();
             $user->setUsername($faker->unique()->userName);
             $user->setName($faker->name);
@@ -97,7 +97,7 @@ class FixturesCommand extends Command
 
         $state = ['ouvert', 'fermé', 'en création', 'terminé'];
         $allEvents = [];
-        for($i=0; $i<10; $i++){
+        for($i=0; $i<40; $i++){
             $event = new Event();
             $event->setName($faker->unique()->name);
             $event->setOrganizer($faker->randomElement($allUser));
@@ -113,7 +113,7 @@ class FixturesCommand extends Command
         $this->em->flush();
 
         foreach ($allEvents as $e){
-            for($j=0; $j<6; $j++){
+            for($j=0; $j<10; $j++){
                 $e->addParticipant($faker->randomElement($allUser));
             }
             $this->em->persist($e);

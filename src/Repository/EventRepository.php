@@ -33,36 +33,48 @@ class EventRepository extends ServiceEntityRepository
     }
 
 
-
+    /**
+     * @param User $user
+     * @param $site
+     * @param $searchBar
+     * @param $dateStart
+     * @param $dateEnd
+     * @param $organizer
+     * @param $signedOn
+     * @param $notSignedOn
+     * @param $pastEvent
+     * @return mixed
+     * @throws \Exception
+     */
     public function findListEventsBy(User $user, $site, $searchBar, $dateStart, $dateEnd, $organizer, $signedOn, $notSignedOn, $pastEvent)
     {
         $today = new \DateTime();
 
         $qb = $this->createQueryBuilder('e');
         $qb->join('e.participants', 'p');
-        $qb->addSelect('p');
+     //   $qb->addSelect('p');
 
         //liste les events par site
-        if($site!=="Site"){
+        if($site!==0){
             $qb->andWhere('e.site=:site');
             $qb->setParameter('site', $site);
         }
 
         //liste les events selon rechercher
-        if($searchBar!==null){
+        if($searchBar!==""){
             $qb->andWhere('e.name LIKE :searchBar');
             $qb->setParameter('searchBar', '%'.$searchBar.'%');
         }
 
         //liste les events à partir de dateStart
-        if($dateStart!==null){
-            $qb->andWhere('e.rdvTime>$dateStart');
+        if($dateStart!==""){
+            $qb->andWhere('e.rdvTime>:dateStart');
             $qb->setParameter('dateStart', $dateStart);
         }
 
         //liste les events après dateEnd
-        if($dateEnd!==null){
-            $qb->andWhere('e.rdvTime<$dateEnd');
+        if($dateEnd!==""){
+            $qb->andWhere('e.rdvTime<:dateEnd');
             $qb->setParameter('dateEnd', $dateEnd);
         }
 
@@ -92,7 +104,7 @@ class EventRepository extends ServiceEntityRepository
         }
 
         $query = $qb->getQuery();
-        return $query;
+        return $query->getResult();
     }
 
 
