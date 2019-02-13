@@ -68,54 +68,54 @@ class EventRepository extends ServiceEntityRepository
         $qb->andWhere('e.rdvTime>:day30');
         $qb->setParameter('day30', $day30);
 
-//        //liste les events par site
-//        if($site!==0){
-//            $qb->andWhere('e.site=:site');
-//            $qb->setParameter('site', $site);
-//        }
-//
-//        //liste les events selon rechercher
-//        if($searchBar!==""){
-//            $qb->andWhere('e.name LIKE :searchBar');
-//            $qb->setParameter('searchBar', '%'.$searchBar.'%');
-//        }
-//
-//        //liste les events à partir de dateStart
-//        if($dateStart!==""){
-//            $qb->andWhere('e.rdvTime>:dateStart');
-//            $qb->setParameter('dateStart', $dateStart);
-//        }
-//
-//        //liste les events après dateEnd
-//        if($dateEnd!==""){
-//            $qb->andWhere('e.rdvTime<:dateEnd');
-//            $qb->setParameter('dateEnd', $dateEnd);
-//        }
-//
-//
-//        //liste les events dont le user est l'organisateur
-//        if($organizer==='on'){
-//            $qb->andWhere('e.organizer=:user');
-//            $qb->setParameter('user', $user);
-//        }
-//
-//        //liste les events auxquels je suis inscrits
-//        if($signedOn==='on'){
-//            $qb->andWhere('p.id=:userId');
-//            $qb->setParameter('userId', $user->getId());
-//        }
-//
-//        //liste les events auxquels je ne suis PAS inscrits
-//        if($notSignedOn==='on'){
-//            $qb->andWhere('p.id!=:userId');
-//            $qb->setParameter('userId', $user->getId());
-//        }
-//
-//        //liste les events déjà passés
-//        if($pastEvent==='on'){
-//            $qb->andWhere('e.rdvTime<:today');
-//            $qb->setParameter('today', $today);
-//        }
+        //liste les events par site
+        if($site!==0){
+            $qb->andWhere('e.site=:site');
+            $qb->setParameter('site', $site);
+        }
+
+        //liste les events selon rechercher
+        if($searchBar!==""){
+            $qb->andWhere('e.name LIKE :searchBar');
+            $qb->setParameter('searchBar', '%'.$searchBar.'%');
+        }
+
+        //liste les events à partir de dateStart
+        if($dateStart!==""){
+            $qb->andWhere('e.rdvTime>:dateStart');
+            $qb->setParameter('dateStart', $dateStart);
+        }
+
+        //liste les events après dateEnd
+        if($dateEnd!==""){
+            $qb->andWhere('e.rdvTime<:dateEnd');
+            $qb->setParameter('dateEnd', $dateEnd);
+        }
+
+
+        //liste les events dont le user est l'organisateur
+        if($organizer==='on'){
+            $qb->andWhere('e.organizer=:user');
+            $qb->setParameter('user', $user);
+        }
+
+        //liste les events auxquels je suis inscrits
+        if($signedOn==='on'){
+            $qb->andWhere('p.id=:userId');
+            $qb->setParameter('userId', $user->getId());
+        }
+
+        //liste les events auxquels je ne suis PAS inscrits
+        if($notSignedOn==='on'){
+            $qb->andWhere('p.id!=:userId');
+            $qb->setParameter('userId', $user->getId());
+        }
+
+        //liste les events déjà passés
+        if($pastEvent==='on'){
+            $qb->andWhere('e.rdvTime<:today');
+            $qb->setParameter('today', $today);
+        }
 
         $query = $qb->getQuery();
         return $query->getResult();
