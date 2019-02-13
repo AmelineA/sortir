@@ -20,6 +20,84 @@ class EventRepository extends ServiceEntityRepository
         parent::__construct($registry, Event::class);
     }
 
+
+
+    public function listEventsBySite(User $user)
+    {
+        $site=$user->getSite();
+        $qb=$this->createQueryBuilder('e');
+        $qb->andWhere('e.site=:site');
+        $qb->setParameter('site', $site);
+        $query=$qb->getQuery();
+        return $query->getResult();
+    }
+
+
+
+    public function findListEventsBy(User $user, $site, $searchBar, $dateStart, $dateEnd, $organizer, $signedOn, $notSignedOn, $pastEvent)
+    {
+        $today = new \DateTime();
+
+        $qb = $this->createQueryBuilder('e');
+        $qb->join('e.participants', 'p');
+        $qb->addSelect('p');
+
+        //liste les events par site
+        if($site!=="Site"){
+            $qb->andWhere('e.site=:site');
+            $qb->setParameter('site', $site);
+        }
+
+        //liste les events selon rechercher
+        if($searchBar!==null){
+            $qb->andWhere('e.name LIKE :searchBar');
+            $qb->setParameter('searchBar', '%'.$searchBar.'%');
+        }
+
+        //liste les events à partir de dateStart
+        if($dateStart!==null){
+            $qb->andWhere('e.rdvTime>$dateStart');
+            $qb->setParameter('dateStart', $dateStart);
+        }
+
+        //liste les events après dateEnd
+        if($dateEnd!==null){
+            $qb->andWhere('e.rdvTime<$dateEnd');
+            $qb->setParameter('dateEnd', $dateEnd);
+        }
+
+
+        //liste les events dont le user est l'organisateur
+        if($organizer===true){
+            $qb->andWhere('e.organizer=:user');
+            $qb->setParameter('user', $user);
+        }
+
+        //liste les events auxquels je suis inscrits
+        if($signedOn===true){
+            $qb->andWhere('p.id=:userId');
+            $qb->setParameter('userId', $user->getId());
+        }
+
+        //liste les events auxquels je ne suis PAS inscrits
+        if($notSignedOn===true){
+            $qb->andWhere('p.id!=:userId');
+            $qb->setParameter('userId', $user->getId());
+        }
+
+        //liste les events déjà passés
+        if($pastEvent===true){
+            $qb->andWhere('e.rdvTime<:today');
+            $qb->setParameter('today', $today);
+        }
+
+        $query = $qb->getQuery();
+        return $query;
+    }
+
+
+
+
     public function alreadySignedOn(User $user, $idEvent)
     {
         $qb = $this->createQueryBuilder('e');
@@ -32,6 +110,7 @@ class EventRepository extends ServiceEntityRepository
                 'idUser' => $user->getId()
             ]);
         $query = $qb->getQuery();
+
         return $query->getResult();
     }
 
@@ -79,4 +158,6 @@ class EventRepository extends ServiceEntityRepository
         ;
     }
     */
+
+
 }

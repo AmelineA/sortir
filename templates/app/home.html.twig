@@ -2,6 +2,82 @@
 
 {% block title %}{{ parent() }}Accueil{% endblock %}
 
-{% block body %}
+{% block content %}
+
+
+    <form>
+        <label for="site">Site</label>
+        <select name="site" id="site" size="1">
+            <option>Site</option>
+            {% for s in sites %}
+            <option value="{{ s.id }}">{{ s.name }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="searchBar">Le nom de la sortie contient : </label>
+        <input name="searchBar" id="searchBar" autofocus type="search">
+
+        <label for="dateStart">Entre </label>
+        <input type="date" name="dateStart" id="dateStart">
+        <label for="dateEnd">et </label>
+        <input type="date" name="dateEnd" id="dateEnd">
+
+
+        <input type="checkbox" name="organizer" id="organizer">
+        <label for="organizer">Sorties dont je suis l'organisateur/trice</label>
+
+        <input type="checkbox" name="signedOn" id="signedOn">
+        <label for="signedOn">Sorties auxquelles je suis inscrit/e</label>
+
+        <input type="checkbox" name="notSignedOn" id="notSignedOn">
+        <label for="notSignedOn">Sorties auxquelles je ne suis pas inscrit/e</label>
+
+        <input type="checkbox" name="pastEvent" id="pastEvent">
+        <label for="pastEvent">Sorties passées</label>
+
+        <button type="submit">Rechercher</button>
+
+    </form>
+
+
+
+
+    <table class="table table-striped">
+        <tr>
+            <th>Nom de la sortie</th>
+            <th>Date de la sortie</th>
+            <th>Clôture</th>
+            <th>Inscrits / Places</th>
+            <th>Etat</th>
+            <th>Inscrit</th>
+            <th>Organisateur</th>
+            <th>Actions</th>
+
+
+        </tr>
+        {% for event in events %}
+            <tr>
+
+                <td>{{ event.name }}</td>
+                <td> {{ event.rdvTime | date("d/m/Y") }} </td>
+                <td> {{ event.signOnDeadline | date("d/m/Y") }} </td>
+                <td> / {{ event.maxNumber }} </td>
+                <td> {{ event.state }} </td>
+                <td> {{ event.name }} </td>
+                <td> {{ event.organizer.firstName }} {{ event.organizer.name }} </td>
+
+
+                <td>
+                    <a href=""><button class="btn btn-sm btn-primary">Voir l'événement</button></a>
+                    <a href="{{ path('sign_on_to_event', {'idEvent':event.id}) }}"><button class="btn btn-sm btn-primary">S'inscrire</button></a>                   {# {{ path('sign_on_to_event', {'eventId':event.id}) }} #}
+                    <a href=""><button class="btn btn-sm btn-primary">Se désinscrire</button></a>               {# {{ path('withdraw_event', {'eventId':event.id}) }} #}
+                </td>
+            </tr>
+        {% endfor %}
+
+    </table>
+
+    <a href="{{ path('create_event') }}"><button class="btn btn-sm btn-primary">Créer une sortie</button></a>
+
 
 {% endblock %}
