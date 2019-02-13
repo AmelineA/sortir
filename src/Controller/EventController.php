@@ -54,9 +54,9 @@ class EventController extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $eventRepo = $em->getRepository(Event::class);
         $event = $eventRepo->find($idEvent);
-        $nb=$event->getParticipants();
-        $nb->count($nb);
+        $nb=count($event->getParticipants()) ;
 
+        //dd($event->getMaxNumber());
         if(!empty($this->getUser()) && $nb < $event->getMaxNumber()){
             $user = $this->getUser();
             $alreadySignedOn = $eventRepo->alreadySignedOn($user, $idEvent);
@@ -91,14 +91,15 @@ class EventController extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $eventRepo = $em->getRepository(Event::class);
         $event = $eventRepo->find($idEvent);
+        dd($event->getParticipants());
 
-
-        if ($event->getState()==='ouvert'){
+       // if ($event->getState()==='ouvert'){
             $event->removeParticipant($this->getUser());
             $em->persist($event);
             $em->flush();
+            //dd($event->getParticipants());
             $this->addFlash('success', "Vous vous êtes désisté de la sortie !");
-        }
+       // }
 
         return $this->redirectToRoute('home');
     }
