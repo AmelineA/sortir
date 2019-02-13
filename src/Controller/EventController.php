@@ -17,7 +17,7 @@ class EventController extends AbstractController
     public function createEvent(Request $request)
     {
         $event=new Event();
-        $event->setState("published");
+        $event->setState("ouvert");
         $event->setOrganizer($this->getUser());
         $event->setSite($this->getUser()->getSite());
         $eventForm=$this->createForm(EventType::class, $event);

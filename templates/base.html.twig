@@ -11,8 +11,9 @@
     <body>
         <header>
             <div id="site-title">
-                <img src="{{ asset('img/logo_sortir.png') }}" alt="logo site">
-                Sortir.com
+                <a href="{{ path('home') }}"><img src="{{ asset('img/logo_sortir.png') }}" alt="logo site">
+                    Sortir.com
+                </a>
             </div>
             <nav class="nav">
                 <a href="{{ path('home') }}" class="nav-link">Accueil</a>
