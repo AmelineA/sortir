@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }}Connexion{% endblock %}
+
+{% block content %}
+
+
+    <h1>Profil de {{ user.username }}</h1>
+
+    <img src="" alt="profile photo">
+
+
+    <div>
+        <div class="row"><label>Prénom : </label><p> {{ user.firstName }}</p></div>
+        <div class="row"><label>Nom : </label><p> {{ user.name }}</p></div>
+        <div class="row"><label>Téléphone : </label><p> {{ user.telephone }}</p></div>
+        <div class="row"><label>Email : </label><p> {{ user.email }}</p></div>
+        <div class="row"><label>Ville de rattachement : </label><p> {{ user.site.name }}</p></div>
+    </div>
+
+    <a href="javascript:history.go(-1)"><button type="button" >Retour</button></a>
+{% endblock %}

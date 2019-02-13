@@ -29,16 +29,30 @@ main{
     align-items: center;
 }
 
+th{
+    color: #78cce2;
+}
+
+
+a{
+    color: #e4eff0;
+}
+
+a:hover{
+    text-decoration: none;
+    color: #78cce2;
+}
 
 /***********************************HEADER***************************************/
 header{
     display: flex;
     justify-content: space-between;
     align-items: baseline;
+    margin-bottom: 30px;
 }
 
 
-#site-title{
+#site-title a{
     font-size: 3em;
     font-weight: bold;
     display: flex;
@@ -51,6 +65,7 @@ header{
     margin-right: 10px;
 }
 
+
 /***********************************BUTTONS***************************************/
 .btn-primary{
     background-color: #4e7988;
@@ -61,8 +76,25 @@ header{
     background-color: #005066;
 }
 
+/***********************************HOME***************************************/
+table{
+    margin-top: 30px;
+}
 
-/***********************************FORM***************************************/
+.right{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: center;
+    padding: 0;
+}
+
+.home-header{
+    display: flex;
+    padding: 0;
+}
+
+/***********************************FORMS***************************************/
 .form-control{
     margin: 10px 0;
 }
@@ -77,6 +109,49 @@ header{
     justify-content: space-between;
     align-items: center;
 }
+
+#search-form{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0;
+}
+
+#search{
+    display: flex;
+    justify-content: space-between;
+    padding: 0;
+}
+
+#search .col{
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#search .col div{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.date{
+    padding: 0;
+}
+
+.date:last-child label{
+    padding-left: 20px;
+}
+
+#search .col:first-child{
+    padding-right: 20px;
+}
+
+#search .col:last-child{
+    padding-right: 20px;
+}
+
 /***********************************TWIG cancel-event******************************/
 .cancel-event-title{
     margin: 30px 10px;
@@ -101,10 +176,3 @@ footer{
     width: 100%;
 }
 
-.nav a{
-    color: #e4eff0;
-}
-
-.nav a:hover{
-    color: #78cce2;
-}

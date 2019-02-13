@@ -54,10 +54,8 @@ class EventController extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $eventRepo = $em->getRepository(Event::class);
         $event = $eventRepo->find($idEvent);
-
         $nb=count($event->getParticipants());
 
-        //dd($event->getMaxNumber());
         if(!empty($this->getUser()) && $nb < $event->getMaxNumber()){
             $user = $this->getUser();
             $alreadySignedOn = $eventRepo->alreadySignedOn($user, $idEvent);
@@ -97,19 +95,13 @@ class EventController extends AbstractController
 
         //check if the rdvTime is in the future
         if ($event->getRdvTime() > $now){
-
             $event->removeParticipant($this->getUser());
             $em->persist($event);
             $em->flush();
-            //dd($event->getParticipants());
             $this->addFlash('success', "Vous vous êtes désisté de la sortie !");
-
-       // }
-
         }else{
             $this->addFlash('danger', "La sortie est passée!");
         }
-
 
         return $this->redirectToRoute('home');
     }
@@ -183,4 +175,18 @@ class EventController extends AbstractController
             'event'=>$event
         ]);
     }
+    /**
+     * @Route("/afficher-sortie/{eventId}", name="display_event", requirements={"id"="\d+"})
+     */
+    public function displayEvent($eventId)
+    {
+        $eventRepo=$this->getDoctrine()->getRepository(Event::class);
+        $event=$eventRepo->find($eventId);
+        $participants=$event->getParticipants();
+        return $this->render('event/display-event.html.twig', [
+            'event'=>$event,
+            'participants'=>$participants
+        ]);
+    }
+
 }
