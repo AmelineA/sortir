@@ -16,9 +16,9 @@ class EventType extends AbstractType
     {
         $builder
             ->add('name',           TextType::class, ['label'=>'La sortie', 'attr'=>['class'=>'form-control col-10']])
-            ->add('rdvTime',        DateTimeType::class, ['label'=>'Le rendez-vous', 'attr'=>['class'=>'form-control col-10 ']])
+            ->add('rdvTime',        DateTimeType::class, ['label'=>'Le rendez-vous', 'attr'=>['class'=>'form-control col-10', 'type'=>"date"]])
             ->add('duration',       IntegerType::class, ['label'=>'Durée', 'attr'=>['class'=>'form-control col-10']])
-            ->add('signOnDeadline', DateTimeType::class, ['label'=>'Date limite d\'inscription', 'attr'=>['class'=>'form-control col-10']])
+            ->add('signOnDeadline', DateTimeType::class, ['label'=>'Date limite d\'inscription', 'attr'=>['class'=>'form-control col-10', 'type'=>"date"]])
             ->add('maxNumber',      IntegerType::class, ['label'=>'Nombre maximal d\'inscrits', 'attr'=>['class'=>'form-control col-10']])
             ->add('description',    TextType::class, ['label'=>'Infos sortie', 'attr'=>['class'=>'form-control col-10']])
         ;
