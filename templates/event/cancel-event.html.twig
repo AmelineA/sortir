@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} | Annuler {% endblock %}
+
+{% block content %}
+
+    <h2>Annuler la sortie</h2>
+
+        <div class="container event-display-cancel">
+            <div class="row">
+                <label for="event-name">Nom de la sortie : </label>
+                <p id="event-name"> {{ event.name }}</p>
+            </div>
+            <div class="row">
+                <label for="event-rdvtime">Date de la sortie : </label>
+                <p id="event-rdvtime"> {{ event.rdvTime| date('d/m/Y') }}</p>
+            </div>
+            <div class="row">
+                <label for="event-site">Site : </label>
+                <p id="event-site"> {{ event.site.name }}</p>
+            </div>
+            <div class="row">
+                <label for="event-lieu">Lieu : </label>
+                <p id="event-lieu">  inconnu</p>
+            </div>
+
+        </div>
+    <form action="{{ path('cancel-event', {'idEvent':event.id}) }}" method="post">
+        <div>
+            <div>
+                <label for="motif">Motif : </label>
+                <textarea id="motif" name="motif"></textarea>
+            </div>
+        </div>
+        <button class="btn btn-primary ">Annuler la sortie</button>
+
+    </form>
+
+{% endblock %}

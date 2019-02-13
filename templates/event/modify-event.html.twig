@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %} {{  parent() }}Event Modification{% endblock %}
+{% block title %} {{  parent() }} modifier sortie{% endblock %}
 
 {% block content %}
 
@@ -9,8 +9,8 @@
     {{ form_start(eventForm, {'attr':{'class':'col-sm-6', 'novalidate': 'novalidate'}}) }}
     {{ form_widget(eventForm) }}
         <button type="submit" class="btn btn-md btn-primary offset-2">Enregistrer Modifications</button>
-        <a href="#" class="btn btn-md btn-primary ">Annuler la sortie</a>
-        <a href="#" class="btn btn-md btn-primary offset-2">Retour</a>
+        <a href="{{ path('cancel-event', {'idEvent':event.id}) }}" class="btn btn-md btn-primary ">Annuler la sortie</a>
+        <a href="{{ path('home') }}" class="btn btn-md btn-primary offset-2">Retour</a>
     {{ form_end(eventForm) }}
 
 

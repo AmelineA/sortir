@@ -95,7 +95,7 @@ class FixturesCommand extends Command
         }
         $this->em->flush();
 
-        $state = ['ouvert', 'fermé', 'en création', 'terminé'];
+        $state = ['ouvert', 'fermé', 'en création', 'terminé', 'annulé'];
         $allEvents = [];
         for($i=0; $i<40; $i++){
             $event = new Event();

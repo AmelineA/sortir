@@ -36,29 +36,26 @@ class SecurityController extends AbstractController
 
     /**
      * @Route(
-     *     "/mon-profil/{id}",
-     *     requirements={"id"="\d+"},
+     *     "/mon-profil",
      *     name="app_register",
      *     methods={"GET", "POST"}
      *     )
      */
-    public function register(int $id, UserPasswordEncoderInterface $encoder, Request $request )
+    public function register(UserPasswordEncoderInterface $encoder, Request $request )
     {
-        //$user =new User();
-        $em=$this->getDoctrine()->getRepository(User::class);
-        $user = $em->find($id);
+        $currentUser = $this->getUser();
 
-        $registerForm = $this->createForm(UserType::class, $user);
+        $registerForm = $this->createForm(UserType::class, $currentUser);
         $registerForm->handleRequest($request);
 
         if($registerForm->isSubmitted() && $registerForm->isValid()){
 
-            $password = $user->getPassword();
-            $hash = $encoder->encodePassword($user, $password);
-            $user->setPassword($hash);
+            $password = $currentUser->getPassword();
+            $hash = $encoder->encodePassword($currentUser, $password);
+            $currentUser->setPassword($hash);
 
             $em = $this->getDoctrine()->getManager();
-            $em->persist($user);
+            $em->persist($currentUser);
             $em->flush();
 
 
@@ -69,7 +66,7 @@ class SecurityController extends AbstractController
 
         return $this->render('security/register.html.twig',[
           'registerForm'=>$registerForm->createView(),
-          'user'=>$user
+          'user'=>$currentUser
         ]);
 
     }

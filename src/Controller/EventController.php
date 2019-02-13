@@ -31,7 +31,7 @@ class EventController extends AbstractController
 
             $this->addFlash('success', "La sortie a bien été créée !");
 
-          //  return $this->redirectToRoute("event/display_event");
+          return $this->redirectToRoute("home");
         }
 
         return $this->render('event/event-form.html.twig', [
@@ -124,16 +124,23 @@ class EventController extends AbstractController
      * @param $idEvent
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function modifiyEvent($idEvent)
+    public function modifiyEvent($idEvent, Request $request)
     {
         $user=$this->getUser();
         $em = $this->getDoctrine()->getRepository(Event::class);
         $event = $em->find($idEvent);
         $eventForm=$this->createForm(EventType::class, $event);
 
+        $eventForm->handleRequest($request);
 
-        //@todo POST
+        if($eventForm->isSubmitted() && $eventForm->isValid()){
+            $em=$this->getDoctrine()->getManager();
+            $em->persist($event);
+            $em->flush();
 
+            $this->addFlash('success', "La sortie a bien été modifiée !");
+            return $this->redirectToRoute("home");
+        }
 
         return $this->render('event/modify-event.html.twig', [
             'user'=>$user,
@@ -142,5 +149,38 @@ class EventController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route(
+     *     "/annuler-une-sortie/{idEvent}",
+     *     name="cancel-event",
+     *     methods={"GET", "POST"}
+     * )
+     * @param $idEvent
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function cancelEvent($idEvent, Request $request)
+    {
+        $user=$this->getUser();
+        $em = $this->getDoctrine()->getRepository(Event::class);
+        $event = $em->find($idEvent);
 
+        if($_POST){
+
+            $motif = $request->query->get('motif');
+            $event->setDescription($motif);
+            $event->setState('annulé');
+            $em=$this->getDoctrine()->getManager();
+            $em->persist($event);
+            $em->flush();
+
+            $this->addFlash('success', "La sortie a bien été annulée !");
+            return $this->redirectToRoute("home");
+        }
+
+
+        return $this->render('event/cancel-event.html.twig', [
+            'user'=>$user,
+            'event'=>$event
+        ]);
+    }
 }

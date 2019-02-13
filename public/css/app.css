@@ -77,6 +77,11 @@ header{
     justify-content: space-between;
     align-items: center;
 }
+/***********************************TWIG cancel-event******************************/
+.event-display-cancel{
+    margin: 30px;
+}
+
 /***********************************FOOTER***************************************/
 footer{
     display: flex;
