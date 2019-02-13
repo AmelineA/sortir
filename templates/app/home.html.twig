@@ -8,9 +8,13 @@
     <form method="post" action="{{ path('search') }}">
         <label for="site">Site</label>
         <select name="site" id="site" size="1">
-            <option value="0">Site</option>
+            <option value="">Site</option>
             {% for s in sites %}
-            <option value="{{ s.id }}">{{ s.name }}</option>
+                {% if app.user.site.id == s.id %}
+                    <option value="{{ s.id }}" selected="selected">{{ s.name }}</option>
+                {% else %}
+                    <option value="{{ s.id }}">{{ s.name }}</option>
+                {% endif %}
             {% endfor %}
         </select>
 
@@ -33,7 +37,7 @@
         <label for="notSignedOn">Sorties auxquelles je ne suis pas inscrit/e</label>
 
         <input type="checkbox" name="pastEvents" id="pastEvents">
-        <label for="pastEvent">Sorties passées</label>
+        <label for="pastEvents">Sorties passées</label>
 
         <button type="submit">Rechercher</button>
 
@@ -70,10 +74,10 @@
 
                 <td>
 
-                    <a href=""><button class="btn btn-sm btn-primary">Voir l'événement</button></a>
-                    
-                    <a href="{{ path('sign_on_to_event', {'idEvent':event.id}) }}"><button class="btn btn-sm btn-primary">S'inscrire</button></a>                   {# {{ path('sign_on_to_event', {'eventId':event.id}) }} #}
-                    <a href="{{ path('withdraw_event', {'idEvent' : event.id}) }}"><button class="btn btn-sm btn-primary">Se désinscrire</button></a>               {# {{ path('withdraw_event', {'eventId':event.id}) }} #}
+                    <a href="#"><button class="btn btn-sm btn-primary">Voir l'événement</button></a>
+
+                    <a href="{{ path('sign_on_to_event', {'idEvent':event.id}) }}"><button class="btn btn-sm btn-primary">S'inscrire</button></a>
+                    <a href="{{ path('withdraw_event', {'idEvent' : event.id}) }}"><button class="btn btn-sm btn-primary">Se désinscrire</button></a>
                 </td>
             </tr>
         {% endfor %}

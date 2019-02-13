@@ -80,25 +80,25 @@ class EventRepository extends ServiceEntityRepository
 
 
         //liste les events dont le user est l'organisateur
-        if($organizer===true){
+        if($organizer==='on'){
             $qb->andWhere('e.organizer=:user');
             $qb->setParameter('user', $user);
         }
 
         //liste les events auxquels je suis inscrits
-        if($signedOn===true){
+        if($signedOn==='on'){
             $qb->andWhere('p.id=:userId');
             $qb->setParameter('userId', $user->getId());
         }
 
         //liste les events auxquels je ne suis PAS inscrits
-        if($notSignedOn===true){
+        if($notSignedOn==='on'){
             $qb->andWhere('p.id!=:userId');
             $qb->setParameter('userId', $user->getId());
         }
 
         //liste les events déjà passés
-        if($pastEvent===true){
+        if($pastEvent==='on'){
             $qb->andWhere('e.rdvTime<:today');
             $qb->setParameter('today', $today);
         }
@@ -126,12 +126,19 @@ class EventRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
+
+    /*
+     * Sert à ramener tous les événements à mettre à jour
+     */
     public function updateState()
     {
+        // récupération de la date d'aujourd'hui
         $now = new \DateTime();
+        // création d'une date "aujourd'hui + 1 jour"
         $interval = \DateInterval::createFromDateString("1 day");
         $now->add($interval);
         $qb = $this->createQueryBuilder('e');
+        // va chercher tous les évents dont le statut est "ouvert" et dont la date de fin d'inscription est passée
         $qb->andWhere('e.state = :state')
             ->andWhere('e.signOnDeadline < :now')
             ->setParameters([
