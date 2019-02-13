@@ -126,6 +126,8 @@ class EventRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
+
+
     public function updateState()
     {
         $now = new \DateTime();

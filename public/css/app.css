@@ -29,12 +29,25 @@ main{
     align-items: center;
 }
 
+th{
+    color: #78cce2;
+}
+
+
+a{
+    color: #e4eff0;
+}
+
+a:hover{
+    color: #78cce2;
+}
 
 /***********************************HEADER***************************************/
 header{
     display: flex;
     justify-content: space-between;
     align-items: baseline;
+    margin-bottom: 30px;
 }
 
 
@@ -61,8 +74,24 @@ header{
     background-color: #005066;
 }
 
+.right{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
 
-/***********************************FORM***************************************/
+/***********************************HOME***************************************/
+tbody{
+    overflow-y: scroll;
+}
+
+
+/***********************************HOME***************************************/
+table{
+    margin-top: 30px;
+}
+
+/***********************************FORMS***************************************/
 .form-control{
     margin: 10px 0;
 }
@@ -77,6 +106,43 @@ header{
     justify-content: space-between;
     align-items: center;
 }
+
+#search-form{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#search{
+    display: flex;
+    justify-content: space-between;
+}
+
+#search .col{
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#search .col div{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.date{
+    padding: 0;
+}
+
+.date:last-child label{
+    padding-left: 20px;
+}
+
+input:checked{
+    outline: none;
+}
+
 /***********************************FOOTER***************************************/
 footer{
     display: flex;
@@ -84,10 +150,3 @@ footer{
     width: 100%;
 }
 
-.nav a{
-    color: #e4eff0;
-}
-
-.nav a:hover{
-    color: #78cce2;
-}
