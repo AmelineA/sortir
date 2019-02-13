@@ -54,7 +54,8 @@ class EventController extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $eventRepo = $em->getRepository(Event::class);
         $event = $eventRepo->find($idEvent);
-        $nb=count($event->getParticipants()) ;
+
+        $nb=count($event->getParticipants());
 
         //dd($event->getMaxNumber());
         if(!empty($this->getUser()) && $nb < $event->getMaxNumber()){
@@ -66,10 +67,12 @@ class EventController extends AbstractController
                     $em->persist($event);
                     $em->flush();
                 }else{
-                    $this->addFlash('alert', "Vous êtes déjà inscrit à cet évènement");
+                    $this->addFlash('danger', "Vous êtes déjà inscrit à cet évènement !");
+                    return $this->redirectToRoute('home');
                 }
             }else{
-                $this->addFlash('alert', "Les inscriptions sont fermées pour cet évènement");
+                $this->addFlash('danger', "Les inscriptions sont fermées pour cet évènement !");
+                return $this->redirectToRoute('home');
             }
             $this->addFlash('success', "Merci, Vous êtes inscrit à la sortie !");
         }
@@ -79,30 +82,64 @@ class EventController extends AbstractController
 
 
     /**
-     * @Route(
-     *     "/se-désister/{idEvent}",
-     *     name="withdraw_event",
-     *     requirements={"idEvent" = "\d+"}
-     *     )
+     * @Route("/se-désinscrire/{idEvent}", name="withdraw_event")
+     * @param $idEvent
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @throws \Exception
      */
     public function withdraw($idEvent)
     {
-
         $em = $this->getDoctrine()->getManager();
         $eventRepo = $em->getRepository(Event::class);
         $event = $eventRepo->find($idEvent);
         dd($event->getParticipants());
 
-       // if ($event->getState()==='ouvert'){
+
+
+        $now = new \DateTime();
+
+        //check if the rdvTime is in the future
+        if ($event->getRdvTime() > $now){
+
             $event->removeParticipant($this->getUser());
             $em->persist($event);
             $em->flush();
             //dd($event->getParticipants());
             $this->addFlash('success', "Vous vous êtes désisté de la sortie !");
+
        // }
+
+        }else{
+            $this->addFlash('danger', "La sortie est passée!");
+        }
+
 
         return $this->redirectToRoute('home');
     }
+
+//    /**
+//     * @Route(
+//     *     "/se-désister/{idEvent}",
+//     *     name="withdraw_event")
+//     * @param $idEvent
+//     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+//     */
+//    public function withdraw($idEvent)
+//    {
+//        $em = $this->getDoctrine()->getManager();
+//        $eventRepo = $em->getRepository(Event::class);
+//        $event = $eventRepo->find($idEvent);
+//        dd($event);
+//        dd($event->getParticipants());
+//        if ($event->getState()==='ouvert'){
+//            $event->removeParticipant($this->getUser());
+//            $em->persist($event);
+//            $em->flush();
+//            $this->addFlash('success', "Vous vous êtes désisté de la sortie !");
+//        }
+//
+//        return $this->redirectToRoute('home');
+//    }
 
 
 }

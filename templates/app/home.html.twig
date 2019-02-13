@@ -5,10 +5,10 @@
 {% block content %}
 
 
-    <form>
+    <form method="post" action="{{ path('search') }}">
         <label for="site">Site</label>
         <select name="site" id="site" size="1">
-            <option>Site</option>
+            <option value="0">Site</option>
             {% for s in sites %}
             <option value="{{ s.id }}">{{ s.name }}</option>
             {% endfor %}
@@ -32,18 +32,19 @@
         <input type="checkbox" name="notSignedOn" id="notSignedOn">
         <label for="notSignedOn">Sorties auxquelles je ne suis pas inscrit/e</label>
 
-        <input type="checkbox" name="pastEvent" id="pastEvent">
+        <input type="checkbox" name="pastEvents" id="pastEvents">
         <label for="pastEvent">Sorties passées</label>
 
         <button type="submit">Rechercher</button>
 
     </form>
 
-
+    <p>Date du jour : {{ today | date("d/m/Y") }}</p>
 
 
     <table class="table table-striped">
         <tr>
+            <th>Site</th>
             <th>Nom de la sortie</th>
             <th>Date de la sortie</th>
             <th>Clôture</th>
@@ -57,7 +58,7 @@
         </tr>
         {% for event in events %}
             <tr>
-
+                <td>{{ event.site.name }}</td>
                 <td>{{ event.name }}</td>
                 <td> {{ event.rdvTime | date("d/m/Y") }} </td>
                 <td> {{ event.signOnDeadline | date("d/m/Y") }} </td>
@@ -68,9 +69,11 @@
 
 
                 <td>
+
                     <a href="#"><button class="btn btn-sm btn-primary">Voir l'événement</button></a>
                     <a href="{{ path('sign_on_to_event', {'idEvent':event.id}) }}"><button class="btn btn-sm btn-primary">S'inscrire</button></a>
                     <a href="{{ path('withdraw_event', {'idEvent':event.id}) }}"><button class="btn btn-sm btn-primary">Se désinscrire</button></a>
+
                 </td>
             </tr>
         {% endfor %}

@@ -109,11 +109,11 @@ class User implements UserInterface
      */
     private $site;
 
+
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Event", mappedBy="participants")
      */
     private $signedOnEvents;
-
 
 
     public function __construct()
@@ -121,7 +121,6 @@ class User implements UserInterface
         $this->roles[] = 'ROLE_USER';
         $this->activated = true;
         $this->organizedEvents = new ArrayCollection();
-        $this->signedOnEvents = new ArrayCollection();
     }
 
 
@@ -363,4 +362,5 @@ class User implements UserInterface
 
         return $this;
     }
+
 }
