@@ -72,7 +72,11 @@ header{
     justify-content: space-between;
     align-items: center;
 }
-
+#event div{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 /***********************************FOOTER***************************************/
 footer{
     display: flex;

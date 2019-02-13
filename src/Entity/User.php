@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
@@ -20,6 +21,13 @@ class User implements UserInterface
     private $id;
 
     /**
+     * @Assert\NotBlank(message="Veuillez choisir un pseudo !")
+     * @Assert\Length(
+     *     min="3",
+     *     max="180",
+     *     minMessage="3 caractères minimum svp !",
+     *     maxMessage="180 caractères maximum svp !"
+     * )
      * @ORM\Column(type="string", length=180, unique=true)
      */
     private $username;
@@ -36,21 +44,51 @@ class User implements UserInterface
     private $password;
 
     /**
+     * @Assert\NotBlank(message="Veuillez renseigner le champ nom !")
+     * @Assert\Length(
+     *     min="3",
+     *     max="30",
+     *     minMessage="3 caractères minimum svp !",
+     *     maxMessage="30 caractères maximum svp !"
+     * )
      * @ORM\Column(type="string", length=30)
      */
     private $name;
 
     /**
+     * @Assert\NotBlank(message="Veuillez renseigner le champ prénom !")
+     * @Assert\Length(
+     *     min="3",
+     *     max="30",
+     *     minMessage="3 caractères minimum svp !",
+     *     maxMessage="30 caractères maximum svp !"
+     * )
      * @ORM\Column(type="string", length=30)
      */
     private $firstName;
 
     /**
+     * @Assert\NotBlank(message="Veuillez renseigner le champ téléphone !")
+     * @Assert\Length(
+     *     min="10",
+     *     max="10",
+     *     minMessage="le champ doit contenir 10 chiffres",
+     *     maxMessage="le champ doit contenir 10 chiffres",
+     * )
      * @ORM\Column(type="string", length=10)
      */
     private $telephone;
 
     /**
+     * @Assert\NotBlank(message=" Veuillez renseigner le champ email !")
+     * @Assert\Email(
+     *     message = "adresse email invalide !",
+     *     checkMX = true
+     * )
+     * @Assert\Length(
+     *     max="50",
+     *     maxMessage="50 caractères max !",
+     * )
      * @ORM\Column(type="string", length=50, unique=true)
      */
     private $email;

@@ -104,7 +104,7 @@ class EventRepository extends ServiceEntityRepository
         $qb->join('e.participants', 'p')
             ->addSelect('p')
             ->andWhere('e.id = :idEvent')
-            ->andWhere('p. = :idUser')
+            ->andWhere('p.id = :idUser')
             ->setParameters([
                 'idEvent' => $idEvent,
                 'idUser' => $user->getId()
