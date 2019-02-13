@@ -126,6 +126,22 @@ class EventRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
+    public function updateState()
+    {
+        $now = new \DateTime();
+        $interval = \DateInterval::createFromDateString("1 day");
+        $now->add($interval);
+        $qb = $this->createQueryBuilder('e');
+        $qb->andWhere('e.state = :state')
+            ->andWhere('e.signOnDeadline < :now')
+            ->setParameters([
+                'state' => 'ouvert',
+                'now' => $now
+            ]);
+        $query = $qb->getQuery();
+        return $query->getResult();
+    }
+
     // /**
     //  * @return Event[] Returns an array of Event objects
     //  */

@@ -69,10 +69,11 @@
 
 
                 <td>
-                    <a href=""><button class="btn btn-sm btn-primary">Voir l'événement</button></a>
 
+                    <a href=""><button class="btn btn-sm btn-primary">Voir l'événement</button></a>
+                    
                     <a href="{{ path('sign_on_to_event', {'idEvent':event.id}) }}"><button class="btn btn-sm btn-primary">S'inscrire</button></a>                   {# {{ path('sign_on_to_event', {'eventId':event.id}) }} #}
-                    <a href=""><button class="btn btn-sm btn-primary">Se désinscrire</button></a>               {# {{ path('withdraw_event', {'eventId':event.id}) }} #}
+                    <a href="{{ path('withdraw_event', {'idEvent' : event.id}) }}"><button class="btn btn-sm btn-primary">Se désinscrire</button></a>               {# {{ path('withdraw_event', {'eventId':event.id}) }} #}
                 </td>
             </tr>
         {% endfor %}
