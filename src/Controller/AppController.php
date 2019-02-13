@@ -33,7 +33,9 @@ class AppController extends AbstractController
 
         $events=$eventRepo->listEventsBySite($user);
 
-
+//        $interval= \DateInterval::createFromDateString("30 days");
+//        $day30=$today->sub($interval);
+//        dd($day30);
 
         return $this->render('app/home.html.twig', [
             'today'=>$today,
