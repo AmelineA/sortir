@@ -92,9 +92,6 @@ class EventController extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $eventRepo = $em->getRepository(Event::class);
         $event = $eventRepo->find($idEvent);
-        dd($event->getParticipants());
-
-
 
         $now = new \DateTime();
 
@@ -117,29 +114,33 @@ class EventController extends AbstractController
         return $this->redirectToRoute('home');
     }
 
-//    /**
-//     * @Route(
-//     *     "/se-désister/{idEvent}",
-//     *     name="withdraw_event")
-//     * @param $idEvent
-//     * @return \Symfony\Component\HttpFoundation\RedirectResponse
-//     */
-//    public function withdraw($idEvent)
-//    {
-//        $em = $this->getDoctrine()->getManager();
-//        $eventRepo = $em->getRepository(Event::class);
-//        $event = $eventRepo->find($idEvent);
-//        dd($event);
-//        dd($event->getParticipants());
-//        if ($event->getState()==='ouvert'){
-//            $event->removeParticipant($this->getUser());
-//            $em->persist($event);
-//            $em->flush();
-//            $this->addFlash('success', "Vous vous êtes désisté de la sortie !");
-//        }
-//
-//        return $this->redirectToRoute('home');
-//    }
+
+    /**
+     * @Route(
+     *     "/modifier-une-sortie/{idEvent}",
+     *     name="modify-event",
+     *     methods={"GET", "POST"}
+     * )
+     * @param $idEvent
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function modifiyEvent($idEvent)
+    {
+        $user=$this->getUser();
+        $em = $this->getDoctrine()->getRepository(Event::class);
+        $event = $em->find($idEvent);
+        $eventForm=$this->createForm(EventType::class, $event);
+
+
+        //@todo POST
+
+
+        return $this->render('event/modify-event.html.twig', [
+            'user'=>$user,
+            'event'=>$event,
+            'eventForm'=>$eventForm->createView()
+        ]);
+    }
 
 
 }
