@@ -17,7 +17,7 @@
             <nav class="nav">
                 <a href="{{ path('home') }}" class="nav-link">Accueil</a>
                 {% if app.user %}
-                <a href="{{ path('app_register') }}" class="nav-link">Mon Profil</a>
+                <a href="{{ path('app_register', {'id':app.user.id}) }}" class="nav-link">Mon Profil</a>
                 <a href="{{ path('create_event') }}" class="nav-link">Créer une sortie</a>
                 <a href="{{ path('app_logout') }}" class="nav-link">Se déconnecter</a>
                 {% else %}
