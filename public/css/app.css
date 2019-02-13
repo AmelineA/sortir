@@ -78,10 +78,22 @@ header{
     align-items: center;
 }
 /***********************************TWIG cancel-event******************************/
+.cancel-event-title{
+    margin: 30px 10px;
+}
 .event-display-cancel{
     margin: 30px;
+    text-align: center;
 }
-
+.event-display-cancel label{
+    color: #78cce2;
+    width: 150px;
+    text-align: right;
+}
+#motif{
+    height: 200px;
+    width: 400px;
+}
 /***********************************FOOTER***************************************/
 footer{
     display: flex;
