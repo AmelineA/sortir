@@ -33,7 +33,9 @@ class AppController extends AbstractController
 
         $events=$eventRepo->listEventsBySite($user);
 
-
+//        $interval= \DateInterval::createFromDateString("30 days");
+//        $day30=$today->sub($interval);
+//        dd($day30);
 
         return $this->render('app/home.html.twig', [
             'today'=>$today,
@@ -64,7 +66,6 @@ class AppController extends AbstractController
 
         //récupération des données du formulaire
         $site=$request->request->get('site');
-       // dd($site);
         $searchBar=$request->request->get('searchBar');
         $dateStart=$request->request->get('dateStart');
         $dateEnd=$request->request->get('dateEnd');

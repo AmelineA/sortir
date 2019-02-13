@@ -89,13 +89,12 @@
                 <td> / {{ event.maxNumber }} </td>
                 <td> {{ event.state }} </td>
                 <td> {{ event.name }} </td>
-                <td> {{ event.organizer.firstName }} {{ event.organizer.name }} </td>
+                <td> <a href="{{ path('show_profile', {'id':event.organizer.id}) }}">{{ event.organizer.firstName }} {{ event.organizer.name }} </a></td>
 
 
                 <td>
 
-                    <a href="#"><button class="btn btn-sm btn-primary">Voir l'événement</button></a>
-                    
+                    <a href="{{ path('display_event', {'eventId':event.id}) }}"><button class="btn btn-sm btn-primary">Voir l'événement</button></a>
                     <a href="{{ path('sign_on_to_event', {'idEvent':event.id}) }}"><button class="btn btn-sm btn-primary">S'inscrire</button></a>
                     <a href="{{ path('withdraw_event', {'idEvent' : event.id}) }}"><button class="btn btn-sm btn-primary">Se désinscrire</button></a>
                 </td>

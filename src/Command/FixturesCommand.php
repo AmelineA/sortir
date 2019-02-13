@@ -97,7 +97,7 @@ class FixturesCommand extends Command
 
         $state = ['ouvert', 'fermé', 'en création', 'terminé'];
         $allEvents = [];
-        for($i=0; $i<40; $i++){
+        for($i=0; $i<150; $i++){
             $event = new Event();
             $event->setName($faker->unique()->name);
             $event->setOrganizer($faker->randomElement($allUser));
@@ -105,8 +105,8 @@ class FixturesCommand extends Command
             $event->setSite($faker->randomElement($allSites));
             $event->setDuration(120);
             $event->setMaxNumber(10);
-            $event->setRdvTime($faker->dateTimeBetween("+5 days", "+20 days"));
-            $event->setSignOnDeadline($faker->dateTimeBetween("-2 days", "+10 days"));
+            $event->setRdvTime($faker->dateTimeBetween("-45 days", "+30 days"));
+            $event->setSignOnDeadline($faker->dateTimeBetween("-15 days", "+10 days"));
             $allEvents[] = $event;
             $this->em->persist($event);
         }
