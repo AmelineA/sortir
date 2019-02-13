@@ -74,4 +74,15 @@ class SecurityController extends AbstractController
 
     }
 
+    /**
+     * @Route("/profil/{id}", name="show_profile", requirements={"id"="\d+"})
+     */
+    public function showProfile($id)
+    {
+        $em=$this->getDoctrine()->getRepository(User::class);
+        $user = $em->find($id);
+        return $this->render('app/show-profile.html.twig', [
+           'user'=>$user
+        ]);
+    }
 }

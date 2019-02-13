@@ -66,7 +66,6 @@ class AppController extends AbstractController
 
         //récupération des données du formulaire
         $site=$request->request->get('site');
-       // dd($site);
         $searchBar=$request->request->get('searchBar');
         $dateStart=$request->request->get('dateStart');
         $dateEnd=$request->request->get('dateEnd');
