@@ -111,7 +111,7 @@ class User implements UserInterface
 
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Event, mappedBy="participants")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Event", mappedBy="participants")
      */
     private $signedOnEvents;
 
