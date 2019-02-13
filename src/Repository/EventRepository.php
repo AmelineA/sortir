@@ -80,25 +80,25 @@ class EventRepository extends ServiceEntityRepository
 
 
         //liste les events dont le user est l'organisateur
-        if($organizer===true){
+        if($organizer==="on"){
             $qb->andWhere('e.organizer=:user');
             $qb->setParameter('user', $user);
         }
 
         //liste les events auxquels je suis inscrits
-        if($signedOn===true){
+        if($signedOn==="on"){
             $qb->andWhere('p.id=:userId');
             $qb->setParameter('userId', $user->getId());
         }
 
         //liste les events auxquels je ne suis PAS inscrits
-        if($notSignedOn===true){
+        if($notSignedOn==="on"){
             $qb->andWhere('p.id!=:userId');
             $qb->setParameter('userId', $user->getId());
         }
 
         //liste les events déjà passés
-        if($pastEvent===true){
+        if($pastEvent==="on"){
             $qb->andWhere('e.rdvTime<:today');
             $qb->setParameter('today', $today);
         }

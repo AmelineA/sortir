@@ -10,7 +10,11 @@
         <select name="site" id="site" size="1">
             <option value="0">Site</option>
             {% for s in sites %}
-            <option value="{{ s.id }}">{{ s.name }}</option>
+                {% if app.user.site.id == s.id %} {#pour afficher le site de l'utilisateur par défaut #}
+                    <option value="{{ s.id }}" selected="selected">{{ s.name }}</option>
+                {% else %}
+                    <option value="{{ s.id }}">{{ s.name }}</option>
+                {% endif %}
             {% endfor %}
         </select>
 
