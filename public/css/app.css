@@ -74,21 +74,22 @@ header{
     background-color: #005066;
 }
 
+/***********************************HOME***************************************/
+table{
+    margin-top: 30px;
+}
+
 .right{
     display: flex;
     flex-direction: column;
     align-items: flex-end;
+    justify-content: center;
+    padding: 0;
 }
 
-/***********************************HOME***************************************/
-tbody{
-    overflow-y: scroll;
-}
-
-
-/***********************************HOME***************************************/
-table{
-    margin-top: 30px;
+.home-header{
+    display: flex;
+    padding: 0;
 }
 
 /***********************************FORMS***************************************/
@@ -111,11 +112,13 @@ table{
     display: flex;
     align-items: center;
     justify-content: space-between;
+    padding: 0;
 }
 
 #search{
     display: flex;
     justify-content: space-between;
+    padding: 0;
 }
 
 #search .col{
@@ -139,8 +142,12 @@ table{
     padding-left: 20px;
 }
 
-input:checked{
-    outline: none;
+#search .col:first-child{
+    padding-right: 20px;
+}
+
+#search .col:last-child{
+    padding-right: 20px;
 }
 
 /***********************************FOOTER***************************************/
