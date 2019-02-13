@@ -115,6 +115,12 @@ class User implements UserInterface
      */
     private $signedOnEvents;
 
+    /**
+     * @ORM\Column(type="string", length=50, nullable=true)
+     * @Assert\File(mimeTypes={"image/jpeg"})
+     */
+    private $profilePicture;
+
 
     public function __construct()
     {
@@ -359,6 +365,18 @@ class User implements UserInterface
             $this->signedOnEvents->removeElement($signedOnEvent);
             $signedOnEvent->removeParticipant($this);
         }
+
+        return $this;
+    }
+
+    public function getProfilePicture(): ?string
+    {
+        return $this->profilePicture;
+    }
+
+    public function setProfilePicture(?string $profilePicture): self
+    {
+        $this->profilePicture = $profilePicture;
 
         return $this;
     }

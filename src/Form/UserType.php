@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -56,7 +57,9 @@ class UserType extends AbstractType
                     'class'=>'form-control col-10'
                 ]
             ])
-
+            ->add('profilePicture', FileType::class, [
+                'label'=>'Uploader une photo de profil (pas de face)'
+            ])
         ;
     }
 
