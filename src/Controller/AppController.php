@@ -15,7 +15,6 @@ class AppController extends AbstractController
 {
     /**
      * @Route("/accueil", name="home", methods={"GET"})
-     *
      * @throws \Exception
      */
     public function home()
@@ -32,7 +31,6 @@ class AppController extends AbstractController
         $eventRepo=$this->getDoctrine()->getRepository(Event::class);
 
         $events=$eventRepo->listEventsBySite($user);
-
 
 
         return $this->render('app/home.html.twig', [
