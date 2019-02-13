@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Event;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -25,10 +26,26 @@ class EventRepository extends ServiceEntityRepository
         $qb->join('e.participants', 'p')
             ->addSelect('p')
             ->andWhere('e.id = :idEvent')
-            ->andWhere('p. = :idUser')
+            ->andWhere('p.id = :idUser')
             ->setParameters([
                 'idEvent' => $idEvent,
                 'idUser' => $user->getId()
+            ]);
+        $query = $qb->getQuery();
+        return $query->getResult();
+    }
+
+    public function updateState()
+    {
+        $now = new \DateTime();
+        $interval = \DateInterval::createFromDateString("1 day");
+        $now->add($interval);
+        $qb = $this->createQueryBuilder('e');
+        $qb->andWhere('e.state = :state')
+            ->andWhere('e.signOnDeadline < :now')
+            ->setParameters([
+                'state' => 'ouvert',
+                'now' => $now
             ]);
         $query = $qb->getQuery();
         return $query->getResult();

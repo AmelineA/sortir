@@ -105,7 +105,7 @@ class FixturesCommand extends Command
             $event->setSite($faker->randomElement($allSites));
             $event->setDuration(120);
             $event->setMaxNumber(10);
-            $event->setRdvTime($faker->dateTimeBetween("+days", "+20 days"));
+            $event->setRdvTime($faker->dateTimeBetween("+5 days", "+20 days"));
             $event->setSignOnDeadline($faker->dateTimeBetween("-2 days", "+10 days"));
             $allEvents[] = $event;
             $this->em->persist($event);
