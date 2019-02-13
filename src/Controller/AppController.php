@@ -39,7 +39,14 @@ class AppController extends AbstractController
             'userSite'=>$userSite,
             'sites'=>$sites,
             'events'=>$events,
-
+            'site'=>$site = "",
+            'searchBar'=>$searchBar = "",
+            'dateStart'=>$dateStart = "",
+            'dateEnd'=>$dateEnd = "",
+            'organizer'=>$organizer = "",
+            'signedOn'=>$signedOn = "",
+            'notSignedOn'=>$notSignedOn = "",
+            'pastEvents'=>$pastEvents = "",
         ]);
     }
 
