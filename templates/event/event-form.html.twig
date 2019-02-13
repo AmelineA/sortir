@@ -1,11 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Event Creation{% endblock %}
+{% block title %}{{ parent() }} | créer sortie{% endblock %}
 
 {% block content %}
 
     <h1>Créer votre sortie</h1>
-
 
     {{ form_start(eventForm, {'attr':{'class':'col-sm-6', 'novalidate': 'novalidate'}}) }}
     {{ form_widget(eventForm) }}
