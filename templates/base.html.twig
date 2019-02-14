@@ -17,10 +17,13 @@
             </div>
             <nav class="nav">
                 <a href="{{ path('home') }}" class="nav-link">Accueil</a>
-                {% if app.user %}
-                <a href="{{ path('app_register') }}" class="nav-link">Mon Profil</a>
-                <a href="{{ path('create_event') }}" class="nav-link">Créer une sortie</a>
-                <a href="{{ path('app_logout') }}" class="nav-link">Se déconnecter</a>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <a href="{{ path('app_register') }}" class="nav-link">Ajouter un utilisateur</a>
+                    <a href="{{ path('app_logout') }}" class="nav-link">Se déconnecter</a>
+                {% elseif is_granted('ROLE_USER') %}
+                    <a href="{{ path('app_my_profile') }}" class="nav-link">Mon Profil</a>
+                    <a href="{{ path('create_event') }}" class="nav-link">Créer une sortie</a>
+                    <a href="{{ path('app_logout') }}" class="nav-link">Se déconnecter</a>
                 {% else %}
                     <a href="{{ path('app_login') }}" class="nav-link">Se connecter</a>
                 {% endif %}

@@ -26,6 +26,8 @@ security:
                 remember-me-parameter: _remember_me
             logout:
                 path: app_logout
+    role_hierarchy:
+        ROLE_ADMIN: ROLE_USER
             # activate different ways to authenticate
 
             # http_basic: true
@@ -37,5 +39,6 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+#         - { path: ^/admin, roles: ROLE_ADMIN }
+#         - { path: ^/mon-profil, roles: ROLE_USER }
+#         - { path: ^/créer-une-vente, roles: ROLE_USER }

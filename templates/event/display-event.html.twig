@@ -36,8 +36,8 @@
             </tr>
             {% for participant in participants %}
                 <tr>
-                    <a href="{{ path('show_profile', {'id':participant.id}) }}"><td>{{ participant.username }}</td></a>
-                    <td>{{ participant.firstName }} {{ participant.name }}</td>
+                    <td><a href="{{ path('show_profile', {'id':participant.id}) }}">{{ participant.username }}</a></td>
+                    <td><a href="{{ path('show_profile', {'id':participant.id}) }}">{{ participant.firstName }} {{ participant.name }}</a></td>
 
                 </tr>
             {% endfor %}

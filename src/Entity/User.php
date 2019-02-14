@@ -128,7 +128,6 @@ class User implements UserInterface
 
     public function __construct()
     {
-        $this->roles[] = 'ROLE_USER';
         $this->activated = true;
         $this->organizedEvents = new ArrayCollection();
     }
@@ -169,13 +168,14 @@ class User implements UserInterface
     public function getRoles(): array
     {
         $roles = $this->roles;
-        return array_unique($roles);
+        $roles[] = 'ROLE_USER';
+        return $roles;
     }
 
 
     public function setRoles(array $roles): self
     {
-        $this->roles[] = $roles;
+        $this->roles = $roles;
 
         return $this;
     }

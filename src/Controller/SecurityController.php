@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\File;
@@ -18,13 +19,19 @@ class SecurityController extends AbstractController
 
 
     /**
-     * @Route("/logout", name="app_logout")
+     * @Route(
+     *     "/logout",
+     *     name="app_logout")
      */
     public function logout(){}
 
 
     /**
-     * @Route("/", name="app_login")
+     * @Route(
+     *     "/",
+     *     name="app_login")
+     * @param AuthenticationUtils $authenticationUtils
+     * @return Response
      */
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
@@ -39,11 +46,14 @@ class SecurityController extends AbstractController
     /**
      * @Route(
      *     "/mon-profil",
-     *     name="app_register",
+     *     name="app_my_profile",
      *     methods={"GET", "POST"}
      *     )
+     * @param UserPasswordEncoderInterface $encoder
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
-    public function register(UserPasswordEncoderInterface $encoder, Request $request )
+    public function updateMyProfile(UserPasswordEncoderInterface $encoder, Request $request )
     {
         $currentUser = $this->getUser();
 
@@ -56,9 +66,8 @@ class SecurityController extends AbstractController
             $hash = $encoder->encodePassword($currentUser, $password);
             $currentUser->setPassword($hash);
 
-
             //Permet d'ajouter une photo
-            //TODO gérer la suppression des photos préexistantes. cf fichier pour uploader une photo, dans un des liens. 
+            //TODO gérer la suppression des photos préexistantes. cf fichier pour uploader une photo, dans un des liens.
             $profilePicture = $registerForm->get("profilePictureName")->getData();
             $profilePictureName=$this->generateUniqueFileName().'.'.$profilePicture->guessExtension();
             try{
@@ -89,7 +98,11 @@ class SecurityController extends AbstractController
     }
 
     /**
-     * @Route("/profil/{id}", name="show_profile", requirements={"id"="\d+"})
+     * @Route("/profil/{id}",
+     *     name="show_profile",
+     *     requirements={"id"="\d+"})
+     * @param $id
+     * @return Response
      */
     public function showProfile($id)
     {
@@ -112,4 +125,45 @@ class SecurityController extends AbstractController
         return md5(uniqid());
     }
 
+
+    /**
+     * allow a user registration manually by an admin
+     * @IsGranted("ROLE_ADMIN")
+     * @Route("/inscrire-utilisateur",
+     *     name="app_register",
+     *     methods={"GET", "POST"})
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     */
+    public function registerUser(UserPasswordEncoderInterface $encoder, Request $request, \Swift_Mailer $swift_Mailer)
+    {
+        $user = new User();
+        $registerForm = $this->createForm(UserType::class, $user);
+        $registerForm->handleRequest($request);
+
+        if($registerForm->isSubmitted() && $registerForm->isValid()){
+
+            $password = $user->getPassword();
+            $hash = $encoder->encodePassword($user, $password);
+            $user->setPassword($hash);
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($user);
+            $em->flush();
+
+            //send an email with informations to connect
+            $message = new \Swift_Message();
+            $message->setTo($user->getEmail())
+                    ->setSubject("Votre inscription")
+                    ->setFrom("ameline.aubin2018@campus-eni.fr")
+                    ->setBody("mail");
+            $swift_Mailer->send($message);
+            return $this->redirectToRoute('home');
+        }
+
+        return $this->render('security/register.html.twig', [
+            'registerForm' => $registerForm->createView()
+        ]);
+
+    }
 }

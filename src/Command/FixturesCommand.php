@@ -77,6 +77,7 @@ class FixturesCommand extends Command
         $defaultUser->setTelephone('0101010101');
         $defaultUser->setPassword($this->encoder->encodePassword($defaultUser, $defaultUser->getUsername()));
         $defaultUser->setActivated(true);
+        $defaultUser->setRoles(['ROLE_ADMIN']);
         $allUser[] = $defaultUser;
         $this->em->persist($defaultUser);
 
