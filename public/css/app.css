@@ -169,6 +169,13 @@ table{
     height: 200px;
     width: 400px;
 }
+/*******************************TWIG display-event******************************/
+#event-details label{
+    color: #78cce2 ;
+}
+#event-details p{
+margin-left: 10px;
+}
 /***********************************FOOTER***************************************/
 footer{
     display: flex;

@@ -3,13 +3,13 @@
 {% block title %}{{ parent() }}Accueil{% endblock %}
 
 {% block content %}
-    <div class="home-header col-12">
-        <form id="search-form" method="post" action="{{ path('search') }}" novalidate="novalidate" class="col-sm-10">
+    <div class="home-header container">
+        <form id="search-form" method="post" action="{{ path('search') }}" novalidate="novalidate" class="row col-md-12 col-lg-10">
             <div id="search" class="col-sm-11">
                 <div class="col col-sm-6">
-                    <h4>Filtrer les sorties:</h4>
+                    <h4>Filtrer les sorties</h4>
                     <div>
-                        <label for="site">Site :</label>
+                        <label for="site">Site </label>
                         <select name="site" id="site" size="1" class="form-control col-sm-7">
                             <option value="0">Tous</option>
                             {% for s in sites %}
@@ -22,7 +22,7 @@
                         </select>
                     </div>
                     <div>
-                        <label for="searchBar">Le nom de la sortie contient : </label>
+                        <label for="searchBar">Le nom de la sortie contient  </label>
                         <input class="form-control col-sm-7" name="searchBar" id="searchBar" autofocus type="search" placeholder="Search">
                     </div>
                     <div>
@@ -53,18 +53,23 @@
                         <label for="pastEvents" class="col-sm-10">Sorties passées</label>
                         <input class="form-control" type="checkbox" name="pastEvents" id="pastEvents">
                     </div>
+                    <button type="submit" class="btn btn-md btn-primary">Rechercher</button>
                 </div>
+
             </div>
 
-            <button type="submit" class="btn btn-md btn-primary">Rechercher</button>
+
 
         </form>
-        <div class="right col-2">
-            <h5>Date du jour : {{ today | date("d/m/Y") }}</h5>
-            <h5>Participant : {{ app.user.name }}</h5>
+
+        <div class="row right col-lg-2 col-md-12">
+            <h5>Bonjour {{ app.user.name }} ! </h5>
+            <p>Nous sommes le</p>
+            <h5>{{ today | date("d/m/Y") }}</h5>
             <a href="{{ path('create_event') }}"><button class="btn btn-lg btn-primary">Créer une sortie</button></a>
         </div>
     </div>
+
     <table class="table table-striped">
         <thead>
             <th>Site</th>

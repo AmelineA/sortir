@@ -59,7 +59,7 @@ class SecurityController extends AbstractController
             /**
              * @var Symfony\Component\HttpFoundation\File\UploadedFile $profilePicture
              */
-            $profilePicture= $user->getProfilePicture();    // ou
+            $profilePicture= $currentUser->getProfilePicture();    // ou
             //$profilePicture= $registerForm->get('profilePicture');
             $profilePictureName=$this->generateUniqueFileName().'.'.$profilePicture->guessExtension();
             try{
@@ -71,7 +71,7 @@ class SecurityController extends AbstractController
 
             }
 
-            $user->setProfilePicture($profilePictureName);
+            $currentUser->setProfilePicture($profilePictureName);
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($currentUser);
