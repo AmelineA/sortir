@@ -66,21 +66,26 @@ class SecurityController extends AbstractController
             $hash = $encoder->encodePassword($currentUser, $password);
             $currentUser->setPassword($hash);
 
-            //Permet d'ajouter une photo
-            //TODO gérer la suppression des photos préexistantes. cf fichier pour uploader une photo, dans un des liens.
-            $profilePicture = $registerForm->get("profilePictureName")->getData();
-            $profilePictureName=$this->generateUniqueFileName().'.'.$profilePicture->guessExtension();
-            try{
-                $profilePicture->move(
-                    $this->getParameter('profile_pictures_directory'),
-                    $profilePictureName
-                );
-            }catch (FileException $e){
+            //Si le user veut uploader
+            if(null!==$registerForm->get("profilePictureName")->getData()){
+                //Permet d'ajouter une photo
+                //TODO gérer la suppression des photos préexistantes. cf fichier pour uploader une photo, dans un des liens.
+                //récupération du fichier photo
+                $profilePicture = $registerForm->get("profilePictureName")->getData();
+                //construction du nom de fichier unique avec l'extension réelle du fichier
+                $profilePictureName=$this->generateUniqueFileName().'.'.$profilePicture->guessExtension();
+                //déplacement du fichier dans le répertoire à photo de profil
+                try{
+                    $profilePicture->move(
+                        $this->getParameter('profile_pictures_directory'),
+                        $profilePictureName
+                    );
+                }catch (FileException $e){
 
+                }
+                // attribution du nom de fichier dans l'objet User
+                $currentUser->setProfilePictureName($profilePictureName);
             }
-
-            $currentUser->setProfilePictureName($profilePictureName);
-
             $em = $this->getDoctrine()->getManager();
             $em->persist($currentUser);
             $em->flush();
@@ -90,7 +95,7 @@ class SecurityController extends AbstractController
         }
 
 
-        return $this->render('security/register.html.twig',[
+        return $this->render('security/myprofile.html.twig',[
           'registerForm'=>$registerForm->createView(),
           'user'=>$currentUser
         ]);
@@ -161,7 +166,7 @@ class SecurityController extends AbstractController
             return $this->redirectToRoute('home');
         }
 
-        return $this->render('security/register.html.twig', [
+        return $this->render('myprofile.html.twig', [
             'registerForm' => $registerForm->createView()
         ]);
 
