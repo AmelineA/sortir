@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Event;
 use App\Form\EventType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -12,7 +13,11 @@ class EventController extends AbstractController
 {
 
     /**
-     * @Route("/creer-une-sortie", name="create_event")
+     *
+     * @IsGranted("ROLE_USER")
+     * @Route(
+     *     "/creer-une-sortie",
+     *     name="create_event")
      */
     public function createEvent(Request $request)
     {
@@ -45,7 +50,11 @@ class EventController extends AbstractController
      * Sign on a user to an event if the user is connected,
      * if the inscriptions for this event are opened,
      * if user is not already signed on
-     * @Route("/s'inscrire/{idEvent}", name="sign_on_to_event")
+     *
+     * @IsGranted("ROLE_USER")
+     * @Route(
+     *     "/s'inscrire/{idEvent}",
+     *     name="sign_on_to_event")
      * @param $idEvent
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
@@ -80,7 +89,11 @@ class EventController extends AbstractController
 
 
     /**
-     * @Route("/se-désinscrire/{idEvent}", name="withdraw_event")
+     *
+     * @IsGranted("ROLE_USER")
+     * @Route(
+     *     "/se-désister/{idEvent}",
+     *     name="withdraw_event")
      * @param $idEvent
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      * @throws \Exception
@@ -108,6 +121,8 @@ class EventController extends AbstractController
 
 
     /**
+     *
+     * @IsGranted("ROLE_USER")
      * @Route(
      *     "/modifier-une-sortie/{idEvent}",
      *     name="modify-event",
@@ -142,6 +157,8 @@ class EventController extends AbstractController
     }
 
     /**
+     *
+     * @IsGranted("ROLE_USER")
      * @Route(
      *     "/annuler-une-sortie/{idEvent}",
      *     name="cancel-event",
@@ -176,6 +193,8 @@ class EventController extends AbstractController
         ]);
     }
     /**
+     *
+     * @IsGranted("ROLE_USER")
      * @Route("/afficher-sortie/{eventId}", name="display_event", requirements={"id"="\d+"})
      */
     public function displayEvent($eventId)
