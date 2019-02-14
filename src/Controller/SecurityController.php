@@ -7,6 +7,7 @@ use App\Form\UserType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -66,11 +67,8 @@ class SecurityController extends AbstractController
             $currentUser->setPassword($hash);
 
             //Permet d'ajouter une photo
-            /**
-             * @var Symfony\Component\HttpFoundation\File\UploadedFile $profilePicture
-             */
-            $profilePicture= $currentUser->getProfilePicture();    // ou
-            //$profilePicture= $registerForm->get('profilePicture');
+            //TODO gérer la suppression des photos préexistantes. cf fichier pour uploader une photo, dans un des liens.
+            $profilePicture = $registerForm->get("profilePictureName")->getData();
             $profilePictureName=$this->generateUniqueFileName().'.'.$profilePicture->guessExtension();
             try{
                 $profilePicture->move(
@@ -81,7 +79,7 @@ class SecurityController extends AbstractController
 
             }
 
-            $currentUser->setProfilePicture($profilePictureName);
+            $currentUser->setProfilePictureName($profilePictureName);
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($currentUser);

@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -117,9 +118,12 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=50, nullable=true)
-     * @Assert\File(mimeTypes={"image/jpeg"})
+     * @Assert\File(mimeTypes={"image/png" ,"image/jpg","image/jpeg"},
+     *              mimeTypesMessage = "Svp inserer une image valide (png,jpg,jpeg)")
      */
-    private $profilePicture;
+    private $profilePictureName;
+
+
 
 
     public function __construct()
@@ -369,14 +373,18 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getProfilePicture(): ?string
+    public function getProfilePictureName(): ?string
     {
-        return $this->profilePicture;
+        return $this->profilePictureName;
     }
 
-    public function setProfilePicture(?string $profilePicture): self
+    /**
+     * @param UploadedFile|null $profilePictureName
+     * @return User
+     */
+    public function setProfilePictureName($profilePictureName): self
     {
-        $this->profilePicture = $profilePicture;
+        $this->profilePictureName = $profilePictureName;
 
         return $this;
     }

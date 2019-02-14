@@ -82,8 +82,10 @@ class UserType extends AbstractType
                     'class'=>'form-control col-10'
                 ]
             ])
-            ->add('profilePicture', FileType::class, [
-                'label'=>'Uploader une photo de profil (pas de face)'
+            ->add('profilePictureName', FileType::class, [
+                'label'=>'Uploader une photo de profil (pas de face)',
+                'required'=>false,
+                'data_class'=>null
             ])
         ;
     }
