@@ -5,8 +5,8 @@ namespace App\Controller;
 
 use App\Entity\Event;
 use App\Entity\Site;
-use App\Entity\User;
 
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -14,6 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class AppController extends AbstractController
 {
     /**
+     * @IsGranted("ROLE_USER")
      * @Route("/accueil", name="home", methods={"GET"})
      * @throws \Exception
      */
@@ -39,12 +40,20 @@ class AppController extends AbstractController
             'userSite'=>$userSite,
             'sites'=>$sites,
             'events'=>$events,
-
+            'site'=>$site = "",
+            'searchBar'=>$searchBar = "",
+            'dateStart'=>$dateStart = "",
+            'dateEnd'=>$dateEnd = "",
+            'organizer'=>$organizer = "",
+            'signedOn'=>$signedOn = "",
+            'notSignedOn'=>$notSignedOn = "",
+            'pastEvents'=>$pastEvents = "",
         ]);
     }
 
 
     /**
+     * @IsGranted("ROLE_USER")
      * @Route("/recherche", name="search", methods="POST")
      * @throws \Exception
      */

@@ -9,30 +9,26 @@
         <link rel="stylesheet" href="{{ asset('fonts/fonts.css') }}">
     </head>
     <body>
-        <div class="container">
-                <header class="row">
-                    <div id="site-title" class="row col-sm-12 col-md-6">
-                        <a href="{{ path('home') }}"><img src="{{ asset('img/logo_sortir.png') }}" alt="logo site">
-                            Sortir.com
-                        </a>
-                    </div>
-                    <div id= "menu" class="row col-sm-12 col-md-6">
-                        <nav class="nav">
-                            <a href="{{ path('home') }}" class="nav-link">Accueil</a>
-                            {% if app.user %}
-                            <a href="{{ path('app_register') }}" class="nav-link">Mon Profil</a>
-                            <a href="{{ path('create_event') }}" class="nav-link">Créer une sortie</a>
-                            <a href="{{ path('app_logout') }}" class="nav-link">Se déconnecter</a>
-                            {% else %}
-                                <a href="{{ path('app_login') }}" class="nav-link">Se connecter</a>
-                            {% endif %}
-                        </nav>
-                    </div>
-                </header>
-    </div>
-
-
-
+        <header>
+            <div id="site-title">
+                <a href="{{ path('home') }}"><img src="{{ asset('img/logo_sortir.png') }}" alt="logo site">
+                    Sortir.com
+                </a>
+            </div>
+            <nav class="nav">
+                <a href="{{ path('home') }}" class="nav-link">Accueil</a>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <a href="{{ path('app_register') }}" class="nav-link">Ajouter un utilisateur</a>
+                    <a href="{{ path('app_logout') }}" class="nav-link">Se déconnecter</a>
+                {% elseif is_granted('ROLE_USER') %}
+                    <a href="{{ path('app_my_profile') }}" class="nav-link">Mon Profil</a>
+                    <a href="{{ path('create_event') }}" class="nav-link">Créer une sortie</a>
+                    <a href="{{ path('app_logout') }}" class="nav-link">Se déconnecter</a>
+                {% else %}
+                    <a href="{{ path('app_login') }}" class="nav-link">Se connecter</a>
+                {% endif %}
+            </nav>
+        </header>
 
         <main>
             <!-- for Flash messages ...-->
@@ -47,12 +43,12 @@
             {% block content %}{% endblock %}
         </main>
 
-        <footer class="" >
-            <nav class="nav container">
-                <a  href="{{ path('home') }}" class="row nav-link col-sm-12 col-md-3">Accueil</a>
-                <a href="#" class="row nav-link col-sm-12 col-md-3">FAQ</a>
-                <a href="#" class="row nav-link col-sm-12 col-md-3">CGU</a>
-                <a href="#" class="row nav-link col-sm-12 col-md-3">Contact</a>
+        <footer>
+            <nav class="nav">
+                <a href="{{ path('home') }}" class="nav-link">Accueil</a>
+                <a href="#" class="nav-link">FAQ</a>
+                <a href="#" class="nav-link">CGU</a>
+                <a href="#" class="nav-link">Contact</a>
             </nav>
         </footer>
 
