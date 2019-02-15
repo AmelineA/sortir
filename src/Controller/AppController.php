@@ -32,7 +32,10 @@ class AppController extends AbstractController
         $eventRepo=$this->getDoctrine()->getRepository(Event::class);
 
         $events=$eventRepo->listEventsBySite($user);
-
+//        $isSignedOn=true;
+//        if($eventRepo->isAlreadySignedOn($user, $event)){
+//            $isSignedOn=false;
+//        }
 
         return $this->render('app/home.html.twig', [
             'today'=>$today,
@@ -48,6 +51,7 @@ class AppController extends AbstractController
             'signedOn'=>$signedOn = "",
             'notSignedOn'=>$notSignedOn = "",
             'pastEvents'=>$pastEvents = "",
+//            'isSignedOn'=>$isSignedOn
         ]);
     }
 

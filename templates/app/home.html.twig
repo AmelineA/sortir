@@ -120,8 +120,11 @@
                 <td>
 
                     <a href="{{ path('display_event', {'eventId':event.id}) }}"><button class="btn btn-sm btn-primary">Voir l'événement</button></a>
+                {% if 0 is same as(0) %}
                     <a href="{{ path('sign_on_to_event', {'idEvent':event.id}) }}"><button class="btn btn-sm btn-primary">S'inscrire</button></a>
+                {% else %}
                     <a href="{{ path('withdraw_event', {'idEvent' : event.id}) }}"><button class="btn btn-sm btn-primary">Se désinscrire</button></a>
+                {% endif %}
                 </td>
             </tr>
         {% endfor %}
