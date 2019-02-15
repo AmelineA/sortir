@@ -3,33 +3,39 @@
 {% block title %}{{ parent() }}Connexion{% endblock %}
 
 {% block content %}
-    <h1>Connectez-vous</h1>
-    <form method="post" class="col-sm-6" novalidate="novalidate">
-        {% if error %}
-            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-        {% endif %}
 
-        <label for="inputUsername" class="sr-only">Email ou pseudo</label>
-        <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control"
-               placeholder="Email ou pseudo" required autofocus>
-        <label for="inputPassword" class="sr-only">Mot de passe</label>
-        <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Mot de passe" required>
-        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+    <div class="container">
+
+            <h1 class="text-center">Connectez-vous</h1>
+
+                <form method="post" class="col-12" novalidate="novalidate">
+                    {% if error %}
+                        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                    {% endif %}
+
+                    <label for="inputUsername" class="sr-only">Email ou pseudo</label>
+                    <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control"
+                           placeholder="Email ou pseudo" required autofocus>
+                    <label for="inputPassword" class="sr-only">Mot de passe</label>
+                    <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Mot de passe" required>
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
 
-        {#Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.#}
-        {#See https://symfony.com/doc/current/security/remember_me.html#}
+                    {#Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.#}
+                    {#See https://symfony.com/doc/current/security/remember_me.html#}
 
-        <div class="checkbox mb-3">
-            <label>
-                <input type="checkbox" name="_remember_me"> Se souvenir de moi
-            </label>
+                    <div class="checkbox mb-3">
+                        <label>
+                            <input type="checkbox" name="_remember_me"> Se souvenir de moi
+                        </label>
+                    </div>
+
+                    <button class="btn btn-md btn-primary" type="submit">
+                        Connexion
+                    </button>
+
+                </form>
         </div>
 
 
-        <button class="btn btn-md btn-primary" type="submit">
-            Connexion
-        </button>
-
-    </form>
 {% endblock %}

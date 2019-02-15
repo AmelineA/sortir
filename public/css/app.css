@@ -4,16 +4,13 @@
 
 
 /***********************************GENERAL***************************************/
-* {
-    box-sizing: border-box;
-}
 body{
     font-family: Nunito, sans-serif;
     background-color: #002439;
     color: #e4eff0;
     min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+    /*display: flex;
+    flex-direction: column;*/
     padding: 10px 30px;
 }
 
@@ -26,10 +23,10 @@ h1{
 }
 
 main{
-    flex-grow: 1;
+    /*flex-grow: 1;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: center;*/
 }
 
 th{
@@ -50,19 +47,12 @@ a:hover{
 
 
 header{
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: baseline;
-    margin-top: 30px;
+    margin-top: 10px;
     margin-bottom: 30px;
 }
 
 #site-title a{
     font-size: 3em;
-    font-weight: bold;
-    display: flex;
-    align-items: baseline;
     color: #78cce2;
 }
 
@@ -71,6 +61,11 @@ header{
     margin-right: 10px;
 }
 
+/***********************************MAIN*****************************************/
+
+main{
+    height: 90vh;
+}
 
 /***********************************BUTTONS***************************************/
 .btn-primary{
@@ -88,59 +83,62 @@ table{
 }
 
 .right{
-    display: flex;
+   /* display: flex;
     flex-direction: column;
     align-items: flex-end;
-    justify-content: center;
+    justify-content: center;*/
     padding: 0;
 }
 
 .home-header{
-    display: flex;
-    flex-wrap: wrap;
+    /*display: flex;
+    flex-wrap: wrap;*/
     padding: 0;
+}
+#welcome{
+    margin-top: 15px;
 }
 
 /***********************************FORMS***************************************/
 .form-control{
-    margin: 10px 0;
+    margin: 3px 0;
 }
 
 #user div{
-    display: flex;
+    /*display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: center;*/
 }
 #event div{
-    display: flex;
+    /*display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: center;*/
 }
 
 #search-form{
-    display: flex;
+  /*  display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-between;*/
     padding: 0;
 }
 
 #search{
-    display: flex;
-    justify-content: space-between;
+    /*display: flex;
+    justify-content: space-between;*/
     padding: 0;
 }
 
 #search .col{
     padding: 0;
-    display: flex;
+  /*  display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: center;*/
 }
 
 #search .col div{
-    display: flex;
+    /*display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: center;*/
 }
 
 .date{
@@ -158,6 +156,27 @@ table{
 #search .col:last-child{
     padding-right: 20px;
 }
+/**********************************TWIG login*****************************************/
+
+#login-flex-container{
+    width: 100vh;
+    height: 50vh;
+   /* display: flex;
+    flex-direction: column;
+    justify-content:center;
+    align-items: center;*/
+}
+#login-title{
+    /*display: flex;
+    width: 100vh;
+    justify-content: center;*/
+}
+#login-form{
+    /*display: flex;
+    justify-content: center;
+    width: 100vh;*/
+}
+
 
 /***********************************TWIG cancel-event******************************/
 .cancel-event-title{
@@ -165,12 +184,12 @@ table{
 }
 .event-display-cancel{
     margin: 30px;
-    text-align: center;
+    /*text-align: center;*/
 }
 .event-display-cancel label{
     color: #78cce2;
-    width: 150px;
-    text-align: right;
+    /*width: 150px;
+    text-align: right;*/
 }
 #motif{
     height: 200px;
@@ -181,21 +200,21 @@ table{
     color: #78cce2 ;
 }
 #event-details p{
-margin-left: 10px;
+    margin-left: 10px;
 }
 /*************************************TWIG show-profile******************************/
 .show-profil-flex-container{
-    display: flex;
-    flex-direction: column;
+    /*display: flex;
+    flex-direction: column;*/
     width: 80vh;
 }
 .show-profile-title{
-    display: flex;
-    justify-content: center;
+    /*display: flex;
+    justify-content: center;*/
 }
 .show-profil-content-container{
-    display: flex;
-    flex-wrap: wrap;
+   /* display: flex;
+    flex-wrap: wrap;*/
 }
 .show-profil-content-container img{
     height: 100px;
@@ -207,17 +226,17 @@ margin-left: 10px;
 }
 /****************************TWIG my-profil*******************************************/
 .my-profil-flex-container{
-    display: flex;
-    flex-direction: column;
+    /*display: flex;
+    flex-direction: column;*/
     width: 80vh;
 }
 .my-profil-title {
-    display: flex;
-    justify-content: center;
+  /*  display: flex;
+    justify-content: center;*/
 }
 .my-profil-content-container{
-    display: flex;
-    flex-wrap: wrap;
+    /*display: flex;
+    flex-wrap: wrap;*/
 }
 
 .my-profil-content-container img{
@@ -232,12 +251,12 @@ margin-left: 10px;
     border: none;
 }
 .my-profil-details form button{
-    justify-content: right;
+    /*justify-content: right;*/
 }
 /***********************************FOOTER***************************************/
 footer{
-    display: flex;
-    justify-content: center;
+  /*  display: flex;
+    justify-content: center;*/
     width: 100%;
 }
 
