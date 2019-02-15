@@ -68,14 +68,7 @@ class UserType extends AbstractType
                     'class'=>'form-control col-10'
                 ]
             ])
-        //TODO: gérer l'affichage de site selon si on appelle le form depuis updateMyProfile ou de registerUser
-            ->add('site', ChoiceType::class, [
-                'choices'=> $sites,
-                'label'=>'Site',
-                'attr'=>[
-                    'class'=>'form-control col-10'
-                ]
-            ])
+
             ->add('password', PasswordType::class, [
                 'label'=>'Mot de passe',
                 'attr'=>[
