@@ -27,8 +27,9 @@ class EventType extends AbstractType
             ])
             ->add('rdvTime',        DateTimeType::class, [
                 'label'=>'Le rendez-vous',
-                'date_widget'=>'choice',
-                'time_widget'=>'choice',
+                'widget' => 'single_text',
+//                'date_widget'=>'choice',
+//                'time_widget'=>'choice',
                 'data'=>new \DateTime('now'),
                 'attr'=>['class'=>'form-control col-10']
             ])
@@ -38,7 +39,9 @@ class EventType extends AbstractType
             ])
             ->add('signOnDeadline', DateTimeType::class, [
                 'label'=>'Date limite d\'inscription',
-                'date_widget'=>'choice',
+                'widget' => 'single_text',
+                'date_format' => "Y",
+//                'date_widget'=>'choice',
                 'data'=>new \DateTime('now'),
                 'attr'=>['class'=>'form-control col-10']
             ])
