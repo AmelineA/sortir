@@ -4,19 +4,23 @@
 
 {% block content %}
 
-
-    <h1>Profil de {{ user.username }}</h1>
-
-    <img src="" alt="profile photo">
-
-
-    <div>
-        <div class="row"><label>Prénom : </label><p> {{ user.firstName }}</p></div>
-        <div class="row"><label>Nom : </label><p> {{ user.name }}</p></div>
-        <div class="row"><label>Téléphone : </label><p> {{ user.telephone }}</p></div>
-        <div class="row"><label>Email : </label><p> {{ user.email }}</p></div>
-        <div class="row"><label>Ville de rattachement : </label><p> {{ user.site.name }}</p></div>
+    <div class="show-profil-flex-container">
+        <div class="show-profile-title">
+            <h2>Profil de {{ user.username }}</h2>
+        </div>
+        <div class="show-profil-content-container">
+            <div class="photo col-3">
+                <img src="" alt="profile photo">
+            </div>
+            <div class="show-profil-details col-9">
+                <div class="row"><label class="">Prénom </label><p class="form-control col-10"> {{ user.firstName }}</p></div>
+                <div class="row"><label>Nom  </label><p class="form-control col-10"> {{ user.name }}</p></div>
+                <div class="row"><label>Téléphone  </label><p class="form-control col-10"> {{ user.telephone }}</p></div>
+                <div class="row"><label>Email  </label><p class="form-control col-10"> {{ user.email }}</p></div>
+                <div class="row"><label>Ville de rattachement </label><p class="form-control col-10"> {{ user.site.name }}</p></div>
+            </div>
+        </div>
     </div>
 
-    <a href="javascript:history.go(-1)"><button type="button" >Retour</button></a>
+        <a href="javascript:history.go(-1)"><button type="button" >Retour</button></a>
 {% endblock %}

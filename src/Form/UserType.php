@@ -34,7 +34,7 @@ class UserType extends AbstractType
 
         $builder
             ->add('username', TextType::class, [
-                'label'=>'Mon pseudo',
+                'label'=>'Pseudo',
                 'attr'=>[
                     'placeholder'=>'ex:yoyo44',
                     'class'=>'form-control col-10'
@@ -77,9 +77,13 @@ class UserType extends AbstractType
                 ]
             ])
             ->add('profilePictureName', FileType::class, [
-                'label'=>'Uploader une photo de profil (pas de face)',
+                'label'=>"Ma photo",
                 'required'=>false,
-                'data_class'=>null
+                'data_class'=>null,
+                'attr'=>[
+                    'class'=> 'form-control col-10',
+                    'value'=>'choisir une photo'
+                ]
             ])
         ;
     }
