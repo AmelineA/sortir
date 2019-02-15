@@ -8,27 +8,17 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class UserType extends AbstractType
+class UserByAdminType extends AbstractType
 {
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
 
         $builder
-            ->add('username', TextType::class, [
-                'label'=>'Pseudo',
-                'attr'=>[
-                    'placeholder'=>'ex:yoyo44',
-                    'class'=>'form-control col-10'
-                ]
-            ])
             ->add('name', TextType::class, [
                 'label'=>'Nom',
                 'attr'=>[
@@ -57,20 +47,12 @@ class UserType extends AbstractType
                     'class'=>'form-control col-10'
                 ]
             ])
-            ->add('password', PasswordType::class, [
-                'label'=>'Mot de passe',
+            ->add('site', EntityType::class, [
+                'label'=>'Site',
+                'class' => Site::class,
+                'choice_label' => 'name',
                 'attr'=>[
-                    'placeholder'=>'ex: K!4851o$',
                     'class'=>'form-control col-10'
-                ]
-            ])
-            ->add('profilePictureName', FileType::class, [
-                'label'=>"Ma photo",
-                'required'=>false,
-                'data_class'=>null,
-                'attr'=>[
-                    'class'=> 'form-control col-10',
-                    'value'=>'choisir une photo'
                 ]
             ])
         ;

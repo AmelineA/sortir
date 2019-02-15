@@ -4,20 +4,22 @@
         <meta charset="UTF-8" lang="fr">
         <title>{% block title %}Sortir.com | {% endblock %}</title>
         <link rel="icon" href="{{ asset('img/favicon.png') }}">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}">
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
         <link rel="stylesheet" href="{{ asset('fonts/fonts.css') }}">
     </head>
     <body>
-        <header>
-            <div id="site-title">
-                <a href="{{ path('home') }}"><img src="{{ asset('img/logo_sortir.png') }}" alt="logo site">
+        <header class="row col-sm-6 col-md-12 justify-content-between align-items-baseline">
+            <div id="site-title" class="">
+                <a href="{{ path('home') }}"><img src="{{ asset('img/logo_sortir.png') }}" alt="logo site" class="align-baseline">
                     Sortir.com
                 </a>
             </div>
             <nav class="nav">
                 <a href="{{ path('home') }}" class="nav-link">Accueil</a>
                 {% if is_granted('ROLE_ADMIN') %}
+                    <a href="{{ path('app_my_profile') }}" class="nav-link">Mon Profil</a>
+                    <a href="{{ path('create_event') }}" class="nav-link">Créer une sortie</a>
                     <a href="{{ path('app_register') }}" class="nav-link">Ajouter un utilisateur</a>
                     <a href="{{ path('app_logout') }}" class="nav-link">Se déconnecter</a>
                 {% elseif is_granted('ROLE_USER') %}

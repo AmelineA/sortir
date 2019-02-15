@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} | Mon Profil{% endblock %}
+
+{% block content %}
+
+    <div class="my-profil-flex-container">
+        <div class="">
+            <h2>Ajouter un utilisateur</h2>
+        </div>
+        <h3>Manuellement</h3>
+        <div class="my-profil-content-container">
+            <div class="my-profil-details col-9">
+                {{ form_start(registerForm, {'attr':{'class':'col-sm-12', 'novalidate': 'novalidate'}}) }}
+                {{ form_widget(registerForm) }}
+                <button class="btn btn-md btn-primary">Inscrire</button>
+                {{ form_end(registerForm) }}
+            </div>
+        </div>
+
+        <h3>Via fichier</h3>
+        <div class="my-profil-content-container">
+            <div class="my-profil-details col-9">
+                {{ form_start(registerForm, {'attr':{'class':'col-sm-12', 'novalidate': 'novalidate'}}) }}
+                {{ form_widget(registerForm) }}
+                <button class="btn btn-md btn-primary">Charger fichier</button>
+                {{ form_end(registerForm) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
