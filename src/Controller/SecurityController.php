@@ -151,9 +151,6 @@ class SecurityController extends AbstractController
         $registerForm = $this->createForm(UserByAdminType::class, $user);
         $registerForm->handleRequest($request);
 
-        //form for user via file
-
-
         if($registerForm->isSubmitted() && $registerForm->isValid()){
 
             $year = new \DateTime();
@@ -193,6 +190,6 @@ class SecurityController extends AbstractController
         return $this->render('security/register.html.twig', [
             'registerForm' => $registerForm->createView()
         ]);
-    }
 
+    }
 }
