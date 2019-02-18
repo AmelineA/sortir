@@ -116,7 +116,8 @@ class AdminController extends AbstractController
 
 
     /**
-     * @Route("/Liste-utilisateurs", name="show_list_of_users", methods={"GET", "POST"})
+     * @IsGranted("ROLE_ADMIN")
+     * @Route("/Liste-utilisateurs", name="show_list_of_users")
      */
     public function showUsers()
     {
@@ -128,5 +129,33 @@ class AdminController extends AbstractController
         ]);
     }
 
+    /**
+     * @IsGranted("ROLE_ADMIN")
+     * @Route("/desactiver-utilisateur/{userId}", name="deactivate_user")
+     */
+    public function deactivateUser($userId)
+    {
+        $em=$this->getDoctrine()->getManager();
+        $userRepo=$em->getRepository(User::class);
+        $user=$userRepo->find($userId);
+        $user->setActivated(false);
+        $em->persist($user);
+        $em->flush();
+        return $this->redirectToRoute('show_list_of_users');
+    }
 
+    /**
+     * @IsGranted("ROLE_ADMIN")
+     * @Route("/reactiver-utilisateur/{userId}", name="reactivate_user")
+     */
+    public function reactivateUser($userId)
+    {
+        $em=$this->getDoctrine()->getManager();
+        $userRepo=$em->getRepository(User::class);
+        $user=$userRepo->find($userId);
+        $user->setActivated(true);
+        $em->persist($user);
+        $em->flush();
+        return $this->redirectToRoute('show_list_of_users');
+    }
 }

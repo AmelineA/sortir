@@ -30,9 +30,9 @@
             <td> {{ user.activated }} </td>
             <td> {{ user.site.name }} </td>
             {% if user.activated is same as(true) %}
-                <td><a href="#" class="nav-link">Désactiver</a></td>
+                <td><a href="{{ path('deactivate_user', {'userId':user.id}) }}" class="nav-link">Désactiver</a></td>
             {% else %}
-                <td><a href="#" class="nav-link">Réactiver</a></td>
+                <td><a href="{{ path('reactivate_user', {'userId':user.id}) }}" class="nav-link">Réactiver</a></td>
             {% endif %}
         </tr>
     {% endfor %}
