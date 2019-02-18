@@ -1,26 +1,30 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ parent() }}Connexion{% endblock %}
+{% block title %}{{ parent() }}Profil{% endblock %}
 
 {% block content %}
 
-    <div class="show-profil-flex-container">
-        <div class="show-profile-title">
-            <h2>Profil de {{ user.username }}</h2>
-        </div>
-        <div class="show-profil-content-container">
-            <div class="photo col-3">
+    <div class="container">
+        <h2>Profil de {{ user.username }}</h2>
+        <div class="row">
+            <div><!--col left-->
                 <img src="" alt="profile photo">
-            </div>
-            <div class="show-profil-details col-9">
-                <div class="row"><label class="">Prénom </label><p class="form-control col-10"> {{ user.firstName }}</p></div>
-                <div class="row"><label>Nom  </label><p class="form-control col-10"> {{ user.name }}</p></div>
-                <div class="row"><label>Téléphone  </label><p class="form-control col-10"> {{ user.telephone }}</p></div>
-                <div class="row"><label>Email  </label><p class="form-control col-10"> {{ user.email }}</p></div>
-                <div class="row"><label>Ville de rattachement </label><p class="form-control col-10"> {{ user.site.name }}</p></div>
-            </div>
-        </div>
-    </div>
+            </div><!--col left-->
 
-        <a href="javascript:history.go(-1)"><button type="button" >Retour</button></a>
+            <div><!--col right-->
+                <label class="">Prénom</label>
+                <p class=""> {{ user.firstName }}</p>
+                <label>Nom</label>
+                <p class=""> {{ user.name }}</p>
+                <label>Téléphone</label>
+                <p class=""> {{ user.telephone }}</p>
+                <label>Email</label>
+                <p class=""> {{ user.email }}</p>
+                <label>Ville de rattachement</label>
+                <p class=""> {{ user.site.name }}</p>
+                    <a href="javascript:history.go(-1)"><button type="button" >Retour</button></a>
+            </div><!--col right-->
+        </div><!--row-->
+    </div><!--container-->
+
 {% endblock %}
