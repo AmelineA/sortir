@@ -123,6 +123,11 @@ class User implements UserInterface
      */
     private $profilePictureName;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $resetPassword;
+
 
 
 
@@ -385,6 +390,18 @@ class User implements UserInterface
     public function setProfilePictureName($profilePictureName): self
     {
         $this->profilePictureName = $profilePictureName;
+
+        return $this;
+    }
+
+    public function getResetPassword(): ?string
+    {
+        return $this->resetPassword;
+    }
+
+    public function setResetPassword(?string $resetPassword): self
+    {
+        $this->resetPassword = $resetPassword;
 
         return $this;
     }
