@@ -50,25 +50,25 @@ class EventController extends AbstractController
     /**
      * Sign on a user to an event if the user is connected,
      * if the inscriptions for this event are opened,
-     * if user is not already signed on
+     * if user has not already signed on
      *
      * @IsGranted("ROLE_USER")
      * @Route(
-     *     "/s'inscrire/{idEvent}",
+     *     "/s'inscrire/{eventId}",
      *     name="sign_on_to_event")
-     * @param $idEvent
+     * @param $eventId
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function signOnToEvent($idEvent)
+    public function signOnToEvent($eventId)
     {
         $em = $this->getDoctrine()->getManager();
         $eventRepo = $em->getRepository(Event::class);
-        $event = $eventRepo->find($idEvent);
+        $event = $eventRepo->find($eventId);
         $nb=count($event->getParticipants());
 
         if(!empty($this->getUser()) && $nb < $event->getMaxNumber()){
             $user = $this->getUser();
-            $alreadySignedOn = $eventRepo->alreadySignedOn($user, $idEvent);
+            $alreadySignedOn = $eventRepo->alreadySignedOn($user, $eventId);
             if($event->getState()==='ouvert'){
                 if(empty($alreadySignedOn)){
                     $event->addParticipant($this->getUser());
@@ -93,17 +93,17 @@ class EventController extends AbstractController
      *
      * @IsGranted("ROLE_USER")
      * @Route(
-     *     "/se-désister/{idEvent}",
+     *     "/se-désister/{eventId}",
      *     name="withdraw_event")
-     * @param $idEvent
+     * @param $eventId
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      * @throws \Exception
      */
-    public function withdraw($idEvent)
+    public function withdraw($eventId)
     {
         $em = $this->getDoctrine()->getManager();
         $eventRepo = $em->getRepository(Event::class);
-        $event = $eventRepo->find($idEvent);
+        $event = $eventRepo->find($eventId);
 
         $now = new \DateTime();
 
@@ -125,18 +125,18 @@ class EventController extends AbstractController
      *
      * @IsGranted("ROLE_USER")
      * @Route(
-     *     "/modifier-une-sortie/{idEvent}",
-     *     name="modify-event",
+     *     "/modifier-une-sortie/{eventId}",
+     *     name="modify_event",
      *     methods={"GET", "POST"}
      * )
-     * @param $idEvent
+     * @param $eventId
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function modifiyEvent($idEvent, Request $request)
+    public function modifiyEvent($eventId, Request $request)
     {
         $user=$this->getUser();
         $em = $this->getDoctrine()->getRepository(Event::class);
-        $event = $em->find($idEvent);
+        $event = $em->find($eventId);
         $eventForm=$this->createForm(EventType::class, $event);
 
         $eventForm->handleRequest($request);
@@ -161,18 +161,18 @@ class EventController extends AbstractController
      *
      * @IsGranted("ROLE_USER")
      * @Route(
-     *     "/annuler-une-sortie/{idEvent}",
-     *     name="cancel-event",
+     *     "/annuler-une-sortie/{eventId}",
+     *     name="cancel_event",
      *     methods={"GET", "POST"}
      * )
-     * @param $idEvent
+     * @param $eventId
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function cancelEvent($idEvent, Request $request)
+    public function cancelEvent($eventId, Request $request)
     {
         $user=$this->getUser();
         $em = $this->getDoctrine()->getRepository(Event::class);
-        $event = $em->find($idEvent);
+        $event = $em->find($eventId);
 
         if($_POST){
 

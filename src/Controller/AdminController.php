@@ -18,6 +18,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 
 /**
+ * @IsGranted("ROLE_ADMIN")
  * Class AdminController
  * @package App\Controller
  */
@@ -70,16 +71,18 @@ class AdminController extends AbstractController
             $em->persist($user);
             $em->flush();
 
-            //send an email with informations to connect
-            $message = new \Swift_Message();
-            $message->setTo($user->getEmail())
-                ->setSubject("Votre inscription")
-                ->setFrom("ameline.aubin2018@campus-eni.fr")
-                ->setBody($this->renderView('email.html.twig', [
-                    'username' => $username,
-                    'password' => $password
-                ]));
-            $swift_Mailer->send($message);
+            //send an email with information to connect
+//            $message = new \Swift_Message();
+//            $message->setTo($user->getEmail())
+//                ->setSubject("Votre inscription")
+//                ->setFrom("ameline.aubin2018@campus-eni.fr")
+//                ->setBody($this->renderView('email.html.twig', [
+//                    'username' => $username,
+//                    'password' => $password
+//                ]));
+//            $swift_Mailer->send($message);
+
+            $userImportManager->sendEmail($swift_Mailer, $user);
 
             $this->addFlash('success', "Un nouvel utilisateur a été inscrit");
 
@@ -99,11 +102,11 @@ class AdminController extends AbstractController
                 //converting the file content to an object array of String
                 $usersArray=$csvToArray->convert($csvPath, ',');
                 //importing the content of the array to the database
-                $userImportManager->importUsers($usersArray, $encoder);
+                $userImportManager->importUsers($usersArray, $encoder, $swift_Mailer);
 
             }
 
-            $this->addFlash("success", 'Votre compte a bien été modifié ! ');
+            $this->addFlash("success", 'Les utilisateurs ont bien été créés ! ');
             return $this->redirectToRoute('home');
         }
 
@@ -117,7 +120,7 @@ class AdminController extends AbstractController
 
     /**
      * @IsGranted("ROLE_ADMIN")
-     * @Route("/Liste-utilisateurs", name="show_list_of_users")
+     * @Route("/liste-utilisateurs", name="show_list_of_users")
      */
     public function showUsers()
     {
@@ -139,6 +142,7 @@ class AdminController extends AbstractController
         $userRepo=$em->getRepository(User::class);
         $user=$userRepo->find($userId);
         $user->setActivated(false);
+        $user->setRoles([]);
         $em->persist($user);
         $em->flush();
         return $this->redirectToRoute('show_list_of_users');
@@ -154,8 +158,32 @@ class AdminController extends AbstractController
         $userRepo=$em->getRepository(User::class);
         $user=$userRepo->find($userId);
         $user->setActivated(true);
+        $user->setRoles([]);
         $em->persist($user);
         $em->flush();
+        return $this->redirectToRoute('show_list_of_users');
+    }
+
+
+    /**
+     * @IsGranted("ROLE_ADMIN")
+     * @Route("supprimer-utilisateur/{userId}", name="delete_user")
+     * @param $userId
+     * @return string|\Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function deleteUser($userId)
+    {
+        $userRepo=$this->getDoctrine()->getRepository(User::class);
+        $user=$userRepo->find($userId);
+
+        if ($user!==null){
+            $em=$this->getDoctrine()->getManager();
+            $em->remove($user);
+            $em->flush();
+            $this->addFlash('success', "L'utilisateur a bien été supprimé !");
+        }else{
+            return "can't find user";
+        }
         return $this->redirectToRoute('show_list_of_users');
     }
 }

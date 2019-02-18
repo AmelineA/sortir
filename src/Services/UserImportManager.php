@@ -15,6 +15,8 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
+
+
 class UserImportManager
 {
 
@@ -30,7 +32,7 @@ class UserImportManager
     }
 
 
-    public function importUsers($users, UserPasswordEncoderInterface $encoder)
+    public function importUsers($users, UserPasswordEncoderInterface $encoder, \Swift_Mailer $swift_Mailer)
     {
 
         foreach($users as $u){
@@ -66,10 +68,26 @@ class UserImportManager
             $user->setUsername($username);
 
             $this->em->persist($user);
+            $this->sendEmail($swift_Mailer, $user);
         }
 
         $this->em->flush();
 
         return new Response('Users imported');
+    }
+
+
+    //send an email with information to connect
+    public function sendEmail(\Swift_Mailer $swift_Mailer, User $currentUser)
+    {
+        $message = new \Swift_Message();
+        $message->setTo($currentUser->getEmail())
+            ->setSubject("Votre inscription")
+            ->setFrom("ameline.aubin2018@campus-eni.fr")
+            ->setBody($this->renderView('email.html.twig', [
+                'username' => $currentUser->getUsername(),
+                'password' => $currentUser->getPassword(),
+            ]));
+        $swift_Mailer->send($message);
     }
 }

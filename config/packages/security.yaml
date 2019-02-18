@@ -41,4 +41,4 @@ security:
     access_control:
 #         - { path: ^/admin, roles: ROLE_ADMIN }
 #         - { path: ^/mon-profil, roles: ROLE_USER }
-#         - { path: ^/créer-une-vente, roles: ROLE_USER }
+#         - { path: ^/créer-une-sortie, roles: ROLE_USER }

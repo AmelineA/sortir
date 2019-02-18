@@ -34,6 +34,7 @@
             {% else %}
                 <td><a href="{{ path('reactivate_user', {'userId':user.id}) }}" class="nav-link">Réactiver</a></td>
             {% endif %}
+            <td><a href="{{ path('delete_user', {'userId':user.id}) }}" class="nav-link">Supprimer</a></td>
         </tr>
     {% endfor %}
     </tbody>
