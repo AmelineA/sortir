@@ -9,10 +9,13 @@
 namespace App\Services;
 
 
+use App\Entity\Site;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+
+
 
 class UserImportManager
 {
@@ -29,7 +32,7 @@ class UserImportManager
     }
 
 
-    public function importUsers($users, UserPasswordEncoderInterface $encoder)
+    public function importUsers($users, UserPasswordEncoderInterface $encoder, \Swift_Mailer $swift_Mailer)
     {
 
         foreach($users as $u){
@@ -37,13 +40,17 @@ class UserImportManager
 
             $year = new \DateTime();
 
-            $user->setRoles($u["roles"]);
+//            $user->setRoles($u["roles"]);
             $user->setName($u["name"]);
             $user->setFirstName($u["first_name"]);
             $user->setTelephone($u["telephone"]);
             $user->setEmail($u["email"]);
             $user->setActivated($u["activated"]);
-            $user->setSite($u["site_id"]);
+
+            $siteRepo=$this->em->getRepository(Site::class);
+            $site=$siteRepo->find($u["site_id"]);
+  //          dd($site);
+            $user->setSite($site);
             $user->setProfilePictureName(null);
 
 
@@ -61,10 +68,26 @@ class UserImportManager
             $user->setUsername($username);
 
             $this->em->persist($user);
+            $this->sendEmail($swift_Mailer, $user);
         }
 
         $this->em->flush();
 
         return new Response('Users imported');
+    }
+
+
+    //send an email with information to connect
+    public function sendEmail(\Swift_Mailer $swift_Mailer, User $currentUser)
+    {
+        $message = new \Swift_Message();
+        $message->setTo($currentUser->getEmail())
+            ->setSubject("Votre inscription")
+            ->setFrom("ameline.aubin2018@campus-eni.fr")
+            ->setBody($this->renderView('email.html.twig', [
+                'username' => $currentUser->getUsername(),
+                'password' => $currentUser->getPassword(),
+            ]));
+        $swift_Mailer->send($message);
     }
 }

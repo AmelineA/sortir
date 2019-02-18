@@ -19,8 +19,9 @@
                 <a href="{{ path('home') }}" class="nav-link">Accueil</a>
                 {% if is_granted('ROLE_ADMIN') %}
                     <a href="{{ path('app_register') }}" class="nav-link">Ajouter un utilisateur</a>
-                    <a href="{{ path('app_logout') }}" class="nav-link">Se déconnecter</a>
-                {% elseif is_granted('ROLE_USER') %}
+                    <a href="{{ path('show_list_of_users') }}" class="nav-link">Voir la liste des utilisateurs</a>
+                {% endif %}
+                {% if is_granted('ROLE_USER') %}
                     <a href="{{ path('app_my_profile') }}" class="nav-link">Mon Profil</a>
                     <a href="{{ path('create_event') }}" class="nav-link">Créer une sortie</a>
                     <a href="{{ path('app_logout') }}" class="nav-link">Se déconnecter</a>

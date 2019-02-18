@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Entity\CsvFile;
 use App\Form\UserByAdminType;
 use App\Form\UserByFileType;
 use App\Form\UserType;
@@ -58,14 +59,12 @@ class SecurityController extends AbstractController
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
-    public function updateMyProfile(UserPasswordEncoderInterface $encoder, Request $request, FileUploader $fileUploader )
+    public function updateMyProfile(UserPasswordEncoderInterface $encoder, Request $request)
     {
-        $fileUploader=new FileUploader('%kernel.project_dir%/public/img/profile-pictures');
+        $fileUploader=new FileUploader('profile-pictures');
         $currentUser = $this->getUser();
-
         $registerForm = $this->createForm(UserType::class, $currentUser);
         $registerForm->handleRequest($request);
-
         if($registerForm->isSubmitted() && $registerForm->isValid()){
 
             $password = $currentUser->getPassword();
@@ -99,27 +98,28 @@ class SecurityController extends AbstractController
 
     }
 
-    /**
-     * @Route("/profil/{id}",
-     *     name="show_profile",
-     *     requirements={"id"="\d+"})
-     * @param $id
-     * @return Response
-     */
-    public function showProfile($id)
-    {
-        $em=$this->getDoctrine()->getRepository(User::class);
-        $user = $em->find($id);
-        return $this->render('app/show-profile.html.twig', [
-           'user'=>$user
-        ]);
-    }
+//    /**
+//     * @Route("/profil/{id}",
+//     *     name="show_profile",
+//     *     requirements={"id"="\d+"})
+//     * @param $id
+//     * @return Response
+//     */
+//    public function showProfile($id)
+//    {
+//        $em=$this->getDoctrine()->getRepository(User::class);
+//        $user = $em->find($id);
+//        return $this->render('app/show-profile.html.twig', [
+//            'user'=>$user
+//        ]);
+//    }
 
 
 
 
     /**
      * allow a user registration manually by an admin
+     * allow a csvimport by an admin
      * @IsGranted("ROLE_ADMIN")
      * @Route("/inscrire-utilisateur",
      *     name="app_register",
@@ -130,13 +130,20 @@ class SecurityController extends AbstractController
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      * @throws \Exception
      */
-    public function registerUser(UserPasswordEncoderInterface $encoder, Request $request, \Swift_Mailer $swift_Mailer)
+    public function registerUser(UserPasswordEncoderInterface $encoder, Request $request, \Swift_Mailer $swift_Mailer, UserImportManager $userImportManager, ConvertCsvToArray $csvToArray)
     {
-        //form for user manually
         $user = new User();
+        $csvFile= new CsvFile();
+//die();    OK
+        //form for user manually
         $registerForm = $this->createForm(UserByAdminType::class, $user);
         $registerForm->handleRequest($request);
-
+//die();        OK
+        //form for csv files
+        $fileUploader=new FileUploader('CSVusers');
+        $csvForm=$this->createForm(UserByFileType::class, $csvFile);
+        $csvForm->handleRequest($request);
+//die();
         if($registerForm->isSubmitted() && $registerForm->isValid()){
 
             $year = new \DateTime();
@@ -160,12 +167,12 @@ class SecurityController extends AbstractController
             //send an email with informations to connect
             $message = new \Swift_Message();
             $message->setTo($user->getEmail())
-                    ->setSubject("Votre inscription")
-                    ->setFrom("ameline.aubin2018@campus-eni.fr")
-                    ->setBody($this->renderView('email.html.twig', [
-                        'username' => $username,
-                        'password' => $password
-                    ]));
+                ->setSubject("Votre inscription")
+                ->setFrom("ameline.aubin2018@campus-eni.fr")
+                ->setBody($this->renderView('email.html.twig', [
+                    'username' => $username,
+                    'password' => $password
+                ]));
             $swift_Mailer->send($message);
 
             $this->addFlash('success', "Un nouvel utilisateur a été inscrit");
@@ -173,50 +180,38 @@ class SecurityController extends AbstractController
             return $this->redirectToRoute('app_register');
         }
 
-        return $this->render('security/register.html.twig', [
-            'registerForm' => $registerForm->createView()
-        ]);
-
-    }
-
-
-    /**
-     * allow a csvimport by an admin
-     * @IsGranted("ROLE_ADMIN")
-     * @Route("/importer-fichier-csv",
-     *     name="app_import_csv",
-     *     methods={"GET", "POST"})
-     */
-    public function importCSVFile(Request $request, UserPasswordEncoderInterface $encoder, UserImportManager $userImportManager, ConvertCsvToArray $csvToArray)
-    {
-        $user= new User();
-        $fileUploader=new FileUploader('%kernel.project_dir%/public/CSVusers');
-
-        $csvForm=$this->createForm(UserByFileType::class, $user);
-        $csvForm->handleRequest($request);
-
         if($csvForm->isSubmitted() && $csvForm->isValid()) {
 
-            if(null!==$csvForm->get("csvFile")->getData()){
+            if(null!==$csvForm->get("csvFileName")->getData()){
 
-                //récupération du fichier
+                //getting the file
                 $csvFile = $csvForm->get("csvFileName")->getData();
-                //construction du nom de fichier unique avec l'extension réelle du fichier
+                //building a unique file name with the real file extension
                 $csvFileName=$fileUploader->upload($csvFile);
-
-                $usersArray=$csvToArray->convert($csvFileName, ',');
-
+//                dd($csvFileName);
+                $csvPath=$fileUploader->getTargetDirectory()."/".$csvFileName;
+//                dd($csvPath);
+                //converting the file content to an object array of String
+                $usersArray=$csvToArray->convert($csvPath, ',');
+//                dd($usersArray);
+                //importing the content of the array to the database
                 $userImportManager->importUsers($usersArray, $encoder);
+//                die();
 
             }
 
             $this->addFlash("success", 'Votre compte a bien été modifié ! ');
             return $this->redirectToRoute('home');
         }
+
         return $this->render('security/register.html.twig', [
+            'registerForm' => $registerForm->createView(),
             'csvForm'=>$csvForm->createView()
         ]);
+
     }
+
+
 }
 
 

@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AdminController!{% endblock %}
+
+{% block content %}
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Username</th>
+            <th>Roles</th>
+            <th>Nom</th>
+            <th>Prénom</th>
+            <th>Téléphone</th>
+            <th>Email</th>
+            <th>Actif</th>
+            <th>Site</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for user in users %}
+        <tr>
+            <td><a href="{{ path('show_profile', {'id':user.id}) }}">{{ user.username }}</a></td>
+            <td> {{ user.roles[0] }}</td>
+            <td> {{ user.name }}</td>
+            <td> {{ user.firstName }} </td>
+            <td> {{ user.telephone }} </td>
+            <td> {{ user.email }} </td>
+            <td> {{ user.activated }} </td>
+            <td> {{ user.site.name }} </td>
+            {% if user.activated is same as(true) %}
+                <td><a href="{{ path('deactivate_user', {'userId':user.id}) }}" class="nav-link">Désactiver</a></td>
+            {% else %}
+                <td><a href="{{ path('reactivate_user', {'userId':user.id}) }}" class="nav-link">Réactiver</a></td>
+            {% endif %}
+            <td><a href="{{ path('delete_user', {'userId':user.id}) }}" class="nav-link">Supprimer</a></td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+
+{% endblock %}

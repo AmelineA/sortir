@@ -42,4 +42,4 @@ security:
 #         - { path: ^/public, roles: ROLE_USER }
 #         - { path: ^/public, roles: ROLE_FORBIDDEN }
 #         - { path: ^/mon-profil, roles: ROLE_USER }
-#         - { path: ^/créer-une-vente, roles: ROLE_USER }
+#         - { path: ^/créer-une-sortie, roles: ROLE_USER }
