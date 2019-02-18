@@ -4,6 +4,9 @@
 
 
 /***********************************GENERAL***************************************/
+* {
+    box-sizing: border-box;
+}
 body{
     font-family: Nunito, sans-serif;
     background-color: #002439;
@@ -43,6 +46,9 @@ a:hover{
     color: #78cce2;
 }
 
+.row{
+    padding: 0;
+}
 /***********************************HEADER***************************************/
 
 

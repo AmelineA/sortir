@@ -77,9 +77,21 @@ class FixturesCommand extends Command
         $defaultUser->setTelephone('0101010101');
         $defaultUser->setPassword($this->encoder->encodePassword($defaultUser, $defaultUser->getUsername()));
         $defaultUser->setActivated(true);
-        $defaultUser->setRoles(['ROLE_ADMIN']);
         $allUser[] = $defaultUser;
         $this->em->persist($defaultUser);
+
+        $adminUser = new User();
+        $adminUser->setUsername('admin');
+        $adminUser->setName('admin');
+        $adminUser->setFirstName('admin');
+        $adminUser->setEmail('admin@email.fr');
+        $adminUser->setSite($faker->randomElement($allSites));
+        $adminUser->setTelephone('0101010101');
+        $adminUser->setPassword($this->encoder->encodePassword($adminUser, $adminUser->getUsername()));
+        $adminUser->setActivated(true);
+        $adminUser->setRoles(['ROLE_ADMIN']);
+        $allUser[] = $adminUser;
+        $this->em->persist($adminUser);
 
         for ($i=0;$i<30; $i++){
             $user = new User();

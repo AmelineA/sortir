@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" lang="fr">
+        <title>{% block title %}Sortir.com{% endblock %}</title>
+    </head>
+    <body style="font-family: sans-serif">
+        <h2>Confirmation de votre inscription</h2>
+
+        <p>Voici vos identifiants pour vous connectez sur le site <a href="{{ path('home') }}">Sortir.com</a></p>
+        <div style="text-align: center; width: 25%">
+            <p>Identifiant: {{ username }}</p>
+            <p>Mot de passe: {{ password }}</p>
+        </div>
+    </body>
+</html>

@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\UserByAdminType;
 use App\Form\UserType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -137,20 +138,34 @@ class SecurityController extends AbstractController
      * @Route("/inscrire-utilisateur",
      *     name="app_register",
      *     methods={"GET", "POST"})
+     * @param UserPasswordEncoderInterface $encoder
      * @param Request $request
+     * @param \Swift_Mailer $swift_Mailer
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     * @throws \Exception
      */
     public function registerUser(UserPasswordEncoderInterface $encoder, Request $request, \Swift_Mailer $swift_Mailer)
     {
+        //form for user manually
         $user = new User();
-        $registerForm = $this->createForm(UserType::class, $user);
+        $registerForm = $this->createForm(UserByAdminType::class, $user);
         $registerForm->handleRequest($request);
 
         if($registerForm->isSubmitted() && $registerForm->isValid()){
 
-            $password = $user->getPassword();
+            $year = new \DateTime();
+            //generate a username with the first letter of the name, the firstname and the year of inscription
+            $usernameName = substr(strtolower($user->getFirstName()), 0, 1);
+            $usernameFName = strtolower($user->getName());
+            $username = $usernameName.$usernameFName.$year->format("Y");
+            //generate a password with the 2 first letters of the name, the first name and the year of inscription
+            $passwordName = substr($user->getName(), 0, 2);
+            $passwordFName = substr($user->getFirstName(), 0, 2);
+            $password = $passwordName.$passwordFName.$year->format("Y");
             $hash = $encoder->encodePassword($user, $password);
+
             $user->setPassword($hash);
+            $user->setUsername($username);
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
@@ -161,12 +176,18 @@ class SecurityController extends AbstractController
             $message->setTo($user->getEmail())
                     ->setSubject("Votre inscription")
                     ->setFrom("ameline.aubin2018@campus-eni.fr")
-                    ->setBody("mail");
+                    ->setBody($this->renderView('email.html.twig', [
+                        'username' => $username,
+                        'password' => $password
+                    ]));
             $swift_Mailer->send($message);
-            return $this->redirectToRoute('home');
+
+            $this->addFlash('success', "Un nouvel utilisateur a été inscrit");
+
+            return $this->redirectToRoute('app_register');
         }
 
-        return $this->render('myprofile.html.twig', [
+        return $this->render('security/register.html.twig', [
             'registerForm' => $registerForm->createView()
         ]);
 
