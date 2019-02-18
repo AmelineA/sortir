@@ -83,16 +83,10 @@ table{
 }
 
 .right{
-   /* display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    justify-content: center;*/
     padding: 0;
 }
 
 .home-header{
-    /*display: flex;
-    flex-wrap: wrap;*/
     padding: 0;
 }
 #welcome{
@@ -202,56 +196,16 @@ table{
 #event-details p{
     margin-left: 10px;
 }
-/*************************************TWIG show-profile******************************/
-.show-profil-flex-container{
-    /*display: flex;
-    flex-direction: column;*/
-    width: 80vh;
+/*************************************profile******************************/
+.profile-img{
+    margin-top: 15px;
+    height: 20vh;
 }
-.show-profile-title{
-    /*display: flex;
-    justify-content: center;*/
+.profile-info{
+    margin: 10px;
 }
-.show-profil-content-container{
-   /* display: flex;
-    flex-wrap: wrap;*/
-}
-.show-profil-content-container img{
-    height: 100px;
-    width: 100px;
-}
-.show-profil-details label{
+.form-group label{
     color: #78cce2 ;
-    margin-right: 5px;
-}
-/****************************TWIG my-profil*******************************************/
-.my-profil-flex-container{
-    /*display: flex;
-    flex-direction: column;*/
-    width: 80vh;
-}
-.my-profil-title {
-  /*  display: flex;
-    justify-content: center;*/
-}
-.my-profil-content-container{
-    /*display: flex;
-    flex-wrap: wrap;*/
-}
-
-.my-profil-content-container img{
-    height: 100px;
-    width: 100px;
-}
-.my-profil-details form label{
-    margin-right: 5px;
-}
-#user_profilePictureName{
-    background-color: #002439 ;
-    border: none;
-}
-.my-profil-details form button{
-    /*justify-content: right;*/
 }
 /***********************************FOOTER***************************************/
 footer{

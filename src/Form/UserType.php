@@ -37,35 +37,35 @@ class UserType extends AbstractType
                 'label'=>'Pseudo',
                 'attr'=>[
                     'placeholder'=>'ex:yoyo44',
-                    'class'=>'form-control col-10'
+                    'class'=>''
                 ]
             ])
             ->add('name', TextType::class, [
                 'label'=>'Nom',
                 'attr'=>[
                     'placeholder'=>'Mon nom',
-                    'class'=>'form-control col-10'
+                    'class'=>''
                 ]
             ])
             ->add('firstName', TextType::class, [
                 'label'=>'Prénom',
                 'attr'=>[
                     'placeholder'=>'Mon Prénom',
-                    'class'=>'form-control col-10'
+                    'class'=>''
                 ]
             ])
             ->add('telephone', TextType::class, [
                 'label'=>'Téléphone',
                 'attr'=>[
                     'placeholder'=>'ex : 0699999999',
-                    'class'=>'form-control col-10'
+                    'class'=>''
                 ]
             ])
             ->add('email', TextType::class, [
                 'label'=>'Email',
                 'attr'=>[
                     'placeholder'=>'ex : monEmail@Email.com',
-                    'class'=>'form-control col-10'
+                    'class'=>''
                 ]
             ])
         //TODO: gérer l'affichage de site selon si on appelle le form depuis updateMyProfile ou de registerUser
@@ -73,14 +73,14 @@ class UserType extends AbstractType
                 'choices'=> $sites,
                 'label'=>'Site',
                 'attr'=>[
-                    'class'=>'form-control col-10'
+                    'class'=>''
                 ]
             ])
             ->add('password', PasswordType::class, [
                 'label'=>'Mot de passe',
                 'attr'=>[
                     'placeholder'=>'ex: K!4851o$',
-                    'class'=>'form-control col-10'
+                    'class'=>''
                 ]
             ])
             ->add('profilePictureName', FileType::class, [
@@ -88,7 +88,7 @@ class UserType extends AbstractType
                 'required'=>false,
                 'data_class'=>null,
                 'attr'=>[
-                    'class'=> 'form-control col-10',
+                    'class'=> '',
                     'value'=>'choisir une photo'
                 ]
             ])
