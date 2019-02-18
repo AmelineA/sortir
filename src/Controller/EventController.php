@@ -193,6 +193,7 @@ class EventController extends AbstractController
             'event'=>$event
         ]);
     }
+
     /**
      *
      * @IsGranted("ROLE_USER")

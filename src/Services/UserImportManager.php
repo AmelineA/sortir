@@ -9,6 +9,7 @@
 namespace App\Services;
 
 
+use App\Entity\Site;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
@@ -37,13 +38,17 @@ class UserImportManager
 
             $year = new \DateTime();
 
-            $user->setRoles($u["roles"]);
+//            $user->setRoles($u["roles"]);
             $user->setName($u["name"]);
             $user->setFirstName($u["first_name"]);
             $user->setTelephone($u["telephone"]);
             $user->setEmail($u["email"]);
             $user->setActivated($u["activated"]);
-            $user->setSite($u["site_id"]);
+
+            $siteRepo=$this->em->getRepository(Site::class);
+            $site=$siteRepo->find($u["site_id"]);
+  //          dd($site);
+            $user->setSite($site);
             $user->setProfilePictureName(null);
 
 

@@ -6,117 +6,23 @@ use App\Entity\User;
 use App\Entity\CsvFile;
 use App\Form\UserByAdminType;
 use App\Form\UserByFileType;
-use App\Form\UserType;
 use App\Services\ConvertCsvToArray;
 use App\Services\FileUploader;
 use App\Services\UserImportManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
-use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
-class SecurityController extends AbstractController
+
+/**
+ * Class AdminController
+ * @package App\Controller
+ */
+class AdminController extends AbstractController
 {
-
-
-    /**
-     * @Route(
-     *     "/logout",
-     *     name="app_logout")
-     */
-    public function logout(){}
-
-
-    /**
-     * @Route(
-     *     "/",
-     *     name="app_login")
-     * @param AuthenticationUtils $authenticationUtils
-     * @return Response
-     */
-    public function login(AuthenticationUtils $authenticationUtils): Response
-    {
-        // get the login error if there is one
-        $error = $authenticationUtils->getLastAuthenticationError();
-        // last username entered by the user
-        $lastUsername = $authenticationUtils->getLastUsername();
-
-        return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
-    }
-
-    /**
-     * @Route(
-     *     "/mon-profil",
-     *     name="app_my_profile",
-     *     methods={"GET", "POST"}
-     *     )
-     * @param UserPasswordEncoderInterface $encoder
-     * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
-     */
-    public function updateMyProfile(UserPasswordEncoderInterface $encoder, Request $request)
-    {
-        $fileUploader=new FileUploader('profile-pictures');
-        $currentUser = $this->getUser();
-        $registerForm = $this->createForm(UserType::class, $currentUser);
-        $registerForm->handleRequest($request);
-        if($registerForm->isSubmitted() && $registerForm->isValid()){
-
-            $password = $currentUser->getPassword();
-            $hash = $encoder->encodePassword($currentUser, $password);
-            $currentUser->setPassword($hash);
-
-            //Si le user veut uploader
-            if(null!==$registerForm->get("profilePictureName")->getData()){
-                //Permet d'ajouter une photo
-                //TODO gérer la suppression des photos préexistantes. cf fichier pour uploader une photo, dans un des liens.
-                //récupération du fichier photo
-                $profilePicture = $registerForm->get("profilePictureName")->getData();
-                //construction du nom de fichier unique avec l'extension réelle du fichier + copie du fichier dans le directory
-                $profilePictureName=$fileUploader->upload($profilePicture);
-                // attribution du nom de fichier dans l'objet User
-                $currentUser->setProfilePictureName($profilePictureName);
-            }
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($currentUser);
-            $em->flush();
-
-            $this->addFlash("success", 'Votre compte a bien été modifié ! ');
-            return $this->redirectToRoute('home');
-        }
-
-
-        return $this->render('security/myprofile.html.twig',[
-          'registerForm'=>$registerForm->createView(),
-          'user'=>$currentUser
-        ]);
-
-    }
-
-//    /**
-//     * @Route("/profil/{id}",
-//     *     name="show_profile",
-//     *     requirements={"id"="\d+"})
-//     * @param $id
-//     * @return Response
-//     */
-//    public function showProfile($id)
-//    {
-//        $em=$this->getDoctrine()->getRepository(User::class);
-//        $user = $em->find($id);
-//        return $this->render('app/show-profile.html.twig', [
-//            'user'=>$user
-//        ]);
-//    }
-
-
-
-
     /**
      * allow a user registration manually by an admin
      * allow a csvimport by an admin
@@ -188,15 +94,12 @@ class SecurityController extends AbstractController
                 $csvFile = $csvForm->get("csvFileName")->getData();
                 //building a unique file name with the real file extension
                 $csvFileName=$fileUploader->upload($csvFile);
-//                dd($csvFileName);
                 $csvPath=$fileUploader->getTargetDirectory()."/".$csvFileName;
-//                dd($csvPath);
+
                 //converting the file content to an object array of String
                 $usersArray=$csvToArray->convert($csvPath, ',');
-//                dd($usersArray);
                 //importing the content of the array to the database
                 $userImportManager->importUsers($usersArray, $encoder);
-//                die();
 
             }
 
@@ -212,6 +115,18 @@ class SecurityController extends AbstractController
     }
 
 
+    /**
+     * @Route("/Liste-utilisateurs", name="show_list_of_users", methods={"GET", "POST"})
+     */
+    public function showUsers()
+    {
+        $userRepo=$this->getDoctrine()->getRepository(User::class);
+        $users=$userRepo->findAll();
+
+        return $this->render('admin/list-of-users.html.twig',[
+            'users'=>$users
+        ]);
+    }
+
+
 }
-
-

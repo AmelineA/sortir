@@ -16,30 +16,32 @@ class ConvertCsvToArray
     {
     }
 
-    public function convert($filename, $delimiter = ',')
+    public function convert($filePath, $delimiter = ',')
     {
-        if(!file_exists($filename) || !is_readable($filename)) {
-            return FALSE;
+//        dd($filePath);
+        if(!file_exists($filePath) ) {
+            return "existe pas";
+        }
+        if(!is_readable($filePath)) {
+            return "pas lisible";
         }
 
         $users=array();
         $row = 0;
 
-        if (($handle = fopen($filename, 'r')) !== FALSE) {
+        if (($handle = fopen($filePath, 'r')) !== FALSE) {
             while (($data = fgetcsv($handle, 1000, $delimiter)) !== FALSE) {
                 $num=count($data);
                 $row++;
                 for ($i=0; $i<$num; $i++){
                     $users[$row]= array(
-                        "username"=>$data[0],
-                        "roles"=>$data[1],
-                        "password"=>$data[2],
-                        "name"=>$data[3],
-                        "first_name"=>$data[4],
-                        "telephone"=>$data[5],
-                        "email"=>$data[6],
-                        "activated"=>$data[7],
-                        "site_id"=>$data[8],
+//                        "roles"=>$data[0],
+                        "name"=>$data[1],
+                        "first_name"=>$data[2],
+                        "telephone"=>$data[3],
+                        "email"=>$data[4],
+                        "activated"=>$data[5],
+                        "site_id"=>$data[6],
 
 
                     );
