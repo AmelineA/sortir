@@ -19,11 +19,12 @@ class UserByAdminType extends AbstractType
         $builder
             ->add('username', TextType::class, [
                 'label'=>'Pseudo',
+                'disabled' => true,
                 'attr'=>[
                     'placeholder'=>'ex:yoyo44'
                 ],
-                'empty_data' => "b",
-                'data' => "b"
+                'empty_data' => "Générer",
+                'data' => "Générer"
             ])
             ->add('name', TextType::class, [
                 'label'=>'Nom',
