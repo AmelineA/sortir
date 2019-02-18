@@ -22,7 +22,8 @@ class UserByAdminType extends AbstractType
                 'attr'=>[
                     'placeholder'=>'ex:yoyo44'
                 ],
-                'empty_data' => ""
+                'empty_data' => "b",
+                'data' => "b"
             ])
             ->add('name', TextType::class, [
                 'label'=>'Nom',

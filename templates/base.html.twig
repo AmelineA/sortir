@@ -8,9 +8,9 @@
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
         <link rel="stylesheet" href="{{ asset('fonts/fonts.css') }}">
     </head>
-    <body>
-        <header class="row col-sm-6 col-md-12 justify-content-between align-items-baseline">
-            <div id="site-title" >
+    <body class="container-fluid">
+        <header class="row justify-content-between align-items-baseline">
+            <div id="site-title" class="col-sm-12 col-md-5">
                 <a href="{{ path('home') }}"><img src="{{ asset('img/logo_sortir.png') }}" alt="logo site" class="align-baseline">
                     Sortir.com
                 </a>
@@ -30,7 +30,7 @@
             </nav>
         </header>
 
-        <main>
+        <main class="flex-grow-1">
             <!-- for Flash messages ...-->
             {% for label, messages in app.flashes %}
                 {% for message in messages %}
