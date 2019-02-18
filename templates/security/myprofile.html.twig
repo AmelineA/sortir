@@ -4,21 +4,23 @@
 
 {% block content %}
 
-    <div class="my-profil-flex-container">
-        <div class="my-profil-title">
-            <h2>Mon profil</h2>
-        </div>
-        <div class="my-profil-content-container">
-            <div class="photo col-3">
-                <img src="{{ asset('img/profile-pictures/') }}{{ user.profilePictureName }}" alt="ta photo, banane">
-            </div>
-            <div class="my-profil-details col-9">
-                {{ form_start(registerForm, {'attr':{'class':'col-sm-12', 'novalidate': 'novalidate'}}) }}
-                {{ form_widget(registerForm) }}
-                <button class="btn btn-md btn-primary">Enregistrer</button>
-                {{ form_end(registerForm) }}
-            </div>
-        </div>
-    </div>
+      <div class="container">
+          <h2 class="text-center">Mon profil</h2>
+
+          <div class="row">
+
+              <div class=""><!--col left-->
+                <img class="profile-img " src="{{ asset('img/profile-pictures/') }}{{ user.profilePictureName }}" alt="ta photo, banane">
+              </div><!--col left-->
+
+              <div class="profile-info "><!--col right-->
+                    {{ form_start(registerForm, {'attr':{'class':'', 'novalidate': 'novalidate'}}) }}
+                    {{ form_widget(registerForm) }}
+                    <button class="btn btn-md btn-primary">Enregistrer</button>
+                    {{ form_end(registerForm) }}
+              </div><!--col right-->
+
+          </div><!--row-->
+      </div><!--container-->
 
 {% endblock %}

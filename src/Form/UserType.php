@@ -20,37 +20,43 @@ class UserType extends AbstractType
             ->add('username', TextType::class, [
                 'label'=>'Pseudo',
                 'attr'=>[
-                    'placeholder'=>'ex:yoyo44'
+                    'placeholder'=>'ex:yoyo44',
+                    'class'=>'form-control col-10'
                 ]
             ])
             ->add('name', TextType::class, [
                 'label'=>'Nom',
                 'attr'=>[
-                    'placeholder'=>'Mon nom'
+                    'placeholder'=>'Mon nom',
+                    'class'=>'form-control col-10'
                 ]
             ])
             ->add('firstName', TextType::class, [
                 'label'=>'Prénom',
                 'attr'=>[
-                    'placeholder'=>'Mon Prénom'
+                    'placeholder'=>'Mon Prénom',
+                    'class'=>'form-control col-10'
                 ]
             ])
             ->add('telephone', TextType::class, [
                 'label'=>'Téléphone',
                 'attr'=>[
-                    'placeholder'=>'ex : 0699999999'
+                    'placeholder'=>'ex : 0699999999',
+                    'class'=>'form-control col-10'
                 ]
             ])
             ->add('email', TextType::class, [
                 'label'=>'Email',
                 'attr'=>[
-                    'placeholder'=>'ex : monEmail@Email.com'
+                    'placeholder'=>'ex : monEmail@Email.com',
+                    'class'=>'form-control col-10'
                 ]
             ])
             ->add('password', PasswordType::class, [
                 'label'=>'Mot de passe',
                 'attr'=>[
-                    'placeholder'=>'ex: K!4851o$'
+                    'placeholder'=>'ex: K!4851o$',
+                    'class'=>'form-control col-10'
                 ]
             ])
             ->add('profilePictureName', FileType::class, [
@@ -58,6 +64,7 @@ class UserType extends AbstractType
                 'required'=>false,
                 'data_class'=>null,
                 'attr'=>[
+                    'class'=> 'form-control col-10',
                     'value'=>'choisir une photo'
                 ]
             ])
