@@ -13,7 +13,7 @@ class UserByFileType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('csvFile', FileType::class, [
+            ->add('csvFileName', FileType::class, [
                 'label'=>'Importer un fichier CSV',
                 'required'=>false,
                 'data_class'=>null
