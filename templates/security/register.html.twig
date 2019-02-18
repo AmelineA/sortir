@@ -17,15 +17,15 @@
                 {{ form_end(registerForm) }}
             </div>
         </div>
-        <h3>Via ficher</h3>
+
+        <h3>Via fichier</h3>
         <div class="my-profil-content-container">
             <div class="my-profil-details col-9">
-                {{ form_start(registerForm, {'attr':{'class':'col-sm-12', 'novalidate': 'novalidate'}}) }}
-                {{ form_widget(registerForm) }}
-                <button class="btn btn-md btn-primary">Charger</button>
-                {{ form_end(registerForm) }}
+                {{ form_start(csvForm, {'attr':{'class':'col-sm-12', 'novalidate': 'novalidate'}}) }}
+                {{ form_widget(csvForm) }}
+                <button class="btn btn-md btn-primary">Charger fichier</button>
+                {{ form_end(csvForm) }}
             </div>
         </div>
     </div>
-
 {% endblock %}
