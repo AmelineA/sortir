@@ -16,7 +16,8 @@ class EmailResetType extends AbstractType
                 'label'=>'email',
                 'attr'=>[
                     'placeholder'=>'veuillez saisir votre email'
-                ]
+                ],
+                'empty_data'=> ""
             ])
         ;
     }

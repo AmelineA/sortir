@@ -25,6 +25,7 @@ class User implements UserInterface
     private $id;
 
     /**
+     * @Assert\NotBlank(message="Veuillez choisir un pseudo !")
      * @Assert\Length(
      *     min="3",
      *     max="180",
@@ -41,6 +42,7 @@ class User implements UserInterface
     private $roles = [];
 
     /**
+     * @Assert\NotBlank(message="Veuillez renseigner votre mot de passe !")
      * @var string The hashed password
      * @ORM\Column(type="string")
      */
@@ -78,7 +80,7 @@ class User implements UserInterface
      *     minMessage="le champ doit contenir 10 chiffres",
      *     maxMessage="le champ doit contenir 10 chiffres",
      * )
-     * @ORM\Column(type="string", length=10)
+     * @ORM\Column(type="string", length=10, nullable=true)
      */
     private $telephone;
 

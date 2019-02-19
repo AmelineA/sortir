@@ -59,8 +59,7 @@ class UserType extends AbstractType
                     'placeholder'=>'ex: K!4851o$'
                 ],
                 'empty_data' => "",
-                'constraints' => [new NotBlank(['message' => "Veuillez rensigner votre mot de passe!"])]
-
+                'constraints'=>[new NotBlank(['message'=>'Veuillez renseigner un identifiant'])]
             ])
             ->add('profilePictureName', FileType::class, [
                 'label'=>"Ma photo",

@@ -23,6 +23,8 @@ class EventType extends AbstractType
         $builder
             ->add('name',           TextType::class, [
                 'label'=>'La sortie',
+                'attr'=>['class'=>'form-control col-10'],
+                'empty_data'=> ""
             ])
             ->add('rdvTime',        DateTimeType::class, [
                 'label'=>'Le rendez-vous',
@@ -30,7 +32,9 @@ class EventType extends AbstractType
                 'data'=>new \DateTime('now')
             ])
             ->add('duration',       IntegerType::class, [
-                'label'=>'Durée'
+                'label'=>'Durée',
+                'attr'=>['class'=>'form-control col-10'],
+                'empty_data'=> ""
             ])
             ->add('signOnDeadline', DateTimeType::class, [
                 'label'=>'Date limite d\'inscription',
@@ -39,10 +43,14 @@ class EventType extends AbstractType
                 'data'=>new \DateTime('now')
             ])
             ->add('maxNumber',      IntegerType::class, [
-                'label'=>'Nombre maximal d\'inscrits'
+                'label'=>'Nombre maximal d\'inscrits',
+                'attr'=>['class'=>'form-control col-10'],
+                'empty_data'=> ""
             ])
             ->add('description',    TextType::class, [
-                'label'=>'Infos sortie'
+                'label'=>'Infos sortie',
+                'attr'=>['class'=>'form-control col-10'],
+                'empty_data'=> ""
             ])
         ;
     }

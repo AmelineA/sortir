@@ -37,31 +37,31 @@ class AdminController extends AbstractController
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      * @throws \Exception
      */
-    public function registerUser(UserPasswordEncoderInterface $encoder, Request $request, \Swift_Mailer $swift_Mailer, UserImportManager $userImportManager, ConvertCsvToArray $csvToArray)
+    public function registerUser(UserPasswordEncoderInterface $encoder, Request $request, \Swift_Mailer $mailer, UserImportManager $userImportManager, ConvertCsvToArray $csvToArray)
     {
         $user = new User();
-        $csvFile= new CsvFile();
+        $csvFile = new CsvFile();
 //die();    OK
         //form for user manually
         $registerForm = $this->createForm(UserByAdminType::class, $user);
         $registerForm->handleRequest($request);
 //die();        OK
         //form for csv files
-        $fileUploader=new FileUploader('CSVusers');
-        $csvForm=$this->createForm(UserByFileType::class, $csvFile);
+        $fileUploader = new FileUploader('CSVusers');
+        $csvForm = $this->createForm(UserByFileType::class, $csvFile);
         $csvForm->handleRequest($request);
 //die();
-        if($registerForm->isSubmitted() && $registerForm->isValid()){
+        if ($registerForm->isSubmitted() && $registerForm->isValid()) {
 
             $year = new \DateTime();
             //generate a username with the first letter of the name, the firstname and the year of inscription
             $usernameFName = substr(strtolower($user->getFirstName()), 0, 1);
             $usernameName = strtolower($user->getName());
-            $username = $usernameFName.$usernameName.$year->format("Y");
+            $username = $usernameFName . $usernameName . $year->format("Y");
             //generate a password with the 2 first letters of the name, the first name and the year of inscription
             $passwordName = substr($user->getName(), 0, 2);
             $passwordFName = substr($user->getFirstName(), 0, 2);
-            $password = $passwordName.$passwordFName.$year->format("Y");
+            $password = $passwordName . $passwordFName . $year->format("Y");
             $hash = $encoder->encodePassword($user, $password);
 
             $user->setPassword($hash);
@@ -72,37 +72,37 @@ class AdminController extends AbstractController
             $em->flush();
 
             //send an email with information to connect
-//            $message = new \Swift_Message();
-//            $message->setTo($user->getEmail())
-//                ->setSubject("Votre inscription")
-//                ->setFrom("ameline.aubin2018@campus-eni.fr")
-//                ->setBody($this->renderView('email.html.twig', [
-//                    'username' => $username,
-//                    'password' => $password
-//                ]));
-//            $swift_Mailer->send($message);
+            $message = new \Swift_Message();
+            $message->setTo($user->getEmail())
+                ->setSubject("Votre inscription")
+                ->setFrom("ameline.aubin2018@campus-eni.fr")
+                ->setBody($this->renderView('mail/email.html.twig', [
+                    'username' => $username,
+                    'password' => $password
+                ]));
+            $mailer->send($message);
 
-            $userImportManager->sendEmail($swift_Mailer, $user);
+
 
             $this->addFlash('success', "Un nouvel utilisateur a été inscrit");
 
             return $this->redirectToRoute('app_register');
         }
 
-        if($csvForm->isSubmitted() && $csvForm->isValid()) {
+        if ($csvForm->isSubmitted() && $csvForm->isValid()) {
 
-            if(null!==$csvForm->get("csvFileName")->getData()){
+            if (null !== $csvForm->get("csvFileName")->getData()) {
 
                 //getting the file
                 $csvFile = $csvForm->get("csvFileName")->getData();
                 //building a unique file name with the real file extension
-                $csvFileName=$fileUploader->upload($csvFile);
-                $csvPath=$fileUploader->getTargetDirectory()."/".$csvFileName;
+                $csvFileName = $fileUploader->upload($csvFile);
+                $csvPath = $fileUploader->getTargetDirectory() . "/" . $csvFileName;
 
                 //converting the file content to an object array of String
-                $usersArray=$csvToArray->convert($csvPath, ',');
+                $usersArray = $csvToArray->convert($csvPath, ',');
                 //importing the content of the array to the database
-                $userImportManager->importUsers($usersArray, $encoder, $swift_Mailer);
+                $userImportManager->importUsers($usersArray, $encoder);
 
             }
 
@@ -112,7 +112,7 @@ class AdminController extends AbstractController
 
         return $this->render('security/register.html.twig', [
             'registerForm' => $registerForm->createView(),
-            'csvForm'=>$csvForm->createView()
+            'csvForm' => $csvForm->createView()
         ]);
 
     }
@@ -124,11 +124,11 @@ class AdminController extends AbstractController
      */
     public function showUsers()
     {
-        $userRepo=$this->getDoctrine()->getRepository(User::class);
-        $users=$userRepo->findAll();
+        $userRepo = $this->getDoctrine()->getRepository(User::class);
+        $users = $userRepo->findAll();
 
-        return $this->render('admin/list-of-users.html.twig',[
-            'users'=>$users
+        return $this->render('admin/list-of-users.html.twig', [
+            'users' => $users
         ]);
     }
 
@@ -138,9 +138,9 @@ class AdminController extends AbstractController
      */
     public function deactivateUser($userId)
     {
-        $em=$this->getDoctrine()->getManager();
-        $userRepo=$em->getRepository(User::class);
-        $user=$userRepo->find($userId);
+        $em = $this->getDoctrine()->getManager();
+        $userRepo = $em->getRepository(User::class);
+        $user = $userRepo->find($userId);
         $user->setActivated(false);
         $user->setRoles([]);
         $em->persist($user);
@@ -154,9 +154,9 @@ class AdminController extends AbstractController
      */
     public function reactivateUser($userId)
     {
-        $em=$this->getDoctrine()->getManager();
-        $userRepo=$em->getRepository(User::class);
-        $user=$userRepo->find($userId);
+        $em = $this->getDoctrine()->getManager();
+        $userRepo = $em->getRepository(User::class);
+        $user = $userRepo->find($userId);
         $user->setActivated(true);
         $user->setRoles([]);
         $em->persist($user);
@@ -173,17 +173,19 @@ class AdminController extends AbstractController
      */
     public function deleteUser($userId)
     {
-        $userRepo=$this->getDoctrine()->getRepository(User::class);
-        $user=$userRepo->find($userId);
+        $userRepo = $this->getDoctrine()->getRepository(User::class);
+        $user = $userRepo->find($userId);
 
-        if ($user!==null){
-            $em=$this->getDoctrine()->getManager();
+        if ($user !== null) {
+            $em = $this->getDoctrine()->getManager();
             $em->remove($user);
             $em->flush();
             $this->addFlash('success', "L'utilisateur a bien été supprimé !");
-        }else{
+        } else {
             return "can't find user";
         }
         return $this->redirectToRoute('show_list_of_users');
     }
+
+
 }
