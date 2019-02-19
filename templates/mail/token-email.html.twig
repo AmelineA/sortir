@@ -8,6 +8,6 @@
 
         <p>Bonjour, vous avez demandé à réinitialiser votre mot de passe</p>
         <p>veuillez cliquer sur le lien ci-dessous</p>
-        <a  href="{{ path('token_email', {'token':token}) }}" name="token">Réinitialiser</a>
+        <a  href="{{ url('token_email', {'token':token}) }}" name="token">Réinitialiser</a>
     </body>
 </html>

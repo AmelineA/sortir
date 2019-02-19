@@ -3,7 +3,7 @@ swiftmailer:
     transport: smtp
     encryption: tls
     port: 587
-    host: smtp-mail.outlook.com
-    username: ameline.aubin2018@campus-eni.fr
-    password:
+    host: localhost
+    username: administrator
+    password: Pa$$w0rd
     spool: { type: 'memory' }
