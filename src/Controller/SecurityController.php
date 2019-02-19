@@ -4,14 +4,13 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\EmailResetType;
-
+use App\Form\ResetType;
 use App\Entity\CsvFile;
 use App\Form\UserByAdminType;
 use App\Form\UserByFileType;
 use App\Form\UserType;
-
+use http\Message;
 use App\Services\ConvertCsvToArray;
-
 use App\Services\FileUploader;
 use App\Services\UserImportManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -55,7 +54,6 @@ class SecurityController extends AbstractController
 
         return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
     }
-
 
     /**
      * @Route(
@@ -133,21 +131,22 @@ class SecurityController extends AbstractController
             $emailField = $resetForm->getData()['email'];
             $user = $em->getRepository(User::class)->findOneByEmail($emailField);
             if ($user != null) {
-
                 $token = uniqid();
                 $user->setResetPassword($token);
                 $em->persist($user);
                 $em->flush();
 
-                $message = new \Swift_Message();
-                $message->setTo($user->getEmail())
-                    ->setSubject("Demande de réinitialisation du mot de passe")
-                    ->setFrom("ameline.aubin2018@campus-eni.fr")
-                    ->setBody($this->render('mail/token-email.html.twig', [
-                        'token'=>$token,
-                    ]),'text/html');
-                $mailer->send($message);
+                  //on envoie un email avec un lien dans lequel on passe le token
+                  $mgClient = new \Swift_Message();
+                  $mgClient->setTo($user->getEmail())
+                      ->setFrom('admin@fag.fr')
+                      ->setSubject('demande de réilitialisation de mot de passe')
+                      //crer la vue à enoyer et mettre le lien avec le token dedans
+                      ->setBody($this->render('mail/token-email.html.twig', [
+                          'token'=>$token
+                      ]), 'text/html');
 
+                  $mailer->send($mgClient);
 
                 $this->addFlash('success', "Un email de réinitialisation vous a été envoyé.");
 
@@ -197,6 +196,4 @@ class SecurityController extends AbstractController
             'token'=>$token
         ]);
     }
-
-
 }
