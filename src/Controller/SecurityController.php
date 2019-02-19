@@ -121,7 +121,7 @@ class SecurityController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    public function resetPassword(Request $request, \Swift_Mailer $mailer, EmailSender $emailSender)
+    public function resetPassword(Request $request, \Swift_Mailer $mailer)
     {
         $em = $this->getDoctrine()->getManager();
         $resetForm = $this->createForm(EmailResetType::class);
@@ -145,13 +145,9 @@ class SecurityController extends AbstractController
                       ->setBody($this->render('mail/token-email.html.twig', [
                           'token'=>$token
                       ]), 'text/html');
-
                   $mailer->send($mgClient);
 
                 $this->addFlash('success', "Un email de réinitialisation vous a été envoyé.");
-  //              return $this->render('mail/token-email.html.twig', [
-  //                      'token'=>$token
-  //                   ]);
                 return $this->redirectToRoute('app_login');
             }
         }

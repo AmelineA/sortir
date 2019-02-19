@@ -35,10 +35,8 @@ class UserImportManager
     }
 
 
-    public function importUsers($users, UserPasswordEncoderInterface $encoder, \Swift_Mailer $mailer, $controller)
+    public function importUsers($users, UserPasswordEncoderInterface $encoder)
     {
-
-        $emailSender=new EmailSender();
         foreach($users as $u){
             $user= new User();
 
@@ -73,14 +71,11 @@ class UserImportManager
             $user->setUsername($username);
 
             $this->em->persist($user);
-            $emailSender->sendEmail($mailer, $user, $controller);
         }
 
         $this->em->flush();
 
         return new Response('Users imported');
     }
-
-
 
 }
