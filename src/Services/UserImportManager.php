@@ -12,6 +12,7 @@ namespace App\Services;
 use App\Entity\Site;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
@@ -22,6 +23,7 @@ class UserImportManager
 
     protected $em;
 
+
     /**
      * UserImportManager constructor.
      * @param $em
@@ -29,12 +31,14 @@ class UserImportManager
     public function __construct(EntityManagerInterface $em)
     {
         $this->em = $em;
+
     }
 
 
-    public function importUsers($users, UserPasswordEncoderInterface $encoder, \Swift_Mailer $swift_Mailer)
+    public function importUsers($users, UserPasswordEncoderInterface $encoder, \Swift_Mailer $mailer, $controller)
     {
 
+        $emailSender=new EmailSender();
         foreach($users as $u){
             $user= new User();
 
@@ -48,8 +52,9 @@ class UserImportManager
             $user->setActivated($u["activated"]);
 
             $siteRepo=$this->em->getRepository(Site::class);
+//            dd($u["site_id"]);
             $site=$siteRepo->find($u["site_id"]);
-  //          dd($site);
+//            dd($site);
             $user->setSite($site);
             $user->setProfilePictureName(null);
 
@@ -68,7 +73,7 @@ class UserImportManager
             $user->setUsername($username);
 
             $this->em->persist($user);
-            $this->sendEmail($swift_Mailer, $user);
+            $emailSender->sendEmail($mailer, $user, $controller);
         }
 
         $this->em->flush();
@@ -77,17 +82,5 @@ class UserImportManager
     }
 
 
-    //send an email with information to connect
-    public function sendEmail(\Swift_Mailer $swift_Mailer, User $currentUser)
-    {
-        $message = new \Swift_Message();
-        $message->setTo($currentUser->getEmail())
-            ->setSubject("Votre inscription")
-            ->setFrom("ameline.aubin2018@campus-eni.fr")
-            ->setBody($this->renderView('email.html.twig', [
-                'username' => $currentUser->getUsername(),
-                'password' => $currentUser->getPassword(),
-            ]));
-        $swift_Mailer->send($message);
-    }
+
 }

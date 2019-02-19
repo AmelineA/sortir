@@ -9,6 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class UserType extends AbstractType
 {
@@ -22,7 +23,8 @@ class UserType extends AbstractType
                 'attr'=>[
                     'placeholder'=>'ex:yoyo44',
                     'class'=>'form-control col-10'
-                ]
+                ],
+                'constraints'=>[new NotBlank(['message'=>'Veuillez renseigner un identifiant'])]
             ])
             ->add('name', TextType::class, [
                 'label'=>'Nom',
@@ -59,6 +61,7 @@ class UserType extends AbstractType
                     'class'=>'form-control col-10'
                 ],
                 'empty_data' => "",
+                'constraints'=>[new NotBlank(['message'=>'Veuillez renseigner un identifiant'])]
             ])
             ->add('profilePictureName', FileType::class, [
                 'label'=>"Ma photo",

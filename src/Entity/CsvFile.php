@@ -8,9 +8,13 @@
 
 namespace App\Entity;
 
+use Symfony\Component\Validator\Constraints as Assert;
 
 class CsvFile
 {
+    /**
+     * @Assert\NotBlank(message= "Veuillez choisir un fichier pour l'upload")
+     */
     private $csvFileName;
 
     /**
