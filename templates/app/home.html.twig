@@ -5,9 +5,9 @@
 {% block content %}
 
 
-    <div class="container">
-             <h4>Filtrer les sorties :</h4>
-        <div class="">
+    <div class="container-home-search">
+        <div class="search">
+            <h4>Filtrer les sorties :</h4>
 
                 <div id="search" class=""> <!--col left with form-->
 
@@ -92,13 +92,14 @@
 
                 </div><!--col left-->
 
-            <div id="welcome" class="col-md-2"> <!--col right-->
+        </div> <!--row-->
+        <div class="welcome row-justify-between"> <!--col right-->
+            <div>
                 <h5>{{ today | date("d/m/Y") }}</h5>
                 <p>Bonjour {{ app.user.name }} !</p>
-                <a href="{{ path('create_event') }}"><button class="btn btn-lg btn-primary">Créer une sortie</button></a>
-            </div><!--col right-->
-
-        </div> <!--row-->
+            </div>
+            <a href="{{ path('create_event') }}"><button class="btn btn-lg btn-primary">Créer une sortie</button></a>
+        </div><!--col right-->
     </div> <!--container-->
 
     <table class="table table-striped">
@@ -118,7 +119,8 @@
         {% for event in events %}
             <tr>
                 <td>{{ event.site.name }}</td>
-                <td>{{ event.name }}</td>
+                <td>
+                    <a href="{{ path('display_event', {'eventId':event.id}) }}">{{ event.name }}</a></td>
                 <td> {{ event.rdvTime | date("d/m/Y") }} </td>
                 <td class="hidden"> {{ event.signOnDeadline | date("d/m/Y") }} </td>
                 <td class="hidden">{{ event.participants.count }} / {{ event.maxNumber }} </td>

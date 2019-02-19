@@ -40,7 +40,18 @@
         height: 15%;
     }
 
+    .welcome{
+        grid-area: profile;
+        display: flex;
+    }
+
+    .search{
+        grid-area: filters;
+    }
 }
+
+
+
 
 @media screen
     and (min-width: 700px){
@@ -95,6 +106,16 @@ footer{
     grid-area: info;
 }
 
+.container-home-search{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, auto);
+    grid-gap: 10px 10px;
+    grid-template-areas:
+        "profile profile"
+        "filters filters";
+}
+
 /***********************************GENERAL***************************************/
 body{
     font-family: Nunito, sans-serif;
@@ -124,6 +145,9 @@ a:hover{
     padding: 0;
 }
 
+.table th{
+    border-top: none;
+}
 /***********************************BUTTONS***************************************/
 .btn-primary{
     background-color: #4e7988;
@@ -151,6 +175,9 @@ header{
     height: 40px;
     margin-right: 10px;
 }
+
+
+
 
 .row-justify-between{
     display: flex;
