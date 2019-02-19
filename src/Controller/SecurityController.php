@@ -11,7 +11,7 @@ use App\Form\UserByFileType;
 use App\Form\UserType;
 
 use App\Services\ConvertCsvToArray;
-use App\Services\EmailSender;
+
 use App\Services\FileUploader;
 use App\Services\UserImportManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -123,7 +123,7 @@ class SecurityController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    public function resetPassword(Request $request, \Swift_Mailer $mailer, EmailSender $emailSender)
+    public function resetPassword(Request $request, \Swift_Mailer $mailer)
     {
         $em = $this->getDoctrine()->getManager();
         $resetForm = $this->createForm(EmailResetType::class);
@@ -138,9 +138,17 @@ class SecurityController extends AbstractController
                 $user->setResetPassword($token);
                 $em->persist($user);
                 $em->flush();
-                $emailSender->sendEmail($mailer, $user, $this);
 
-              //  $userImportManager->sendEmail($mailer, $user);
+                $message = new \Swift_Message();
+                $message->setTo($user->getEmail())
+                    ->setSubject("Demande de réinitialisation du mot de passe")
+                    ->setFrom("ameline.aubin2018@campus-eni.fr")
+                    ->setBody($this->render('mail/token-email.html.twig', [
+                        'token'=>$token,
+                    ]),'text/html');
+                $mailer->send($message);
+
+
                 $this->addFlash('success', "Un email de réinitialisation vous a été envoyé.");
 
                 return $this->redirectToRoute('app_login');

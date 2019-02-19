@@ -17,7 +17,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 
-
+/**
+ * Class UserImportManager
+ * @package App\Services
+ */
 class UserImportManager
 {
 
@@ -35,10 +38,11 @@ class UserImportManager
     }
 
 
-    public function importUsers($users, UserPasswordEncoderInterface $encoder, \Swift_Mailer $mailer, $controller)
+
+    public function importUsers($users, UserPasswordEncoderInterface $encoder)
     {
 
-        $emailSender=new EmailSender();
+        $emailSender=new EmailSenderController();
         foreach($users as $u){
             $user= new User();
 
@@ -73,12 +77,13 @@ class UserImportManager
             $user->setUsername($username);
 
             $this->em->persist($user);
-            $emailSender->sendEmail($mailer, $user, $controller);
+
         }
 
         $this->em->flush();
+        $now=new \DateTime();
 
-        return new Response('Users imported');
+        return $now;
     }
 
 
