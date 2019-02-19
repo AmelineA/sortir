@@ -20,8 +20,6 @@ class AppController extends AbstractController
      */
     public function home()
     {
-        throw new AccessDeniedException('yo ! dégage !!!');
-
         $today=new \DateTime();
         $today->format("d-m-Y");
         $user=$this->getUser();
