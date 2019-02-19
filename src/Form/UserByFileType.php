@@ -16,7 +16,8 @@ class UserByFileType extends AbstractType
             ->add('csvFileName', FileType::class, [
                 'label'=>'Importer un fichier CSV',
                 'required'=>false,
-                'data_class'=>null
+                'data_class'=>null,
+                'empty_data'=> ""
             ])
         ;
     }

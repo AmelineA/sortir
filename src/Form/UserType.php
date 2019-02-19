@@ -22,35 +22,40 @@ class UserType extends AbstractType
                 'attr'=>[
                     'placeholder'=>'ex:yoyo44',
                     'class'=>'form-control col-10'
-                ]
+                ],
+                'empty_data'=> ""
             ])
             ->add('name', TextType::class, [
                 'label'=>'Nom',
                 'attr'=>[
                     'placeholder'=>'Mon nom',
                     'class'=>'form-control col-10'
-                ]
+                ],
+                'empty_data'=> ""
             ])
             ->add('firstName', TextType::class, [
                 'label'=>'Prénom',
                 'attr'=>[
                     'placeholder'=>'Mon Prénom',
                     'class'=>'form-control col-10'
-                ]
+                ],
+                'empty_data'=> ""
             ])
             ->add('telephone', TextType::class, [
                 'label'=>'Téléphone',
                 'attr'=>[
                     'placeholder'=>'ex : 0699999999',
                     'class'=>'form-control col-10'
-                ]
+                ],
+                'empty_data'=> ""
             ])
             ->add('email', TextType::class, [
                 'label'=>'Email',
                 'attr'=>[
                     'placeholder'=>'ex : monEmail@Email.com',
                     'class'=>'form-control col-10'
-                ]
+                ],
+                'empty_data'=> ""
             ])
             ->add('password', PasswordType::class, [
                 'label'=>'Mot de passe',
@@ -67,7 +72,8 @@ class UserType extends AbstractType
                 'attr'=>[
                     'class'=> 'form-control col-10',
                     'value'=>'choisir une photo'
-                ]
+                ],
+                'empty_data'=> ""
 
             ])
         ;

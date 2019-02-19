@@ -30,30 +30,35 @@ class UserByAdminType extends AbstractType
                 'label'=>'Nom',
                 'attr'=>[
                     'placeholder'=>'Mon nom'
-                ]
+                ],
+                'empty_data'=> ""
             ])
             ->add('firstName', TextType::class, [
                 'label'=>'Prénom',
                 'attr'=>[
                     'placeholder'=>'Mon Prénom'
-                ]
+                ],
+                'empty_data'=> ""
             ])
             ->add('telephone', TextType::class, [
                 'label'=>'Téléphone',
                 'attr'=>[
                     'placeholder'=>'ex : 0699999999'
-                ]
+                ],
+                'empty_data'=> ""
             ])
             ->add('email', TextType::class, [
                 'label'=>'Email',
                 'attr'=>[
                     'placeholder'=>'ex : monEmail@Email.com'
-                ]
+                ],
+                'empty_data'=> ""
             ])
             ->add('site', EntityType::class, [
                 'label'=>'Site',
                 'class' => Site::class,
-                'choice_label' => 'name'
+                'choice_label' => 'name',
+                'empty_data'=> ""
             ])
         ;
     }

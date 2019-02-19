@@ -9,6 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class AppController extends AbstractController
 {
@@ -19,6 +20,8 @@ class AppController extends AbstractController
      */
     public function home()
     {
+        throw new AccessDeniedException('yo ! dégage !!!');
+
         $today=new \DateTime();
         $today->format("d-m-Y");
         $user=$this->getUser();

@@ -67,7 +67,7 @@ class SecurityController extends AbstractController
      */
     public function updateMyProfile(UserPasswordEncoderInterface $encoder, Request $request )
     {
-        $fileUploader=new FileUploader('profile-pictures');
+        $fileUploader=new FileUploader('img/profile-pictures');
         $currentUser = $this->getUser();
         $registerForm = $this->createForm(UserType::class, $currentUser);
         $registerForm->handleRequest($request);
@@ -243,7 +243,7 @@ class SecurityController extends AbstractController
 
                   //on envoie un email avec un lien dans lequel on passe le token
                   $mgClient = new \Swift_Message();
-                  $mgClient->setTo('admin@fag.fr')//$user->getEmail()
+                  $mgClient->setTo($user->getEmail())
                       ->setFrom('admin@fag.fr')
                       ->setSubject('demande de réilitialisation de mot de passe')
                       //crer la vue à enoyer et mettre le lien avec le token dedans
@@ -254,9 +254,7 @@ class SecurityController extends AbstractController
                   $mailer->send($mgClient);
 
                 $this->addFlash('success', "Un email de réinitialisation vous a été envoyé.");
-  //              return $this->render('mail/token-email.html.twig', [
-  //                      'token'=>$token
-  //                   ]);
+
                 return $this->redirectToRoute('app_login');
             }
         }
