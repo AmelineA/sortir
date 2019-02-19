@@ -37,7 +37,7 @@ class AdminController extends AbstractController
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      * @throws \Exception
      */
-    public function registerUser(UserPasswordEncoderInterface $encoder, Request $request, \Swift_Mailer $swift_Mailer, UserImportManager $userImportManager, ConvertCsvToArray $csvToArray)
+    public function registerUser(UserPasswordEncoderInterface $encoder, Request $request, \Swift_Mailer $mailer, UserImportManager $userImportManager, ConvertCsvToArray $csvToArray)
     {
         $user = new User();
         $csvFile= new CsvFile();
@@ -71,6 +71,7 @@ class AdminController extends AbstractController
             $em->persist($user);
             $em->flush();
 
+            $this->sendEmail($mailer, $user, $this);
             //send an email with information to connect
 //            $message = new \Swift_Message();
 //            $message->setTo($user->getEmail())
@@ -80,9 +81,9 @@ class AdminController extends AbstractController
 //                    'username' => $username,
 //                    'password' => $password
 //                ]));
-//            $swift_Mailer->send($message);
+//            $mailer->send($message);
 
-            $userImportManager->sendEmail($swift_Mailer, $user);
+   //         $userImportManager->sendEmail($mailer, $user);
 
             $this->addFlash('success', "Un nouvel utilisateur a été inscrit");
 
@@ -102,7 +103,7 @@ class AdminController extends AbstractController
                 //converting the file content to an object array of String
                 $usersArray=$csvToArray->convert($csvPath, ',');
                 //importing the content of the array to the database
-                $userImportManager->importUsers($usersArray, $encoder, $swift_Mailer);
+                $userImportManager->importUsers($usersArray, $encoder, $mailer, $this);
 
             }
 
@@ -185,5 +186,25 @@ class AdminController extends AbstractController
             return "can't find user";
         }
         return $this->redirectToRoute('show_list_of_users');
+    }
+
+
+    /**
+     * @param \Swift_Mailer $mailer
+     * @param $user
+     */
+    public function sendEmail(\Swift_Mailer $mailer, $user, $controller1): void
+    {
+    //on envoie un email avec un lien dans lequel on passe le token
+        $mgClient = new \Swift_Message();
+        $mgClient->setTo($user->getEmail())
+            ->setFrom('admin@fag.fr')
+            ->setSubject('demande de réilitialisation de mot de passe')
+            //crer la vue à envoyer et mettre le lien avec le token dedans
+            ->setBody($controller1->renderView('mail/token-email.html.twig', [
+                'token' => $user->getResetPassword()
+            ]), 'text/html');
+
+        $mailer->send($mgClient);
     }
 }

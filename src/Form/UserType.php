@@ -9,6 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class UserType extends AbstractType
 {
@@ -23,39 +24,35 @@ class UserType extends AbstractType
                     'placeholder'=>'ex:yoyo44',
                     'class'=>'form-control col-10'
                 ],
-                'empty_data'=> ""
+                'constraints'=>[new NotBlank(['message'=>'Veuillez renseigner un identifiant'])]
             ])
             ->add('name', TextType::class, [
                 'label'=>'Nom',
                 'attr'=>[
                     'placeholder'=>'Mon nom',
                     'class'=>'form-control col-10'
-                ],
-                'empty_data'=> ""
+                ]
             ])
             ->add('firstName', TextType::class, [
                 'label'=>'Prénom',
                 'attr'=>[
                     'placeholder'=>'Mon Prénom',
                     'class'=>'form-control col-10'
-                ],
-                'empty_data'=> ""
+                ]
             ])
             ->add('telephone', TextType::class, [
                 'label'=>'Téléphone',
                 'attr'=>[
                     'placeholder'=>'ex : 0699999999',
                     'class'=>'form-control col-10'
-                ],
-                'empty_data'=> ""
+                ]
             ])
             ->add('email', TextType::class, [
                 'label'=>'Email',
                 'attr'=>[
                     'placeholder'=>'ex : monEmail@Email.com',
                     'class'=>'form-control col-10'
-                ],
-                'empty_data'=> ""
+                ]
             ])
             ->add('password', PasswordType::class, [
                 'label'=>'Mot de passe',
@@ -64,6 +61,7 @@ class UserType extends AbstractType
                     'class'=>'form-control col-10'
                 ],
                 'empty_data' => "",
+                'constraints'=>[new NotBlank(['message'=>'Veuillez renseigner un identifiant'])]
             ])
             ->add('profilePictureName', FileType::class, [
                 'label'=>"Ma photo",
@@ -72,8 +70,7 @@ class UserType extends AbstractType
                 'attr'=>[
                     'class'=> 'form-control col-10',
                     'value'=>'choisir une photo'
-                ],
-                'empty_data'=> ""
+                ]
 
             ])
         ;

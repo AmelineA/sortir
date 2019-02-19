@@ -80,7 +80,7 @@ class Event
     private $site;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\User", inversedBy="SignedOnEvents")
+     * @ORM\ManyToMany(targetEntity="App\Entity\User", inversedBy="signedOnEvents")
      */
     private $participants;
 

@@ -70,6 +70,9 @@ class SecurityController extends AbstractController
         $fileUploader=new FileUploader('img/profile-pictures');
         $currentUser = $this->getUser();
         $registerForm = $this->createForm(UserType::class, $currentUser);
+        //récupération du nom de la photo présent dans l'objet User
+        $profilePictureName=$currentUser->getProfilePictureName();
+        //handleReques récupère puis efface tous les champs
         $registerForm->handleRequest($request);
         if($registerForm->isSubmitted() && $registerForm->isValid()){
 
@@ -88,6 +91,11 @@ class SecurityController extends AbstractController
                 // attribution du nom de fichier dans l'objet User
                 $currentUser->setProfilePictureName($profilePictureName);
             }
+            //ou si le user ne veut pas uploader, il faut conserver le lien entre le User et le nom de fichier
+            else{
+                //réattribution du nom de la photo à l'objet User
+                $currentUser->setProfilePictureName($profilePictureName);
+            }
             $em = $this->getDoctrine()->getManager();
             $em->persist($currentUser);
             $em->flush();
@@ -96,7 +104,6 @@ class SecurityController extends AbstractController
             return $this->redirectToRoute('home');
         }
 
-
         return $this->render('security/myprofile.html.twig',[
           'registerForm'=>$registerForm->createView(),
           'user'=>$currentUser
@@ -104,118 +111,6 @@ class SecurityController extends AbstractController
 
     }
 
-//    /**
-//     * @Route("/profil/{id}",
-//     *     name="show_profile",
-//     *     requirements={"id"="\d+"})
-//     * @param $id
-//     * @return Response
-//     */
-//    public function showProfile($id)
-//    {
-//        $em=$this->getDoctrine()->getRepository(User::class);
-//        $user = $em->find($id);
-//        return $this->render('app/show-profile.html.twig', [
-//            'user'=>$user
-//        ]);
-//    }
-
-
-
-
-    /**
-     * allow a user registration manually by an admin
-     * allow a csvimport by an admin
-     * @IsGranted("ROLE_ADMIN")
-     * @Route("/inscrire-utilisateur",
-     *     name="app_register",
-     *     methods={"GET", "POST"})
-     * @param UserPasswordEncoderInterface $encoder
-     * @param Request $request
-     * @param \Swift_Mailer $swift_Mailer
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
-     * @throws \Exception
-     */
-    public function registerUser(UserPasswordEncoderInterface $encoder, Request $request, \Swift_Mailer $swift_Mailer, UserImportManager $userImportManager, ConvertCsvToArray $csvToArray)
-    {
-        $user = new User();
-        $csvFile= new CsvFile();
-//die();    OK
-        //form for user manually
-        $registerForm = $this->createForm(UserByAdminType::class, $user);
-        $registerForm->handleRequest($request);
-//die();        OK
-        //form for csv files
-        $fileUploader=new FileUploader('CSVusers');
-        $csvForm=$this->createForm(UserByFileType::class, $csvFile);
-        $csvForm->handleRequest($request);
-//die();
-        if($registerForm->isSubmitted() && $registerForm->isValid()){
-
-            $year = new \DateTime();
-            //generate a username with the first letter of the name, the firstname and the year of inscription
-            $usernameFName = substr(strtolower($user->getFirstName()), 0, 1);
-            $usernameName = strtolower($user->getName());
-            $username = $usernameFName.$usernameName.$year->format("Y");
-            //generate a password with the 2 first letters of the name, the first name and the year of inscription
-            $passwordName = substr($user->getName(), 0, 2);
-            $passwordFName = substr($user->getFirstName(), 0, 2);
-            $password = $passwordName.$passwordFName.$year->format("Y");
-            $hash = $encoder->encodePassword($user, $password);
-
-            $user->setPassword($hash);
-            $user->setUsername($username);
-
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($user);
-            $em->flush();
-
-            //send an email with informations to connect
-            $message = new \Swift_Message();
-            $message->setTo($user->getEmail())
-                ->setSubject("Votre inscription")
-                ->setFrom("ameline.aubin2018@campus-eni.fr")
-                ->setBody($this->renderView('email.html.twig', [
-                    'username' => $username,
-                    'password' => $password
-                ]));
-            $swift_Mailer->send($message);
-
-            $this->addFlash('success', "Un nouvel utilisateur a été inscrit");
-
-            return $this->redirectToRoute('app_register');
-        }
-
-        if($csvForm->isSubmitted() && $csvForm->isValid()) {
-
-            if(null!==$csvForm->get("csvFileName")->getData()){
-
-                //getting the file
-                $csvFile = $csvForm->get("csvFileName")->getData();
-                //building a unique file name with the real file extension
-                $csvFileName=$fileUploader->upload($csvFile);
-//                dd($csvFileName);
-                $csvPath=$fileUploader->getTargetDirectory()."/".$csvFileName;
-//                dd($csvPath);
-                //converting the file content to an object array of String
-                $usersArray=$csvToArray->convert($csvPath, ',');
-//                dd($usersArray);
-                //importing the content of the array to the database
-                $userImportManager->importUsers($usersArray, $encoder);
-//                die();
-
-            }
-
-            $this->addFlash("success", 'Votre compte a bien été modifié ! ');
-            return $this->redirectToRoute('home');
-        }
-
-        return $this->render('security/register.html.twig', [
-            'registerForm' => $registerForm->createView(),
-            'csvForm'=>$csvForm->createView()
-        ]);
-
-    }
 
     /**
      * @Route(
@@ -226,7 +121,7 @@ class SecurityController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    public function resetPassword(Request $request, \Swift_Mailer $mailer)
+    public function resetPassword(Request $request, \Swift_Mailer $mailer, EmailSender $emailSender)
     {
         $em = $this->getDoctrine()->getManager();
         $resetForm = $this->createForm(EmailResetType::class);
@@ -254,7 +149,9 @@ class SecurityController extends AbstractController
                   $mailer->send($mgClient);
 
                 $this->addFlash('success', "Un email de réinitialisation vous a été envoyé.");
-
+  //              return $this->render('mail/token-email.html.twig', [
+  //                      'token'=>$token
+  //                   ]);
                 return $this->redirectToRoute('app_login');
             }
         }
