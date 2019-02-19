@@ -17,7 +17,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 
-
+/**
+ * Class UserImportManager
+ * @package App\Services
+ */
 class UserImportManager
 {
 
@@ -35,7 +38,7 @@ class UserImportManager
     }
 
 
-    public function importUsers($users, UserPasswordEncoderInterface $encoder)
+        public function importUsers($users, UserPasswordEncoderInterface $encoder)
     {
         foreach($users as $u){
             $user= new User();
@@ -74,8 +77,9 @@ class UserImportManager
         }
 
         $this->em->flush();
+        $now=new \DateTime();
 
-        return new Response('Users imported');
+        return $now;
     }
 
 }

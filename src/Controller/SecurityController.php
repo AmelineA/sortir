@@ -14,7 +14,7 @@ use App\Services\ConvertCsvToArray;
 use App\Services\FileUploader;
 use App\Services\UserImportManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use function Sodium\add;
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\File;
@@ -148,6 +148,7 @@ class SecurityController extends AbstractController
                   $mailer->send($mgClient);
 
                 $this->addFlash('success', "Un email de réinitialisation vous a été envoyé.");
+
                 return $this->redirectToRoute('app_login');
             }
         }
