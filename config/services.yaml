@@ -6,6 +6,7 @@
 parameters:
     locale: 'en'
     profile_pictures_directory: '%kernel.project_dir%/public/img/profile-pictures'
+    csv_directory: '%kernel.project_dir%/public/CSVusers'
 
 services:
     # default configuration for services in *this* file
@@ -25,8 +26,12 @@ services:
         resource: '../src/Controller'
         tags: ['controller.service_arguments']
 
+#    App\Services\FileUploader:
+#        arguments:
+#            $targetDirectory: '%kernel.project_dir%/public/img/profile-pictures'
+
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 
     import.cvstoarray:
-        class: App\Services\CSVService
+        class: App\Services\ConvertCsvToArray

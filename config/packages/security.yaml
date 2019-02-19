@@ -39,6 +39,7 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-#         - { path: ^/admin, roles: ROLE_ADMIN }
+#         - { path: ^/public, roles: ROLE_USER }
+#         - { path: ^/public, roles: ROLE_FORBIDDEN }
 #         - { path: ^/mon-profil, roles: ROLE_USER }
-#         - { path: ^/créer-une-vente, roles: ROLE_USER }
+#         - { path: ^/créer-une-sortie, roles: ROLE_USER }

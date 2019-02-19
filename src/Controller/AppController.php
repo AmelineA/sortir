@@ -5,7 +5,6 @@ namespace App\Controller;
 
 use App\Entity\Event;
 use App\Entity\Site;
-
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -77,8 +76,6 @@ class AppController extends AbstractController
         $notSignedOn=$request->request->get('notSignedOn');
         $pastEvents=$request->request->get('pastEvents');
 
-
-
         $eventRepo=$this->getDoctrine()->getRepository(Event::class);
 
         //dd($site);
@@ -100,6 +97,24 @@ class AppController extends AbstractController
 
         ]);
 
+    }
+
+
+    /**
+     * @Route("/profil/{id}",
+     *     name="show_profile",
+     *     requirements={"id"="\d+"})
+     * @param $id
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function showProfile($id)
+    {
+        $em = $this->getDoctrine()->getRepository(User::class);
+        $user = $em->find($id);
+        return $this->render('app/show-profile.html.twig', [
+            'user' => $user
+        ]);
     }
 
 

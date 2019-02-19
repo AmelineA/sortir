@@ -8,9 +8,12 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @UniqueEntity(fields={"email"}, message="Ce mail est déjà enregistré!")
+ * @UniqueEntity(fields={"username"}, message="Cet identifiant est déjà enregistré!")
  */
 class User implements UserInterface
 {

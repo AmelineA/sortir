@@ -4,10 +4,8 @@ namespace App\Form;
 
 use App\Entity\Site;
 use App\Entity\User;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -19,41 +17,43 @@ class UserByAdminType extends AbstractType
     {
 
         $builder
+            ->add('username', TextType::class, [
+                'label'=>'Pseudo',
+                'disabled' => true,
+                'attr'=>[
+                    'placeholder'=>'ex:yoyo44'
+                ],
+                'empty_data' => "Générer",
+                'data' => "Générer"
+            ])
             ->add('name', TextType::class, [
                 'label'=>'Nom',
                 'attr'=>[
-                    'placeholder'=>'Mon nom',
-                    'class'=>'form-control col-10'
+                    'placeholder'=>'Mon nom'
                 ]
             ])
             ->add('firstName', TextType::class, [
                 'label'=>'Prénom',
                 'attr'=>[
-                    'placeholder'=>'Mon Prénom',
-                    'class'=>'form-control col-10'
+                    'placeholder'=>'Mon Prénom'
                 ]
             ])
             ->add('telephone', TextType::class, [
                 'label'=>'Téléphone',
                 'attr'=>[
-                    'placeholder'=>'ex : 0699999999',
-                    'class'=>'form-control col-10'
+                    'placeholder'=>'ex : 0699999999'
                 ]
             ])
             ->add('email', TextType::class, [
                 'label'=>'Email',
                 'attr'=>[
-                    'placeholder'=>'ex : monEmail@Email.com',
-                    'class'=>'form-control col-10'
+                    'placeholder'=>'ex : monEmail@Email.com'
                 ]
             ])
             ->add('site', EntityType::class, [
                 'label'=>'Site',
                 'class' => Site::class,
-                'choice_label' => 'name',
-                'attr'=>[
-                    'class'=>'form-control col-10'
-                ]
+                'choice_label' => 'name'
             ])
         ;
     }
