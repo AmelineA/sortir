@@ -42,6 +42,7 @@ class User implements UserInterface
     private $roles = [];
 
     /**
+     * @Assert\NotBlank(message="Veuillez renseigner votre mot de passe !")
      * @var string The hashed password
      * @ORM\Column(type="string")
      */

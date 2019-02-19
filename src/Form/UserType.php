@@ -57,7 +57,8 @@ class UserType extends AbstractType
                 'attr'=>[
                     'placeholder'=>'ex: K!4851o$',
                     'class'=>'form-control col-10'
-                ]
+                ],
+                'empty_data' => "",
             ])
             ->add('profilePictureName', FileType::class, [
                 'label'=>"Ma photo",
@@ -67,6 +68,7 @@ class UserType extends AbstractType
                     'class'=> 'form-control col-10',
                     'value'=>'choisir une photo'
                 ]
+
             ])
         ;
     }

@@ -12,12 +12,15 @@
                     {% if error %}
                         <div class="alert alert-danger">Mauvais identifiants!</div>
                     {% endif %}
-
-                    <label for="inputUsername" class="sr-only">Email ou pseudo</label>
-                    <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control"
-                           placeholder="Email ou pseudo" required autofocus>
-                    <label for="inputPassword" class="sr-only">Mot de passe</label>
-                    <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Mot de passe" required>
+                    <div>
+                        <label for="inputUsername" class="sr-only">Email ou pseudo</label>
+                        <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control"
+                               placeholder="Email ou pseudo" required autofocus>
+                    </div>
+                    <div>
+                        <label for="inputPassword" class="sr-only">Mot de passe</label>
+                        <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Mot de passe" required>
+                    </div>
                     <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
 
