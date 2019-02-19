@@ -9,6 +9,9 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\IsNull;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class UserByAdminType extends AbstractType
 {
@@ -17,15 +20,6 @@ class UserByAdminType extends AbstractType
     {
 
         $builder
-            ->add('username', TextType::class, [
-                'label'=>'Pseudo',
-                'disabled' => true,
-                'attr'=>[
-                    'placeholder'=>'ex:yoyo44'
-                ],
-                'empty_data' => "Générer",
-                'data' => "Générer"
-            ])
             ->add('name', TextType::class, [
                 'label'=>'Nom',
                 'attr'=>[

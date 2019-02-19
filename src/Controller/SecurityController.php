@@ -67,9 +67,10 @@ class SecurityController extends AbstractController
      */
     public function updateMyProfile(UserPasswordEncoderInterface $encoder, Request $request )
     {
-        $fileUploader=new FileUploader('profile-pictures');
+        $fileUploader=new FileUploader('img/profile-pictures');
         $currentUser = $this->getUser();
         $registerForm = $this->createForm(UserType::class, $currentUser);
+        $profilePictureName = $currentUser->getProfilePictureName();
         $registerForm->handleRequest($request);
         if($registerForm->isSubmitted() && $registerForm->isValid()){
 
@@ -87,7 +88,9 @@ class SecurityController extends AbstractController
                 $profilePictureName=$fileUploader->upload($profilePicture);
                 // attribution du nom de fichier dans l'objet User
                 $currentUser->setProfilePictureName($profilePictureName);
-            }
+            }else{
+                $currentUser->setProfilePictureName($profilePictureName);
+            };
             $em = $this->getDoctrine()->getManager();
             $em->persist($currentUser);
             $em->flush();
