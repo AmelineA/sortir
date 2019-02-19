@@ -1,0 +1,13 @@
+<!DOCTYPE HTML>
+<html lang="fr">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+        <title>réinitialisation mot de passe</title>
+    </head>
+    <body>
+
+        <p>Bonjour, vous avez demandé à réinitialiser votre mot de passe</p>
+        <p>veuillez cliquer sur le lien ci-dessous</p>
+        <a  href="{{ url('token_email', {'token':token}) }}" name="token">Réinitialiser</a>
+    </body>
+</html>

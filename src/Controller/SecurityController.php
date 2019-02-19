@@ -3,14 +3,18 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\EmailResetType;
+use App\Form\ResetType;
 use App\Entity\CsvFile;
 use App\Form\UserByAdminType;
 use App\Form\UserByFileType;
 use App\Form\UserType;
+use http\Message;
 use App\Services\ConvertCsvToArray;
 use App\Services\FileUploader;
 use App\Services\UserImportManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use function Sodium\add;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\File;
@@ -19,6 +23,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\HttpFoundation\Session\Session;
+
 
 class SecurityController extends AbstractController
 {
@@ -59,7 +65,7 @@ class SecurityController extends AbstractController
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
-    public function updateMyProfile(UserPasswordEncoderInterface $encoder, Request $request)
+    public function updateMyProfile(UserPasswordEncoderInterface $encoder, Request $request )
     {
         $fileUploader=new FileUploader('profile-pictures');
         $currentUser = $this->getUser();
@@ -211,7 +217,90 @@ class SecurityController extends AbstractController
 
     }
 
+    /**
+     * @Route(
+     *     "/mot-de-passe-oublie",
+     *     name="reset_password",
+     *     methods={"GET","POST"}
+     *     )
+     * @param Request $request
+     * @return Response
+     */
+    public function resetPassword(Request $request, \Swift_Mailer $mailer)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $resetForm = $this->createForm(EmailResetType::class);
+        $resetForm->handleRequest($request);
+        if ($resetForm->isSubmitted() && $resetForm->isValid()) {
+            //si l'utilisateur renseigne le champ, on attribue un nouveau token comme password
+            $emailField = $resetForm->getData()['email'];
+            $user = $em->getRepository(User::class)->findOneByEmail($emailField);
+            if ($user != null) {
+                $token = uniqid();
+                $user->setResetPassword($token);
+                $em->persist($user);
+                $em->flush();
 
+                  //on envoie un email avec un lien dans lequel on passe le token
+                  $mgClient = new \Swift_Message();
+                  $mgClient->setTo('admin@fag.fr')//$user->getEmail()
+                      ->setFrom('admin@fag.fr')
+                      ->setSubject('demande de réilitialisation de mot de passe')
+                      //crer la vue à enoyer et mettre le lien avec le token dedans
+                      ->setBody($this->render('mail/token-email.html.twig', [
+                          'token'=>$token
+                      ]), 'text/html');
+
+                  $mailer->send($mgClient);
+
+                $this->addFlash('success', "Un email de réinitialisation vous a été envoyé.");
+  //              return $this->render('mail/token-email.html.twig', [
+  //                      'token'=>$token
+  //                   ]);
+                return $this->redirectToRoute('app_login');
+            }
+        }
+        return $this->render('security/reset-password.html.twig', [
+            'resetForm' => $resetForm->createView()
+        ]);
+    }
+
+    /**
+     * @Route(
+     *     "/token-email/{token}",
+     *     name="token_email",
+     *     methods={"GET","POST"}
+     * )
+     * @param Request $request
+     * @param UserPasswordEncoderInterface $encoder
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     */
+    public function resetPasswordToken(Request $request, UserPasswordEncoderInterface $encoder, string $token)
+    {
+        //on compare le token reçu dans la requete avec celui stocké pour le user
+        //$token = $request->query->get('token');
+        if($_POST){
+
+            if($token !== null){
+                $em = $this->getDoctrine()->getManager();
+                $user = $em->getRepository(User::class)->findOneByResetPassword($token);
+
+                //si le repo rammene qqch, on récurère la saisie et on modifie le password en bdd
+                if ($user !== null){
+                    $plainPassword = $request->request->get('password');
+                    $hash = $encoder->encodePassword($user, $plainPassword);
+                    $user->setPassword($hash);
+                    $em->persist($user);
+                    $em->flush();
+
+                    //on redirige vers la page de login
+                    $this->addFlash('successs', "votre mot de passe a bien été réinitialisé");
+                    return $this->redirectToRoute('app_login');
+                }
+            }
+        }
+        return $this->render('security/reset-password-token.html.twig', [
+            'token'=>$token
+        ]);
+    }
 }
-
-
