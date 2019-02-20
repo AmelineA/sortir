@@ -157,8 +157,18 @@ header{
     justify-content: space-between;
     flex-wrap: wrap;
 }
-
-
+.table-event{
+    display: block;
+    table-layout:fixed ;
+    border-collapse: collapse;
+    width: 100%;
+}
+.table tbody{
+    overflow: auto;
+    height: 200px;
+    display: block;
+    width: 100%;
+}
 
 /***********************************HOME***************************************/
 /*table{*/

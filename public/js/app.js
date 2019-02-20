@@ -10,3 +10,20 @@ $('input[type="file"]').change(function (event) {
    $(".custom-file-label").text(fileName);
 });
 
+//pour
+let length = $(".table-event").children('thead').children('tr').children('th').length;
+console.log(length);
+for (let i=1; i<=length;i++){
+    let widthTd = parseInt($(".table-event").children('tbody').children('tr:first').children('td:nth-child('+i+')').width());
+
+    let owidthTh = $(".table-event").children('thead').children('tr').children('th:nth-child('+i+')').width(widthTd);
+   console.log("owidthTh = " + parseInt(owidthTh.width()) + " widthTd = " +widthTd );
+
+   if (owidthTh.width()>widthTd){
+      let widthTh = parseInt($(".table-event").children('thead').children('tr').children('th:nth-child('+i+')').width());
+      let owidthTd = $(".table-event").children('tbody').children('tr:first').children('td:nth-child('+i+')').width(widthTh);
+
+      console.log("2 widthTh = " + widthTh + " widthTd = " +parseInt(owidthTd.width()));
+   }
+}
+

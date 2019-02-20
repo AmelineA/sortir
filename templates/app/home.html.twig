@@ -101,7 +101,7 @@
         </div> <!--row-->
     </div> <!--container-->
 
-    <table class="table table-striped">
+    <table class="table table-striped table-event">
         <thead>
             <tr>
                 <th>Site</th>
@@ -121,7 +121,7 @@
                 <td>{{ event.name }}</td>
                 <td> {{ event.rdvTime | date("d/m/Y") }} </td>
                 <td class="hidden"> {{ event.signOnDeadline | date("d/m/Y") }} </td>
-                <td class="hidden">{{ event.participants.count }} / {{ event.maxNumber }} </td>
+                <td class="hidden">{{ event.participants.count }}/{{ event.maxNumber }} </td>
                 <td class="hidden"> {{ event.state }} </td>
                 <td class="hidden"> <a href="{{ path('show_profile', {'id':event.organizer.id}) }}">{{ event.organizer.firstName }} {{ event.organizer.name }} </a></td>
                 <td class="hidden">
