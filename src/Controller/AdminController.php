@@ -105,10 +105,9 @@ class AdminController extends AbstractController
                 $usersArray = $csvToArray->convert($csvPath, ',');
                 //importing the content of the array to the database
                 $time=$userImportManager->importUsers($usersArray, $encoder);
-                //Todo envoyer des mails aux users ajoutés à $time. Gérer les fixtures (OK) et les form de création de user pour ajouter une date d'ajout
+
                 $this->sendMessageToUsers($mailer, $time);
             }
-
             $this->addFlash("success", 'Les utilisateurs ont bien été créés ! ');
             return $this->redirectToRoute('home');
         }
@@ -195,6 +194,7 @@ class AdminController extends AbstractController
     {
         $userRepo=$this->getDoctrine()->getRepository(User::class);
         $users=$userRepo->findAfterDate($time);
+//        dd($users)        //OK
         $year = new \DateTime();
 
         foreach($users as $user){

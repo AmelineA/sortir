@@ -141,8 +141,8 @@ class SecurityController extends AbstractController
                   $mgClient = new \Swift_Message();
                   $mgClient->setTo($user->getEmail())
                       ->setFrom('admin@fag.fr')
-                      ->setSubject('demande de réilitialisation de mot de passe')
-                      //crer la vue à enoyer et mettre le lien avec le token dedans
+                      ->setSubject('demande de réinitialisation de mot de passe')
+                      //créer la vue à envoyer et mettre le lien avec le token dedans
                       ->setBody($this->render('mail/token-email.html.twig', [
                           'token'=>$token
                       ]), 'text/html');
@@ -150,6 +150,10 @@ class SecurityController extends AbstractController
 
                 $this->addFlash('success', "Un email de réinitialisation vous a été envoyé.");
 
+                return $this->redirectToRoute('app_login');
+            }
+            else{
+                $this->addFlash('warning', "Votre email est inconnu au bataillon");
                 return $this->redirectToRoute('app_login');
             }
         }

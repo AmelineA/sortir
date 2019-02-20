@@ -1,4 +1,0 @@
-,Michaut,Céline,,mc@email.com,true,1
-,Morna,Pierre,,mp@email.com,true,1
-,Plaudeau,Marcus,,pm@email.com,true,1
-,Jaunet,Karim,,jk@email.com,false,2

@@ -23,6 +23,7 @@ class UserRepository extends ServiceEntityRepository
 
     public function findAfterDate($time)
     {
+
         $qb=$this->createQueryBuilder('u');
         $qb->andWhere('u.addedOn=:time');
         $qb->setParameter('time', $time);
@@ -30,6 +31,15 @@ class UserRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
+//    public function findByAfterDate(DateTime $time)
+//    {
+//        return $this->createQueryBuilder('u')
+//            ->andWhere('u.addedOn=:time')
+//            ->setParameter('time', $time)
+//            ->getQuery()
+//            ->getResult()
+//        ;
+//    }
 
     // /**
     //  * @return User[] Returns an array of User objects
