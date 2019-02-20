@@ -1,45 +1,49 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello AdminController!{% endblock %}
+{% block title %}Utilisateurs{% endblock %}
 
 {% block content %}
-
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Username</th>
-            <th class="hidden">Roles</th>
-            <th class="hidden">Nom</th>
-            <th class="hidden">Prénom</th>
-            <th class="hidden">Téléphone</th>
-            <th class="hidden">Email</th>
-            <th class="hidden">Actif</th>
-            <th class="hidden">Site</th>
-            <th></th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-    {% for user in users %}
-        <tr>
-            <td><a href="{{ path('show_profile', {'id':user.id}) }}">{{ user.username }}</a></td>
-            <td class="hidden"> {{ user.roles[0] }}</td>
-            <td class="hidden"> {{ user.name }}</td>
-            <td class="hidden"> {{ user.firstName }} </td>
-            <td class="hidden"> {{ user.telephone }} </td>
-            <td class="hidden"> {{ user.email }} </td>
-            <td class="hidden"> {{ user.activated }} </td>
-            <td class="hidden"> {{ user.site.name }} </td>
-            {% if user.activated is same as(true) %}
-                <td><a href="{{ path('deactivate_user', {'userId':user.id}) }}" class="nav-link">Désactiver</a></td>
-            {% else %}
-                <td><a href="{{ path('reactivate_user', {'userId':user.id}) }}" class="nav-link">Réactiver</a></td>
-            {% endif %}
-            <td><a href="{{ path('delete_user', {'userId':user.id}) }}" class="nav-link">Supprimer</a></td>
-        </tr>
-    {% endfor %}
-    </tbody>
-</table>
+    <h1>Utilisateurs</h1>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th class="hidden">Roles</th>
+                <th>Nom</th>
+                <th class="hidden">Prénom</th>
+                <th class="hidden">Email</th>
+                <th class="hidden">Site</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <td><a href="{{ path('show_profile', {'id':user.id}) }}">{{ user.username }}</a></td>
+                <td class="hidden"> {{ user.roles[0] }}</td>
+                <td> {{ user.name }}</td>
+                <td class="hidden"> {{ user.firstName }} </td>
+                <td class="hidden"> {{ user.email }} </td>
+                <td class="hidden"> {{ user.site.name }} </td>
+                {% if user.activated is same as(true) %}
+                    <td>
+                        <a href="{{ path('deactivate_user', {'userId':user.id}) }}" class="nav-link">
+                            <button class="btn btn-sm btn-primary">Désactiver</button>
+                        </a>
+                {% else %}
+                    <td>
+                        <a href="{{ path('reactivate_user', {'userId':user.id}) }}" class="nav-link">
+                            <button class="btn btn-sm btn-primary">Réactiver</button>
+                        </a>
+                {% endif %}
+                    <a href="{{ path('delete_user', {'userId':user.id}) }}" class="nav-link">
+                        <button class="btn btn-sm btn-primary">Supprimer</button>
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 
 
 {% endblock %}

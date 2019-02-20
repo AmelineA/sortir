@@ -10,3 +10,37 @@ $('input[type="file"]').change(function (event) {
    $(".custom-file-label").text(fileName);
 });
 
+
+//dropdown when button click
+var drop = $('.dropdown');
+var dropcontent = $('.dropcontent');
+
+drop.click(function () {
+   var dropcontent = $(this).children(".dropcontent");
+   console.log($(this).children(".dropcontent"));
+   dropcontent.addClass('active');
+   $(this).addClass('active');
+   $(this).css('backgroundColor', '#005066');
+   $(this).click(function () {
+      $(this).removeClass('active');
+      dropcontent.removeClass('active');
+   })
+});
+
+drop.click(function () {
+   d();
+});
+
+function d() {
+   console.log("click1");
+   drop.click(function () {
+      h();
+   })
+}
+
+function h() {
+   console.log('click2');
+   drop.click(function () {
+      d();
+   })
+}
