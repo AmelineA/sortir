@@ -17,11 +17,13 @@
         </div>
         <div>
             <div class="row"><label>Ville organisatrice : </label><p> {{ event.site.name }}</p></div>
-            <div class="row"><label>Lieu : </label><p>#</p></div>
-            <div class="row"><label>Rue : </label><p>#</p></div>
-            <div class="row"><label>Code Postal : </label><p>#</p></div>
-            <div class="row"><label>Latitude : </label><p>#</p></div>
-            <div class="row"><label>Longitude : </label><p>#</p></div>
+            <div class="row"><label>Lieu : </label><p>{{ event.location.name }}</p></div>
+            <div class="row"><label>Adresse : </label><p>#</p></div>
+            <div class="row" ><label>Latitude : </label><p id="lat">{{ event.location.latitude }}</p></div>
+            <div class="row" ><label>Longitude : </label><p id="lon">{{ event.location.longitude }}</p></div>
+        </div>
+        <div id="map">
+            <!-- map display here -->
         </div>
     </div>
 

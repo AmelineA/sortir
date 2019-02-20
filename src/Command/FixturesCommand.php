@@ -52,6 +52,7 @@ class FixturesCommand extends Command
         $conn->query('TRUNCATE site');
         $conn->query('TRUNCATE event');
         $conn->query('TRUNCATE event_user');
+        $conn->query('TRUNCATE location');
 
         //reactivate FK checks
         $conn->query('SET FOREIGN_KEY_CHECKS = 1');
@@ -116,6 +117,9 @@ class FixturesCommand extends Command
         foreach ($locations as $l){
             $location = new Location();
             $location->setName($l);
+            $location->setLatitude('47.220316');
+            $location->setLongitude('-1.549559');
+            $location->setStreet($faker->streetAddress);
             $allLocations[] = $location;
             $this->em->persist($location);
         }
