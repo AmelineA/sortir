@@ -2,6 +2,7 @@
 namespace App\Command;
 
 use App\Entity\Event;
+use App\Entity\Location;
 use App\Entity\Site;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
@@ -108,6 +109,18 @@ class FixturesCommand extends Command
         }
         $this->em->flush();
 
+
+        //création de locations
+        $locations = ['fag power', 'chez jojo', 'bar du coin'];
+        $allLocations = [];
+        foreach ($locations as $l){
+            $location = new Location();
+            $location->setName($l);
+            $allLocations[] = $location;
+            $this->em->persist($location);
+        }
+        $this->em->flush();
+
         $state = ['ouvert', 'fermé', 'en création', 'terminé', 'annulé'];
         $allEvents = [];
         for($i=0; $i<150; $i++){
@@ -116,6 +129,7 @@ class FixturesCommand extends Command
             $event->setOrganizer($faker->randomElement($allUser));
             $event->setState($faker->randomElement($state));
             $event->setSite($faker->randomElement($allSites));
+            $event->setLocation($faker->randomElement($allLocations));
             $event->setDuration(120);
             $event->setMaxNumber(10);
             $event->setRdvTime($faker->dateTimeBetween("-45 days", "+30 days"));
