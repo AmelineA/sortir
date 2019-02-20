@@ -132,6 +132,11 @@ class User implements UserInterface
      */
     private $resetPassword;
 
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $addedOn;
+
 
 
 
@@ -406,6 +411,18 @@ class User implements UserInterface
     public function setResetPassword(?string $resetPassword): self
     {
         $this->resetPassword = $resetPassword;
+
+        return $this;
+    }
+
+    public function getAddedOn(): ?\DateTimeInterface
+    {
+        return $this->addedOn;
+    }
+
+    public function setAddedOn(?\DateTimeInterface $addedOn): self
+    {
+        $this->addedOn = $addedOn;
 
         return $this;
     }
