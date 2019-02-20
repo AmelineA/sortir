@@ -9,6 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 class UserType extends AbstractType
@@ -21,44 +22,41 @@ class UserType extends AbstractType
             ->add('username', TextType::class, [
                 'label'=>'Pseudo',
                 'attr'=>[
-                    'placeholder'=>'ex:yoyo44',
-                    'class'=>'form-control col-10'
+                    'placeholder'=>'ex:yoyo44'
                 ],
-                'constraints'=>[new NotBlank(['message'=>'Veuillez renseigner un identifiant'])]
+                'empty_data' => "",
+//               ajout d'une contrainte à la place d'une annotation sur l'entity,
+//               ce cette manière le username n'est pas obligatoire dans UserByAdminType
+                'constraints' => [new NotBlank(['message' => "Veuillez rensigner un identifiant!"])]
             ])
             ->add('name', TextType::class, [
                 'label'=>'Nom',
                 'attr'=>[
-                    'placeholder'=>'Mon nom',
-                    'class'=>'form-control col-10'
+                    'placeholder'=>'Mon nom'
                 ]
             ])
             ->add('firstName', TextType::class, [
                 'label'=>'Prénom',
                 'attr'=>[
-                    'placeholder'=>'Mon Prénom',
-                    'class'=>'form-control col-10'
+                    'placeholder'=>'Mon Prénom'
                 ]
             ])
             ->add('telephone', TextType::class, [
                 'label'=>'Téléphone',
                 'attr'=>[
-                    'placeholder'=>'ex : 0699999999',
-                    'class'=>'form-control col-10'
+                    'placeholder'=>'ex : 0699999999'
                 ]
             ])
             ->add('email', TextType::class, [
                 'label'=>'Email',
                 'attr'=>[
-                    'placeholder'=>'ex : monEmail@Email.com',
-                    'class'=>'form-control col-10'
+                    'placeholder'=>'ex : monEmail@Email.com'
                 ]
             ])
             ->add('password', PasswordType::class, [
                 'label'=>'Mot de passe',
                 'attr'=>[
-                    'placeholder'=>'ex: K!4851o$',
-                    'class'=>'form-control col-10'
+                    'placeholder'=>'ex: K!4851o$'
                 ],
                 'empty_data' => "",
                 'constraints'=>[new NotBlank(['message'=>'Veuillez renseigner un identifiant'])]
@@ -68,7 +66,6 @@ class UserType extends AbstractType
                 'required'=>false,
                 'data_class'=>null,
                 'attr'=>[
-                    'class'=> 'form-control col-10',
                     'value'=>'choisir une photo'
                 ]
 

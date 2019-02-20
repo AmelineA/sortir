@@ -5,19 +5,19 @@
 {% block content %}
 
 
-    <div class="container">
-             <h4>Filtrer les sorties :</h4>
-        <div class="row">
+    <div class="container-home-search">
+        <div class="search">
+            <h4>Filtrer les sorties :</h4>
 
-                <div id="search" class="col-md-10"> <!--col left with form-->
+                <div id="search" class=""> <!--col left with form-->
 
                     <form id="search-form" method="post" action="{{ path('search') }}" novalidate="novalidate" class="">
-                            <div class="row"> <!--row inside form to split it in 2 col-->
+                            <div class=""> <!--row inside form to split it in 2 col-->
 
-                               <div class="col-md-6"> <!--col left inside row form-->
-                                    <div class="row"><!--first field -->
-                                        <label class="align-self-center col-sm-6" for="site">Site </label>
-                                        <select name="site" id="site" size="1" class="form-control col-sm-6">
+                               <div class=""> <!--col left inside row form-->
+                                    <div class=""><!--first field -->
+                                        <label class="align-self-center" for="site">Site </label>
+                                        <select name="site" id="site" size="1" class="form-control">
                                             <option value="0">Tous</option>
                                             {% for s in sites %}
                                                 {% if site == "" %}
@@ -36,21 +36,21 @@
                                             {% endfor %}
                                         </select>
                                     </div><!--first field -->
-                                    <div class="row"><!--second field-->
-                                        <label class="align-self-center col-sm-6" for="searchBar">Le nom de la sortie contient  </label>
-                                        <input class="form-control col-sm-6" name="searchBar" id="searchBar" autofocus type="search" placeholder="Search" value="{{ searchBar }}">
+                                    <div class=""><!--second field-->
+                                        <label class="align-self-center" for="searchBar">Le nom de la sortie contient  </label>
+                                        <input class="form-control" name="searchBar" id="searchBar" autofocus type="search" placeholder="Search" value="{{ searchBar }}">
                                     </div><!--second field-->
-                                    <div class="row"><!--third field -->
-                                        <label class="align-self-center col-sm-6" for="dateStart">Date entre le</label>
-                                        <input class="form-control col-sm-6" type="date" name="dateStart" id="dateStart"  value="{{ dateStart }}">
+                                    <div class=""><!--third field -->
+                                        <label class="align-self-center" for="dateStart">Date entre le</label>
+                                        <input class="form-control" type="date" name="dateStart" id="dateStart"  value="{{ dateStart }}">
                                     </div><!--third field -->
-                                    <div class="row"><!--fourth field -->
-                                        <label class="align-self-center col-sm-6" for="dateEnd">et le </label>
-                                        <input class="form-control col-sm-6" type="date" name="dateEnd" id="dateEnd" value="{{ dateEnd }}">
+                                    <div class=""><!--fourth field -->
+                                        <label class="align-self-center" for="dateEnd">et le </label>
+                                        <input class="form-control" type="date" name="dateEnd" id="dateEnd" value="{{ dateEnd }}">
                                     </div><!--fourth field -->
                                </div><!--col left inside row form-->
 
-                                <div class="col-md-6"><!--col right inside row form-->
+                                <div class=""><!--col right inside row form-->
                                     <div><!--first field-->
                                         {% if organizer != "on" %}
                                             <input class="" type="checkbox" name="organizer" id="organizer">
@@ -92,13 +92,14 @@
 
                 </div><!--col left-->
 
-            <div id="welcome" class="col-md-2"> <!--col right-->
+        </div> <!--row-->
+        <div class="welcome row-justify-between"> <!--col right-->
+            <div>
                 <h5>{{ today | date("d/m/Y") }}</h5>
                 <p>Bonjour {{ app.user.name }} !</p>
-                <a href="{{ path('create_event') }}"><button class="btn btn-lg btn-primary">Créer une sortie</button></a>
-            </div><!--col right-->
-
-        </div> <!--row-->
+            </div>
+            <a href="{{ path('create_event') }}"><button class="btn btn-lg btn-primary">Créer une sortie</button></a>
+        </div><!--col right-->
     </div> <!--container-->
 
     <table class="table table-striped">
@@ -107,24 +108,25 @@
                 <th>Site</th>
                 <th>Nom de la sortie</th>
                 <th>Date de la sortie</th>
-                <th>Clôture</th>
-                <th>Inscrits / Places</th>
-                <th>Etat</th>
-                <th>Organisateur</th>
-                <th>Actions</th>
+                <th class="hidden">Clôture</th>
+                <th class="hidden">Inscrits / Places</th>
+                <th class="hidden">Etat</th>
+                <th class="hidden">Organisateur</th>
+                <th class="hidden">Actions</th>
             </tr>
         </thead>
         <tbody>
         {% for event in events %}
             <tr>
                 <td>{{ event.site.name }}</td>
-                <td>{{ event.name }}</td>
-                <td> {{ event.rdvTime | date("d/m/Y") }} </td>
-                <td> {{ event.signOnDeadline | date("d/m/Y") }} </td>
-                <td>{{ event.participants.count }} / {{ event.maxNumber }} </td>
-                <td> {{ event.state }} </td>
-                <td> <a href="{{ path('show_profile', {'id':event.organizer.id}) }}">{{ event.organizer.firstName }} {{ event.organizer.name }} </a></td>
                 <td>
+                    <a href="{{ path('display_event', {'eventId':event.id}) }}">{{ event.name }}</a></td>
+                <td> {{ event.rdvTime | date("d/m/Y") }} </td>
+                <td class="hidden"> {{ event.signOnDeadline | date("d/m/Y") }} </td>
+                <td class="hidden">{{ event.participants.count }} / {{ event.maxNumber }} </td>
+                <td class="hidden"> {{ event.state }} </td>
+                <td class="hidden"> <a href="{{ path('show_profile', {'id':event.organizer.id}) }}">{{ event.organizer.firstName }} {{ event.organizer.name }} </a></td>
+                <td class="hidden">
                     <a href="{{ path('display_event', {'eventId':event.id}) }}"><button class="btn btn-sm btn-primary">Voir l'événement</button></a>
                 {% if app.user in event.participants %}
                     <a href="{{ path('sign_on_to_event', {'eventId':event.id}) }}"><button class="btn btn-sm btn-primary">S'inscrire</button></a>

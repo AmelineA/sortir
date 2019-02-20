@@ -8,13 +8,14 @@
     <thead>
         <tr>
             <th>Username</th>
-            <th>Roles</th>
-            <th>Nom</th>
-            <th>Prénom</th>
-            <th>Téléphone</th>
-            <th>Email</th>
-            <th>Actif</th>
-            <th>Site</th>
+            <th class="hidden">Roles</th>
+            <th class="hidden">Nom</th>
+            <th class="hidden">Prénom</th>
+            <th class="hidden">Téléphone</th>
+            <th class="hidden">Email</th>
+            <th class="hidden">Actif</th>
+            <th class="hidden">Site</th>
+            <th></th>
             <th></th>
         </tr>
     </thead>
@@ -22,13 +23,13 @@
     {% for user in users %}
         <tr>
             <td><a href="{{ path('show_profile', {'id':user.id}) }}">{{ user.username }}</a></td>
-            <td> {{ user.roles[0] }}</td>
-            <td> {{ user.name }}</td>
-            <td> {{ user.firstName }} </td>
-            <td> {{ user.telephone }} </td>
-            <td> {{ user.email }} </td>
-            <td> {{ user.activated }} </td>
-            <td> {{ user.site.name }} </td>
+            <td class="hidden"> {{ user.roles[0] }}</td>
+            <td class="hidden"> {{ user.name }}</td>
+            <td class="hidden"> {{ user.firstName }} </td>
+            <td class="hidden"> {{ user.telephone }} </td>
+            <td class="hidden"> {{ user.email }} </td>
+            <td class="hidden"> {{ user.activated }} </td>
+            <td class="hidden"> {{ user.site.name }} </td>
             {% if user.activated is same as(true) %}
                 <td><a href="{{ path('deactivate_user', {'userId':user.id}) }}" class="nav-link">Désactiver</a></td>
             {% else %}

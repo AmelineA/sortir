@@ -104,6 +104,7 @@ class SecurityController extends AbstractController
             return $this->redirectToRoute('home');
         }
 
+
         return $this->render('security/myprofile.html.twig',[
           'registerForm'=>$registerForm->createView(),
           'user'=>$currentUser
@@ -145,7 +146,6 @@ class SecurityController extends AbstractController
                       ->setBody($this->render('mail/token-email.html.twig', [
                           'token'=>$token
                       ]), 'text/html');
-
                   $mailer->send($mgClient);
 
                 $this->addFlash('success', "Un email de réinitialisation vous a été envoyé.");

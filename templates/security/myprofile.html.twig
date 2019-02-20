@@ -4,23 +4,22 @@
 
 {% block content %}
 
-      <div class="container">
+      <div class="container-profile">
           <h2 class="text-center">Mon profil</h2>
 
-          <div class="row">
-
-              <div class=""><!--col left-->
-                <img class="profile-img " src="{{ asset('img/profile-pictures/') }}{{ user.profilePictureName }}" alt="ta photo, banane">
+          {#<div class="row-justify-between">#}
+              <div class="profile-img"><!--col left-->
+                <img src="{{ asset('img/profile-pictures/') }}{{ user.profilePictureName }}" alt="ta photo, banane">
               </div><!--col left-->
 
-              <div class="profile-info "><!--col right-->
-                    {{ form_start(registerForm, {'attr':{'class':'', 'novalidate': 'novalidate'}}) }}
+              <div class="profile-info"><!--col right-->
+                    {{ form_start(registerForm, {'attr':{'novalidate': 'novalidate'}}) }}
                     {{ form_widget(registerForm) }}
                     <button class="btn btn-md btn-primary">Enregistrer</button>
                     {{ form_end(registerForm) }}
               </div><!--col right-->
 
-          </div><!--row-->
+          {#</div><!--row-->#}
       </div><!--container-->
 
 {% endblock %}

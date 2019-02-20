@@ -2,19 +2,126 @@
 /*#005066*/
 /*#4e7988*/
 
+/***********************************GRID***************************************/
+@media only screen
+    and (max-width: 700px) {
+
+    body{
+        display: grid;
+        grid-template-columns: [start] 1fr [end];
+        grid-template-rows: [start] 20% [main-start] 1fr [main-end] 20% [end];
+        grid-template-areas:
+            "header"
+            "main"
+            "footer";
+        font-size: 12px;
+    }
+
+    /*resizing the font */
+    h1{font-size: 2.5em;}
+    h2{font-size: 2em}
+    h3{font-size: 1.75em}
+    h4{font-size: 1.5em}
+    h5{font-size: 1.25em}
+    h6{font-size: 1em}
+
+    .hidden{
+        display: none;
+    }
+
+    .container-profile{
+        grid-template-areas:
+                "header header"
+                "photo photo"
+                "info info";
+    }
+
+    .profile-img{
+        height: 15%;
+    }
+
+    .welcome{
+        grid-area: profile;
+        display: flex;
+    }
+
+    .search{
+        grid-area: filters;
+    }
+}
+
+
+
+
+@media screen
+    and (min-width: 700px){
+
+    body{
+        display: grid;
+        grid-template-columns: [start] 15% [main-start] 1fr [main-end] 15% [end];
+        grid-template-rows: [start] 25% [header-end] 10% [main-start] 1fr [main-end] 20% [end];
+        grid-template-areas:
+            "header header header"
+            ". alert ."
+            ". main ."
+            "footer footer footer";
+        font-size: 16px;
+    }
+
+    .container-profile{
+        grid-template-areas:
+            "header header"
+            ". ."
+            "photo info";
+    }
+
+}
+
+header{
+    grid-area: header;
+}
+
+main{
+    grid-area: main;
+}
+
+footer{
+    grid-area: footer;
+}
+
+
+.container-profile{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: auto auto 1fr;
+    grid-column-gap: 20px;
+}
+
+.profile-img{
+    grid-area: photo;
+    justify-self: center;
+}
+
+.profile-info{
+    grid-area: info;
+}
+
+.container-home-search{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, auto);
+    grid-gap: 10px 10px;
+    grid-template-areas:
+        "profile profile"
+        "filters filters";
+}
 
 /***********************************GENERAL***************************************/
-* {
-    box-sizing: border-box;
-}
 body{
     font-family: Nunito, sans-serif;
     background-color: #002439;
     color: #e4eff0;
     min-height: 100vh;
-    /*display: flex;
-    flex-direction: column;*/
-    padding: 10px 30px;
 }
 
 h1, h2, h3, h4, h5, h6{
@@ -25,18 +132,6 @@ h1{
     margin-bottom: 20px;
 }
 
-main{
-    /*flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;*/
-}
-
-th{
-    color: #78cce2;
-}
-
-
 a{
     color: #e4eff0;
 }
@@ -46,9 +141,23 @@ a:hover{
     color: #78cce2;
 }
 
-.row{
+.container{
     padding: 0;
 }
+
+.table th{
+    border-top: none;
+}
+/***********************************BUTTONS***************************************/
+.btn-primary{
+    background-color: #4e7988;
+    border: none;
+}
+
+.btn-primary:hover{
+    background-color: #005066;
+}
+
 /***********************************HEADER***************************************/
 
 
@@ -67,156 +176,62 @@ header{
     margin-right: 10px;
 }
 
-/***********************************MAIN*****************************************/
 
-main{
-    height: 90vh;
+
+
+.row-justify-between{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
 }
 
-/***********************************BUTTONS***************************************/
-.btn-primary{
-    background-color: #4e7988;
-    border: none;
-}
 
-.btn-primary:hover{
-    background-color: #005066;
-}
 
 /***********************************HOME***************************************/
-table{
-    margin-top: 30px;
-}
+/*table{*/
+    /*margin-top: 30px;*/
+/*}*/
 
-.right{
-    padding: 0;
-}
+/*.right{*/
+    /*padding: 0;*/
+/*}*/
 
-.home-header{
-    padding: 0;
-}
-#welcome{
-    margin-top: 15px;
-}
+/*.home-header{*/
+    /*padding: 0;*/
+/*}*/
+/*#welcome{*/
+    /*margin-top: 15px;*/
+/*}*/
 
 /***********************************FORMS***************************************/
-.form-control{
-    margin: 3px 0;
-}
+/*.form-control{*/
+    /*margin: 3px 0;*/
+/*}*/
 
-#user div{
-    /*display: flex;
-    justify-content: space-between;
-    align-items: center;*/
-}
-#event div{
-    /*display: flex;
-    justify-content: space-between;
-    align-items: center;*/
-}
+/*#search-form{*/
+    /*padding: 0;*/
+/*}*/
 
-#search-form{
-  /*  display: flex;
-    align-items: center;
-    justify-content: space-between;*/
-    padding: 0;
-}
+/*#search{*/
+    /*padding: 0;*/
+/*}*/
 
-#search{
-    /*display: flex;
-    justify-content: space-between;*/
-    padding: 0;
-}
+/*#search .col{*/
+    /*padding: 0;*/
+/*}*/
 
-#search .col{
-    padding: 0;
-  /*  display: flex;
-    flex-direction: column;
-    justify-content: center;*/
-}
+/*.date{*/
+    /*padding: 0;*/
+/*}*/
 
-#search .col div{
-    /*display: flex;
-    justify-content: space-between;
-    align-items: center;*/
-}
+/*.date:last-child label{*/
+    /*padding-left: 20px;*/
+/*}*/
 
-.date{
-    padding: 0;
-}
+/*#search .col:first-child{*/
+    /*padding-right: 20px;*/
+/*}*/
 
-.date:last-child label{
-    padding-left: 20px;
-}
-
-#search .col:first-child{
-    padding-right: 20px;
-}
-
-#search .col:last-child{
-    padding-right: 20px;
-}
-/**********************************TWIG login*****************************************/
-
-#login-flex-container{
-    width: 100vh;
-    height: 50vh;
-   /* display: flex;
-    flex-direction: column;
-    justify-content:center;
-    align-items: center;*/
-}
-#login-title{
-    /*display: flex;
-    width: 100vh;
-    justify-content: center;*/
-}
-#login-form{
-    /*display: flex;
-    justify-content: center;
-    width: 100vh;*/
-}
-
-
-/***********************************TWIG cancel-event******************************/
-.cancel-event-title{
-    margin: 30px 10px;
-}
-.event-display-cancel{
-    margin: 30px;
-    /*text-align: center;*/
-}
-.event-display-cancel label{
-    color: #78cce2;
-    /*width: 150px;
-    text-align: right;*/
-}
-#motif{
-    height: 200px;
-    width: 400px;
-}
-/*******************************TWIG display-event******************************/
-#event-details label{
-    color: #78cce2 ;
-}
-#event-details p{
-    margin-left: 10px;
-}
-/*************************************profile******************************/
-.profile-img{
-    margin-top: 15px;
-    height: 20vh;
-}
-.profile-info{
-    margin: 10px;
-}
-.form-group label{
-    color: #78cce2 ;
-}
-/***********************************FOOTER***************************************/
-footer{
-  /*  display: flex;
-    justify-content: center;*/
-    width: 100%;
-}
-
+/*#search .col:last-child{*/
+    /*padding-right: 20px;*/
+/*}*/

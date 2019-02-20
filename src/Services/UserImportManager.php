@@ -81,7 +81,6 @@ class UserImportManager
             $user->setUsername($username);
             $user->setAddedOn(new \DateTime('now'));
             $this->em->persist($user);
-
         }
 
         $this->em->flush();
@@ -89,7 +88,5 @@ class UserImportManager
 
         return $now;
     }
-
-
 
 }

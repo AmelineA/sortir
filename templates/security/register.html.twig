@@ -10,8 +10,8 @@
         </div>
         <h3>Manuellement</h3>
         <div class="my-profil-content-container">
-            <div class="my-profil-details col-9">
-                {{ form_start(registerForm, {'attr':{'class':'col-sm-12', 'novalidate': 'novalidate'}}) }}
+            <div class="my-profil-details">
+                {{ form_start(registerForm, {'attr':{'novalidate': 'novalidate'}}) }}
                 {{ form_widget(registerForm) }}
                 <button class="btn btn-md btn-primary">Inscrire</button>
                 {{ form_end(registerForm) }}
@@ -20,8 +20,8 @@
 
         <h3>Via fichier</h3>
         <div class="my-profil-content-container">
-            <div class="my-profil-details col-9">
-                {{ form_start(csvForm, {'attr':{'class':'col-sm-12', 'novalidate': 'novalidate'}}) }}
+            <div class="my-profil-details">
+                {{ form_start(csvForm, {'attr':{'novalidate': 'novalidate'}}) }}
                 {{ form_widget(csvForm) }}
                 <button class="btn btn-md btn-primary">Charger fichier</button>
                 {{ form_end(csvForm) }}
