@@ -39,7 +39,7 @@
             </div><!--info top-->
             <div>
                 <div class="row-justify-between">
-                    <label>Ville organisatrice : </label>
+                    <label>Campus de l'organisateur : </label>
                     <p class="col-6"> {{ event.site.name }}</p>
                 </div>
                 <div class="row-justify-between">
@@ -48,15 +48,19 @@
                 </div>
                 <div class="row-justify-between">
                     <label>Adresse : </label>
-                    <p class="col-6">{{ event.location.street }}</p>
+                    <p id="street" class="col-6">{{ event.location.street }}</p>
                 </div>
                 <div class="row-justify-between">
                     <label>Code Postal : </label>
-                    <p class="col-6">{{ event.location.zipCode }}</p>
+                    <p id="zipcode" class="col-6">{{ event.location.zipCode }}</p>
+                </div>
+                <div class="row-justify-between">
+                    <label>Code Postal : </label>
+                    <p id="city" class="col-6">{{ event.location.city }}</p>
                 </div>
                 <div class="row-justify-between">
                     <label>Latitude : </label>
-                    <p id="lat" class="col-6">{{ event.location.latitude }}</p>
+                    <p  id="lat" class="col-6">{{ event.location.latitude }}</p>
                 </div>
                 <div class="row-justify-between">
                     <label>Longitude : </label>

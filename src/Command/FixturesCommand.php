@@ -122,7 +122,9 @@ class FixturesCommand extends Command
             $location->setName($l);
             $location->setLatitude('47.220316');
             $location->setLongitude('-1.549559');
-            $location->setStreet($faker->streetAddress);
+            $location->setStreet('4 Rue Lebrun');
+            $location->setZipCode('44000');
+            $location->setCity('Nantes');
             $allLocations[] = $location;
             $this->em->persist($location);
         }

@@ -201,11 +201,12 @@ class EventController extends AbstractController
      * @IsGranted("ROLE_USER")
      * @Route("/afficher-sortie/{eventId}", name="display_event", requirements={"id"="\d+"})
      */
-    public function displayEvent($eventId)
+    public function displayEvent($eventId, Request $request)
     {
         $eventRepo=$this->getDoctrine()->getRepository(Event::class);
         $event=$eventRepo->find($eventId);
         $participants=$event->getParticipants();
+
         return $this->render('event/display-event.html.twig', [
             'event'=>$event,
             'participants'=>$participants
