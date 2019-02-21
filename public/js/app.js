@@ -1,5 +1,5 @@
 //slide up alerts after a delay
-$(".alert").delay(3000).slideUp();
+$(".alert").delay(5000).slideUp();
 
 
 //recuperer l'input de type file et exécuter une action dès que cet input est actionné
@@ -10,6 +10,7 @@ $('input[type="file"]').change(function (event) {
    $(".custom-file-label").text(fileName);
 });
 
+
 //pour faire correspondre la largeur des th aux largeurs des td
     let length = $(".table-event").children('thead').children('tr').children('th').length;
 function resizeTable() {
@@ -17,18 +18,19 @@ function resizeTable() {
         let widthTd = parseInt($(".table-event").children('tbody').children('tr:first').children('td:nth-child('+i+')').width());
 
         let owidthTh = $(".table-event").children('thead').children('tr').children('th:nth-child('+i+')').width(widthTd);
-        console.log("owidthTh = " + parseInt(owidthTh.width()) + " widthTd = " +widthTd );
+        // console.log("owidthTh = " + parseInt(owidthTh.width()) + " widthTd = " +widthTd );
 
         if (owidthTh.width()>widthTd){
             let widthTh = parseInt($(".table-event").children('thead').children('tr').children('th:nth-child('+i+')').width());
             let owidthTd = $(".table-event").children('tbody').children('tr:first').children('td:nth-child('+i+')').width(widthTh);
 
-            console.log("2 widthTh = " + widthTh + " widthTd = " +parseInt(owidthTd.width()));
+            // console.log("2 widthTh = " + widthTh + " widthTd = " +parseInt(owidthTd.width()));
         }
     }
 }
 
 $(document).resize(resizeTable());
+
 
 // pointer le lieu sur une carte openstreetmap
 
@@ -58,3 +60,35 @@ $(document).resize(resizeTable());
     window.onload = function () {
         initMap();
     };
+
+
+//convertir les boutons de la navbar du header en dropdown
+var heightAdmin = $("#dropAdmin").height();
+var heightUser = $("#dropUser").height();
+
+var dropUser = $("#dropUser .dropcontent");
+var dropAdmin = $("#dropAdmin .dropcontent");
+
+
+$("#dropAdmin").click(function () {
+    if (dropUser.toggleClass('active', true)){
+        dropUser.toggleClass('active');
+        $("#dropUser").removeClass('dropdown-active');
+    }
+    dropAdmin.toggleClass('active');
+    $(this).toggleClass('dropdown-active');
+    $(this).height('auto');
+    $("#dropUser").height(heightUser);
+});
+
+$("#dropUser").click(function () {
+    if (dropAdmin.toggleClass('active', true)){
+        dropAdmin.toggleClass('active');
+        $("#dropAdmin").removeClass('dropdown-active');
+    }
+    dropUser.toggleClass('active');
+    $(this).toggleClass('dropdown-active');
+    $(this).height('auto');
+    $("#dropAdmin").height(heightAdmin);
+});
+

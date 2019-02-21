@@ -6,11 +6,6 @@
 @media only screen
     and (max-width: 700px) {
 
-    /*a supprimer*/
-    body{
-        background-color: #1c7430;
-    }
-
     body{
         display: grid;
         grid-template-columns: [start] 1fr [end];
@@ -68,7 +63,13 @@
         grid-template-areas:
                 "header header"
                 "info info"
+                "map map"
                 "participants participants";
+    }
+
+    #map{
+        width: auto;
+        height: 250px;
     }
 
     /*register user*/
@@ -117,14 +118,18 @@
         display: block;
         table-layout: fixed;
         border-collapse: collapse;
-        width: 100%;
     }
 
     .table-event tbody{
         overflow: auto;
         height: 350px;
         display: block;
-        width: 100%;
+    }
+
+    .table{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
 
     /*header of home page*/
@@ -158,15 +163,17 @@
         flex-wrap: wrap;
     }
 
-    /*display event*/
-    .container-event{
-        grid-template-areas:
-                "header header"
-                "info participants";
-    }
 
     .filters-right{
         align-self: center;
+    }
+
+    /*display event*/
+    .container-event{
+        grid-template-areas:
+            "header header"
+            "info map"
+            "participants participants";
     }
 
     .container-event h1{
@@ -179,6 +186,15 @@
 
     .participants-event{
         grid-area: participants;
+    }
+
+    .participants-event h4{
+        text-align: center;
+    }
+
+    #map{
+        width: auto;
+        height: auto;
     }
 
     /*register user*/
@@ -247,8 +263,8 @@ footer{
 .container-event{
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(3, auto);
-    grid-gap: 10px 10px;
+    /*grid-template-rows: repeat(3, auto);*/
+    grid-gap: 20px 10px;
 }
 
 .container-event h1{
@@ -259,8 +275,17 @@ footer{
     grid-area: info;
 }
 
+#map{
+    grid-area: map;
+}
+
 .participants-event{
     grid-area: participants;
+    justify-self: center;
+}
+
+.participants-event h4{
+    justify-self: center;
 }
 
 /*register users*/
@@ -279,7 +304,7 @@ footer{
 /***********************************GENERAL***************************************/
 body{
     font-family: Nunito, sans-serif;
-    /*background-color: #002439;*/
+    background-color: #002439;
     color: #e4eff0;
     min-height: 100vh;
 }
@@ -313,6 +338,9 @@ th, td{
     border-top: none;
 }
 
+.actions .nav-link{
+    padding: 0;
+}
 /***********************************BUTTONS***************************************/
 .btn-primary{
     background-color: #4e7988;
@@ -324,23 +352,23 @@ th, td{
 }
 #icon{
     display: flex;
-    justify-content: space-between;
+    padding: 0;
+    margin: 0;
 }
 
 .btn-icon{
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
+    margin: 5px;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
 .btn-icon img{
-    width: 35px;
-    height: 35px
+    width: 25px;
+    height: 25px
 }
-
-
 
 /***********************************HEADER***************************************/
 
@@ -370,7 +398,6 @@ header{
 /***********************************DROPDOWN***************************************/
 .dropdown{
     padding: 5px;
-    border: 1px solid white;
     border-radius: 5px;
     display: flex;
     flex-direction: column;
@@ -388,7 +415,8 @@ header{
     background-color: #005066;
 }
 
-.dropdown:active{
+.dropdown-active{
+    align-items: flex-start;
     background-color: #005066;
 }
 
@@ -396,64 +424,9 @@ header{
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-
 }
-/*.dropdown:hover .dropcontent, .dropdown:hover{*/
-    /*display: flex;*/
-    /*flex-direction: column;*/
-    /*align-items: flex-start;*/
-/*}*/
 
-
-/***********************************HOME***************************************/
-/*table{*/
-    /*margin-top: 30px;*/
-/*}*/
-
-/*.right{*/
-    /*padding: 0;*/
-/*}*/
-
-/*.home-header{*/
-    /*padding: 0;*/
-/*}*/
-/*#welcome{*/
-    /*margin-top: 15px;*/
-/*}*/
-
-/***********************************FORMS***************************************/
-/*.form-control{*/
-    /*margin: 3px 0;*/
-/*}*/
-
-/*#search-form{*/
-    /*padding: 0;*/
-/*}*/
-
-/*#search{*/
-    /*padding: 0;*/
-/*}*/
-
-/*#search .col{*/
-    /*padding: 0;*/
-/*}*/
-
-/*.date{*/
-    /*padding: 0;*/
-/*}*/
-
-/*.date:last-child label{*/
-    /*padding-left: 20px;*/
-/*}*/
-
-/*#search .col:first-child{*/
-    /*padding-right: 20px;*/
-/*}*/
-
-/*#search .col:last-child{*/
-    /*padding-right: 20px;*/
-/*}*/
-#map{
-    width: 300px;
-    height: 300px;
+#dropAdmin{
+    margin-right: 15px;
 }
+
