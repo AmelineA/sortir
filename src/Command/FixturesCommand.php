@@ -79,6 +79,7 @@ class FixturesCommand extends Command
         $defaultUser->setTelephone('0101010101');
         $defaultUser->setPassword($this->encoder->encodePassword($defaultUser, $defaultUser->getUsername()));
         $defaultUser->setActivated(true);
+        $defaultUser->setAddedOn(new \DateTime('now'));
         $allUser[] = $defaultUser;
         $this->em->persist($defaultUser);
 
@@ -92,6 +93,7 @@ class FixturesCommand extends Command
         $adminUser->setPassword($this->encoder->encodePassword($adminUser, $adminUser->getUsername()));
         $adminUser->setActivated(true);
         $adminUser->setRoles(['ROLE_ADMIN']);
+        $adminUser->setAddedOn(new \DateTime('now'));
         $allUser[] = $adminUser;
         $this->em->persist($adminUser);
 
@@ -105,6 +107,7 @@ class FixturesCommand extends Command
             $user->setTelephone($faker->randomNumber([10, true]));
             $user->setPassword($this->encoder->encodePassword($user, $user->getUsername()));
             $user->setActivated(true);
+            $user->setAddedOn(new \DateTime('now'));
             $allUser[] = $user;
             $this->em->persist($user);
         }
@@ -152,8 +155,6 @@ class FixturesCommand extends Command
         $this->em->flush();
 
         $io->success('done !');
-
     }
-
 
 }

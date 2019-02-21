@@ -41,16 +41,17 @@ class AdminController extends AbstractController
     {
         $user = new User();
         $csvFile = new CsvFile();
-//die();    OK
+        $time = new \DateTime();
+
         //form for user manually
         $registerForm = $this->createForm(UserByAdminType::class, $user);
         $registerForm->handleRequest($request);
-//die();        OK
+
         //form for csv files
         $fileUploader = new FileUploader('CSVusers');
         $csvForm = $this->createForm(UserByFileType::class, $csvFile);
         $csvForm->handleRequest($request);
-//die();
+
         if ($registerForm->isSubmitted() && $registerForm->isValid()) {
 
             $year = new \DateTime();
@@ -66,6 +67,7 @@ class AdminController extends AbstractController
 
             $user->setPassword($hash);
             $user->setUsername($username);
+            $user->setAddedOn(new \DateTime('now'));
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
@@ -102,10 +104,10 @@ class AdminController extends AbstractController
                 //converting the file content to an object array of String
                 $usersArray = $csvToArray->convert($csvPath, ',');
                 //importing the content of the array to the database
-                $userImportManager->importUsers($usersArray, $encoder);
+                $time=$userImportManager->importUsers($usersArray, $encoder);
 
+                $this->sendMessageToUsers($mailer, $time);
             }
-
             $this->addFlash("success", 'Les utilisateurs ont bien été créés ! ');
             return $this->redirectToRoute('home');
         }
@@ -185,6 +187,33 @@ class AdminController extends AbstractController
             return "can't find user";
         }
         return $this->redirectToRoute('show_list_of_users');
+    }
+
+
+    private function sendMessageToUsers(\Swift_Mailer $mailer, \DateTime $time)
+    {
+        $userRepo=$this->getDoctrine()->getRepository(User::class);
+        $users=$userRepo->findAfterDate($time);
+//        dd($users)        //OK
+        $year = new \DateTime();
+
+        foreach($users as $user){
+            $username=$user->getUsername();
+            //generate a password with the 2 first letters of the name, the first name and the year of inscription
+            $passwordName = substr($user->getName(), 0, 2);
+            $passwordFName = substr($user->getFirstName(), 0, 2);
+            $password = $passwordFName.$passwordName.$year->format("Y");
+            $message = new \Swift_Message();
+            $message->setTo($user->getEmail())
+                ->setSubject("Votre inscription")
+                ->setFrom("ameline.aubin2018@campus-eni.fr")
+                ->setBody($this->renderView('mail/email.html.twig', [
+                    'username' => $username,
+                    'password' => $password
+                ]));
+            $mailer->send($message);
+        }
+//
     }
 
 

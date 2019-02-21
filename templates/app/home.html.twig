@@ -124,15 +124,15 @@
                 <td class="hidden">{{ event.participants.count }}/{{ event.maxNumber }} </td>
                 <td class="hidden"> {{ event.state }} </td>
                 <td class="hidden"> <a href="{{ path('show_profile', {'id':event.organizer.id}) }}">{{ event.organizer.firstName }} {{ event.organizer.name }} </a></td>
-                <td class="hidden">
-                    <a href="{{ path('display_event', {'eventId':event.id}) }}"><button class="btn btn-sm btn-primary">Voir l'événement</button></a>
+                <td class="hidden" id="icon">
+                    <a href="{{ path('display_event', {'eventId':event.id}) }}"><button class="btn btn-sm btn-primary btn-icon" title="Voir l'événement"><img src="{{ asset('img/eyeIcon.png') }}" alt="show"></button></a>
                 {% if app.user in event.participants %}
-                    <a href="{{ path('sign_on_to_event', {'eventId':event.id}) }}"><button class="btn btn-sm btn-primary">S'inscrire</button></a>
+                    <a href="{{ path('sign_on_to_event', {'eventId':event.id}) }}"><button class="btn btn-sm btn-primary btn-icon" title="S'inscrire"><img src="{{ asset('img/signonIcon.png') }}" alt="sign on"></button></a>
                 {% else %}
-                    <a href="{{ path('withdraw_event', {'eventId' : event.id}) }}"><button class="btn btn-sm btn-primary">Se désinscrire</button></a>
+                    <a href="{{ path('withdraw_event', {'eventId' : event.id}) }}"><button class="btn btn-sm btn-primary btn-icon" title="Se désister"><img src="{{ asset('img/withdrawIcon.png') }}" alt="withdraw"></button></a>
                 {% endif %}
                 {% if is_granted('ROLE_ADMIN') %}
-                    <a href="{{ path('cancel_event', {'eventId' : event.id}) }}"><button class="btn btn-sm btn-primary">Annuler</button></a>
+                    <a href="{{ path('cancel_event', {'eventId' : event.id}) }}"><button class="btn btn-sm btn-primary btn-icon" title="Annuler"><img src="{{ asset('img/cancelIcon.png') }}" alt="cancel"></button></a>
                 {% endif %}
                 </td>
             </tr>

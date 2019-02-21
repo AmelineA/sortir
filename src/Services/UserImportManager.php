@@ -38,8 +38,15 @@ class UserImportManager
     }
 
 
-        public function importUsers($users, UserPasswordEncoderInterface $encoder)
+    /**
+     * @param $users
+     * @param UserPasswordEncoderInterface $encoder
+     * @return \DateTime
+     * @throws \Exception
+     */
+    public function importUsers($users, UserPasswordEncoderInterface $encoder)
     {
+
         foreach($users as $u){
             $user= new User();
 
@@ -72,7 +79,7 @@ class UserImportManager
 
             $user->setPassword($hash);
             $user->setUsername($username);
-
+            $user->setAddedOn(new \DateTime('now'));
             $this->em->persist($user);
         }
 

@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 /**
  * @method User|null find($id, $lockMode = null, $lockVersion = null)
@@ -18,6 +19,27 @@ class UserRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, User::class);
     }
+
+
+    public function findAfterDate($time)
+    {
+
+        $qb=$this->createQueryBuilder('u');
+        $qb->andWhere('u.addedOn=:time');
+        $qb->setParameter('time', $time);
+        $query=$qb->getQuery();
+        return $query->getResult();
+    }
+
+//    public function findByAfterDate(DateTime $time)
+//    {
+//        return $this->createQueryBuilder('u')
+//            ->andWhere('u.addedOn=:time')
+//            ->setParameter('time', $time)
+//            ->getQuery()
+//            ->getResult()
+//        ;
+//    }
 
     // /**
     //  * @return User[] Returns an array of User objects

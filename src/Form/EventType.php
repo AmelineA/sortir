@@ -30,7 +30,6 @@ class EventType extends AbstractType
                 'label'=>'C\'est où ?',
                 'class'=>Location::class,
                 'choice_label'=>'name',
-                'attr'=>['class'=>'form-control col-10'],
                 'empty_data'=> ""
             ])
 
@@ -38,7 +37,6 @@ class EventType extends AbstractType
                 'label'=>'Le rendez-vous',
                 'widget' => 'single_text',
                 'data'=>new \DateTime('now'),
-                'attr'=>['class'=>'form-control col-10']
             ])
             ->add('duration', IntegerType::class, [
                 'label'=>'Durée',
@@ -49,7 +47,6 @@ class EventType extends AbstractType
                 'widget' => 'single_text',
                 'date_format' => "Y",
                 'data'=>new \DateTime('now'),
-                'attr'=>['class'=>'form-control col-10']
             ])
             ->add('maxNumber', IntegerType::class, [
                 'label'=>'Nombre maximal d\'inscrits',
