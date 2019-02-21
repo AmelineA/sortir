@@ -160,7 +160,6 @@ class EventController extends AbstractController
     }
 
     /**
-     *
      * @IsGranted("ROLE_USER")
      * @Route(
      *     "/annuler-une-sortie/{eventId}",
@@ -178,7 +177,7 @@ class EventController extends AbstractController
 
         if($_POST){
 
-            $motif = $request->query->get('motif');
+            $motif = $request->request->get('motif');
             $event->setDescription($motif);
             $event->setState('annulé');
             $em=$this->getDoctrine()->getManager();
@@ -201,16 +200,23 @@ class EventController extends AbstractController
      * @IsGranted("ROLE_USER")
      * @Route("/afficher-sortie/{eventId}", name="display_event", requirements={"id"="\d+"})
      */
-    public function displayEvent($eventId, Request $request)
+    public function displayEvent($eventId)
     {
         $eventRepo=$this->getDoctrine()->getRepository(Event::class);
-        $event=$eventRepo->find($eventId);
-        $participants=$event->getParticipants();
+        $eventNb=count($eventRepo->findAll());
 
-        return $this->render('event/display-event.html.twig', [
-            'event'=>$event,
-            'participants'=>$participants
-        ]);
+        if($eventId>0 && $eventId<=$eventNb){
+            $event=$eventRepo->find($eventId);
+            $participants=$event->getParticipants();
+            return $this->render('event/display-event.html.twig', [
+                'event'=>$event,
+                'participants'=>$participants
+            ]);
+        }
+        else{
+            $this->addFlash('danger', "Cette sortie n'existe pas. Pas encore... Mouaha, Mouhaha MOUHAHAHAHAHAHA");
+            return $this->redirectToRoute('home');
+        }
     }
 
     /**

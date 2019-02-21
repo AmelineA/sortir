@@ -112,11 +112,18 @@ class AppController extends AbstractController
      */
     public function showProfile($id)
     {
-        $em = $this->getDoctrine()->getRepository(User::class);
-        $user = $em->find($id);
-        return $this->render('app/show-profile.html.twig', [
-            'user' => $user
-        ]);
+        $userRepo = $this->getDoctrine()->getRepository(User::class);
+        $userNb=count($userRepo->findAll());
+        if($id>0 && $id<=$userNb){
+            $user = $userRepo->find($id);
+            return $this->render('app/show-profile.html.twig', [
+                'user' => $user
+            ]);
+        }
+        else{
+            $this->addFlash('danger', "Ce camarade n'existe pas. Mais il nous rejoindra... bientôt. Et nous serons assez nombreux pour reconquérir la mère patrie! Da zdrovzdrutd Lenine");
+            return $this->redirectToRoute('home');
+        }
     }
 
 
