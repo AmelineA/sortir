@@ -5,7 +5,7 @@
         <meta charset="UTF-8" lang="fr">
         <meta name="viewport" content="width=device-width">
         <link rel="icon" href="{{ asset('img/favicon.png') }}">
-        <link rel="stylesheet" href="{{ 'css/bootstrap.css' }}" crossorigin="anonymous">
+        <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}" crossorigin="anonymous">
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
         <link rel="stylesheet" href="{{ asset('fonts/fonts.css') }}">
         <!--  fichiers CDN de Leaflet (pour la map)-->
@@ -25,12 +25,22 @@
                 <nav class="nav">
                     <a href="{{ path('home') }}" class="nav-link">Accueil</a>
                     {% if is_granted('ROLE_ADMIN') %}
-                        <a href="{{ path('app_register') }}" class="nav-link">Ajouter un utilisateur</a>
-                        <a href="{{ path('show_list_of_users') }}" class="nav-link">Voir la liste des utilisateurs</a>
+                        <div class="dropdown" id="dropAdmin">
+                            <div class="dropbtn">Admin</div>
+                            <div class="dropcontent">
+                                <a href="{{ path('app_register') }}" class="nav-link">Ajouter un utilisateur</a>
+                                <a href="{{ path('show_list_of_users') }}" class="nav-link">Voir la liste des utilisateurs</a>
+                            </div>
+                        </div>
                     {% endif %}
                     {% if is_granted('ROLE_USER') %}
-                        <a href="{{ path('app_my_profile') }}" class="nav-link">Mon Profil</a>
-                        <a href="{{ path('create_event') }}" class="nav-link">Créer une sortie</a>
+                        <div class="dropdown" id="dropUser">
+                            <div class="dropbtn">Utilisateur</div>
+                            <div class="dropcontent">
+                                <a href="{{ path('app_my_profile') }}" class="nav-link">Mon Profil</a>
+                                <a href="{{ path('create_event') }}" class="nav-link">Créer une sortie</a>
+                            </div>
+                        </div>
                         <a href="{{ path('app_logout') }}" class="nav-link">Se déconnecter</a>
                     {% else %}
                         <a href="{{ path('app_login') }}" class="nav-link">Se connecter</a>
@@ -40,7 +50,7 @@
         </header>
    {% endblock %}
 
-        <main class="flex-grow-1">
+        <main>
             <!-- for Flash messages ...-->
             {% for label, messages in app.flashes %}
                 {% for message in messages %}

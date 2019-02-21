@@ -5,100 +5,99 @@
 {% block content %}
 
 
-    <div class="container">
-             <h4>Filtrer les sorties :</h4>
-        <div class="">
+    <div class="container-home-search">
+        <div class="search">
+            <h4>Filtrer les sorties :</h4>
 
-                <div id="search" class=""> <!--col left with form-->
+            {#<div id="search" class=""> <!--col left with form-->#}
 
-                    <form id="search-form" method="post" action="{{ path('search') }}" novalidate="novalidate" class="">
-                            <div class=""> <!--row inside form to split it in 2 col-->
-
-                               <div class=""> <!--col left inside row form-->
-                                    <div class=""><!--first field -->
-                                        <label class="align-self-center" for="site">Site </label>
-                                        <select name="site" id="site" size="1" class="form-control">
-                                            <option value="0">Tous</option>
-                                            {% for s in sites %}
-                                                {% if site == "" %}
-                                                    {% if app.user.site.id == s.id %}
-                                                        <option value="{{ s.id }}" selected="selected">{{ s.name }}</option>
-                                                    {% else %}
-                                                        <option value="{{ s.id }}">{{ s.name }}</option>
-                                                    {% endif %}
-                                                {% else %}
-                                                    {% if site == s.id %}
-                                                        <option value="{{ s.id }}" selected="selected">{{ s.name }}</option>
-                                                    {% else %}
-                                                        <option value="{{ s.id }}">{{ s.name }}</option>
-                                                    {% endif %}
-                                                {% endif %}
-                                            {% endfor %}
-                                        </select>
-                                    </div><!--first field -->
-                                    <div class=""><!--second field-->
-                                        <label class="align-self-center" for="searchBar">Le nom de la sortie contient  </label>
-                                        <input class="form-control" name="searchBar" id="searchBar" autofocus type="search" placeholder="Search" value="{{ searchBar }}">
-                                    </div><!--second field-->
-                                    <div class=""><!--third field -->
-                                        <label class="align-self-center" for="dateStart">Date entre le</label>
-                                        <input class="form-control" type="date" name="dateStart" id="dateStart"  value="{{ dateStart }}">
-                                    </div><!--third field -->
-                                    <div class=""><!--fourth field -->
-                                        <label class="align-self-center" for="dateEnd">et le </label>
-                                        <input class="form-control" type="date" name="dateEnd" id="dateEnd" value="{{ dateEnd }}">
-                                    </div><!--fourth field -->
-                               </div><!--col left inside row form-->
-
-                                <div class=""><!--col right inside row form-->
-                                    <div><!--first field-->
-                                        {% if organizer != "on" %}
-                                            <input class="" type="checkbox" name="organizer" id="organizer">
+                <form id="search-form" method="post" action="{{ path('search') }}" novalidate="novalidate" class="">
+                        {#<div class=""> <!--row inside form to split it in 2 col-->#}
+                       <div class="filters-left"> <!--col left inside row form-->
+                            <div class="form-group md-row-justify-between"><!--first field -->
+                                <label class="align-self-center" for="site">Site </label>
+                                <select name="site" id="site" size="1" class="form-control">
+                                    <option value="0">Tous</option>
+                                    {% for s in sites %}
+                                        {% if site == "" %}
+                                            {% if app.user.site.id == s.id %}
+                                                <option value="{{ s.id }}" selected="selected">{{ s.name }}</option>
+                                            {% else %}
+                                                <option value="{{ s.id }}">{{ s.name }}</option>
+                                            {% endif %}
                                         {% else %}
-                                            <input class="" type="checkbox" name="organizer" id="organizer" checked>
+                                            {% if site == s.id %}
+                                                <option value="{{ s.id }}" selected="selected">{{ s.name }}</option>
+                                            {% else %}
+                                                <option value="{{ s.id }}">{{ s.name }}</option>
+                                            {% endif %}
                                         {% endif %}
-                                        <label for="organizer" class="">Sorties dont je suis l'organisateur/trice</label>
-                                    </div><!--first field-->
-                                    <div><!--second field-->
-                                        {% if signedOn != "on" %}
-                                            <input class="" type="checkbox" name="signedOn" id="signedOn">
-                                        {% else %}
-                                            <input class="" type="checkbox" name="signedOn" id="signedOn" checked>
-                                        {% endif %}
-                                        <label for="signedOn" class="">Sorties auxquelles je suis inscrit/e</label>
-                                    </div><!--second field-->
-                                    <div><!--third field-->
-                                        {% if notSignedOn != "on" %}
-                                            <input class="" type="checkbox" name="notSignedOn" id="notSignedOn">
-                                        {% else %}
-                                            <input class="" type="checkbox" name="notSignedOn" id="notSignedOn" checked>
-                                        {% endif %}
-                                        <label for="notSignedOn" class="">Sorties auxquelles je ne suis pas inscrit/e</label>
-                                    </div><!--third field-->
-                                    <div><!--fourth field-->
-                                        {% if pastEvents != "on" %}
-                                            <input class="" type="checkbox" name="pastEvents" id="pastEvents">
-                                        {% else %}
-                                            <input class="" type="checkbox" name="pastEvents" id="pastEvents" checked>
-                                        {% endif %}
-                                        <label for="pastEvents" class="">Sorties passées</label>
-                                    </div><!--fourth field-->
+                                    {% endfor %}
+                                </select>
+                            </div><!--first field -->
+                            <div class="form-group md-row-justify-between"><!--second field-->
+                                <label class="align-self-center" for="searchBar">Le nom de la sortie contient  </label>
+                                <input class="form-control" name="searchBar" id="searchBar" autofocus type="search" placeholder="Search" value="{{ searchBar }}">
+                            </div><!--second field-->
+                            <div class="form-group md-row-justify-between"><!--third field -->
+                                <label class="align-self-center" for="dateStart">Date entre le</label>
+                                <input class="form-control" type="date" name="dateStart" id="dateStart"  value="{{ dateStart }}">
+                            </div><!--third field -->
+                            <div class="form-group md-row-justify-between"><!--fourth field -->
+                                <label class="align-self-center" for="dateEnd">et le </label>
+                                <input class="form-control" type="date" name="dateEnd" id="dateEnd" value="{{ dateEnd }}">
+                            </div><!--fourth field -->
+                       </div><!--col left inside row form-->
 
-                                        <button type="submit" class="btn btn-md btn-primary col-sm-6">Rechercher</button>
+                        <div class="filters-right"><!--col right inside row form-->
+                            <div class="row-justify-between"><!--first field-->
+                                {% if organizer != "on" %}
+                                    <input class="" type="checkbox" name="organizer" id="organizer">
+                                {% else %}
+                                    <input class="" type="checkbox" name="organizer" id="organizer" checked>
+                                {% endif %}
+                                <label for="organizer" class="">Sorties dont je suis l'organisateur/trice</label>
+                            </div><!--first field-->
+                            <div class="row-justify-between"><!--second field-->
+                                {% if signedOn != "on" %}
+                                    <input class="" type="checkbox" name="signedOn" id="signedOn">
+                                {% else %}
+                                    <input class="" type="checkbox" name="signedOn" id="signedOn" checked>
+                                {% endif %}
+                                <label for="signedOn" class="">Sorties auxquelles je suis inscrit/e</label>
+                            </div><!--second field-->
+                            <div class="row-justify-between"><!--third field-->
+                                {% if notSignedOn != "on" %}
+                                    <input class="" type="checkbox" name="notSignedOn" id="notSignedOn">
+                                {% else %}
+                                    <input class="" type="checkbox" name="notSignedOn" id="notSignedOn" checked>
+                                {% endif %}
+                                <label for="notSignedOn" class="">Sorties auxquelles je ne suis pas inscrit/e</label>
+                            </div><!--third field-->
+                            <div class="row-justify-between"><!--fourth field-->
+                                {% if pastEvents != "on" %}
+                                    <input class="" type="checkbox" name="pastEvents" id="pastEvents">
+                                {% else %}
+                                    <input class="" type="checkbox" name="pastEvents" id="pastEvents" checked>
+                                {% endif %}
+                                <label for="pastEvents" class="">Sorties passées</label>
+                            </div><!--fourth field-->
 
-                                </div> <!--col right inside row form-->
-                            </div><!--row inside form to split it in 2 col-->
-                        </form>
+                            <button type="submit" class="btn btn-md btn-primary col-12">Rechercher</button>
+                        </div> <!--col right inside row form-->
+                    {#</div><!--row inside form to split it in 2 col-->#}
+                    </form>
 
-                </div><!--col left-->
-
-            <div id="welcome" class="col-md-2"> <!--col right-->
-                <h5>{{ today | date("d/m/Y") }}</h5>
-                <p>Bonjour {{ app.user.name }} !</p>
-                <a href="{{ path('create_event') }}"><button class="btn btn-lg btn-primary">Créer une sortie</button></a>
-            </div><!--col right-->
+            {#</div><!--col left-->#}
 
         </div> <!--row-->
+        <div class="welcome row-justify-between"> <!--col right-->
+            <div>
+                <h5>{{ today | date("d/m/Y") }}</h5>
+                <p>Bonjour {{ app.user.name }} !</p>
+            </div>
+            <a href="{{ path('create_event') }}"><button class="btn btn-lg btn-primary">Créer une sortie</button></a>
+        </div><!--col right-->
     </div> <!--container-->
 
     <table class="table table-striped table-event">
@@ -118,7 +117,8 @@
         {% for event in events %}
             <tr>
                 <td>{{ event.site.name }}</td>
-                <td>{{ event.name }}</td>
+                <td>
+                    <a href="{{ path('display_event', {'eventId':event.id}) }}">{{ event.name }}</a></td>
                 <td> {{ event.rdvTime | date("d/m/Y") }} </td>
                 <td class="hidden"> {{ event.signOnDeadline | date("d/m/Y") }} </td>
                 <td class="hidden">{{ event.participants.count }}/{{ event.maxNumber }} </td>

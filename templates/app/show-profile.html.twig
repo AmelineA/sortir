@@ -4,27 +4,36 @@
 
 {% block content %}
 
-    <div class="container">
-        <h2>Profil de {{ user.username }}</h2>
-        <div class="row">
-            <div><!--col left-->
-                <img src="" alt="profile photo">
-            </div><!--col left-->
+    <div class="container-profile">
+        <h1>Profil de {{ user.username }}</h1>
 
-            <div><!--col right-->
-                <label class="">Prénom</label>
-                <p class=""> {{ user.firstName }}</p>
-                <label>Nom</label>
-                <p class=""> {{ user.name }}</p>
-                <label>Téléphone</label>
-                <p class=""> {{ user.telephone }}</p>
-                <label>Email</label>
-                <p class=""> {{ user.email }}</p>
-                <label>Ville de rattachement</label>
-                <p class=""> {{ user.site.name }}</p>
-                    <a href="javascript:history.go(-1)"><button type="button" >Retour</button></a>
-            </div><!--col right-->
-        </div><!--row-->
+        <div class="profile-img"><!--col left-->
+            <img src="{{ asset('img/profile-pictures/') }}{{ user.profilePictureName }}" alt="profile photo">
+        </div><!--col left-->
+
+        <div class="profile-info"><!--col right-->
+            <div class="row-justify-between">
+                <label class="">Prénom:</label>
+                <p class="col-6">{{ user.firstName }}</p>
+            </div>
+            <div class="row-justify-between">
+                <label>Nom:</label>
+                <p class="col-6">{{ user.name }}</p>
+            </div>
+            <div class="row-justify-between">
+                <label>Téléphone:</label>
+                <p class="col-6">{{ user.telephone }}</p>
+            </div>
+            <div class="row-justify-between">
+                <label>Email:</label>
+                <p class="col-6">{{ user.email }}</p>
+            </div>
+            <div class="row-justify-between">
+                <label>Ville de rattachement:</label>
+                <p class="col-6">{{ user.site.name }}</p>
+            </div>
+            <a href="javascript:history.go(-1)"><button type="button" class="btn btn-md btn-primary" >Retour</button></a>
+        </div><!--col right-->
     </div><!--container-->
 
 {% endblock %}
