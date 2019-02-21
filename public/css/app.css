@@ -157,6 +157,25 @@ a:hover{
 .btn-primary:hover{
     background-color: #005066;
 }
+#icon{
+    display: flex;
+    justify-content: space-between;
+}
+
+.btn-icon{
+    width: 35px;
+    height: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-icon img{
+    width: 35px;
+    height: 35px
+}
+
+
 
 /***********************************HEADER***************************************/
 

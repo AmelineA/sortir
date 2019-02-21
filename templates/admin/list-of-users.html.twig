@@ -31,11 +31,11 @@
             <td class="hidden"> {{ user.activated }} </td>
             <td class="hidden"> {{ user.site.name }} </td>
             {% if user.activated is same as(true) %}
-                <td><a href="{{ path('deactivate_user', {'userId':user.id}) }}" class="nav-link">Désactiver</a></td>
+                <td><a href="{{ path('deactivate_user', {'userId':user.id}) }}" ><button class="btn btn-sm btn-primary btn-icon" title="Désactiver l'utilisateur"><img src="{{ asset('img/deactivateIcon.png') }}" alt="deactivate"></button></a></td>
             {% else %}
-                <td><a href="{{ path('reactivate_user', {'userId':user.id}) }}" class="nav-link">Réactiver</a></td>
+                <td><a href="{{ path('reactivate_user', {'userId':user.id}) }}" ><button class="btn btn-sm btn-primary btn-icon" title="Réactiver l'utilisateur"><img src="{{ asset('img/reactivateIcon.png') }}" alt="reactivate"></button></a></td>
             {% endif %}
-            <td><a href="{{ path('delete_user', {'userId':user.id}) }}" class="nav-link">Supprimer</a></td>
+            <td><a href="{{ path('delete_user', {'userId':user.id}) }}" ><button class="btn btn-sm btn-primary btn-icon" title="Supprimer définitivement l'utilisateur"><img src="{{ asset('img/deleteForeverIcon.png') }}" alt="delete"></button></a></td>
         </tr>
     {% endfor %}
     </tbody>
