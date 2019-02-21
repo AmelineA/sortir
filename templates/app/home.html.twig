@@ -131,8 +131,10 @@
                 {% else %}
                     <a href="{{ path('withdraw_event', {'eventId' : event.id}) }}"><button class="btn btn-sm btn-primary btn-icon" title="Se désister"><img src="{{ asset('img/withdrawIcon.png') }}" alt="withdraw"></button></a>
                 {% endif %}
-                {% if is_granted('ROLE_ADMIN') %}
+                {% if is_granted('ROLE_ADMIN') or event.organizer.id == app.user.id %}
+                    {% if "annulé"is not same as(event.state) or "terminé"is not same as(event.state) %}
                     <a href="{{ path('cancel_event', {'eventId' : event.id}) }}"><button class="btn btn-sm btn-primary btn-icon" title="Annuler"><img src="{{ asset('img/cancelIcon.png') }}" alt="cancel"></button></a>
+                    {% endif %}
                 {% endif %}
                 </td>
             </tr>
