@@ -114,19 +114,60 @@ class FixturesCommand extends Command
         $this->em->flush();
 
 
-        //création de locations
-        $locations = ['fag power', 'chez jojo', 'bar du coin'];
+        //création de vraies locations
+        $barRennes=new Location();
+        $barRennes->setName("WarpZone");
+        $barRennes->setStreet("92 mail françois Mitterrand");
+        $barRennes->setZipCode("35000");
+        $barRennes->setCity("Rennes");
+
+        $barNantes1=new Location();
+        $barNantes1->setName("Altercafé");
+        $barNantes1->setStreet("21 quai des Antilles");
+        $barNantes1->setZipCode("44200");
+        $barNantes1->setCity("Nantes");
+
+        $barNantes2=new Location();
+        $barNantes2->setName("Zygobar");
+        $barNantes2->setStreet("35 rue des olivettes");
+        $barNantes2->setZipCode("44000");
+        $barNantes2->setCity("Nantes");
+
+        $barNantes3=new Location();
+        $barNantes3->setName("Baclerie");
+        $barNantes3->setStreet("7 rue Baclerie");
+        $barNantes3->setZipCode("44000");
+        $barNantes3->setCity("Nantes");
+
+        $barNantes4=new Location();
+        $barNantes4->setName("Delirium Café");
+        $barNantes4->setStreet("19 allée Baco");
+        $barNantes4->setZipCode("44000");
+        $barNantes4->setCity("Nantes");
+
+        $barNantes5=new Location();
+        $barNantes5->setName("Bateau Lavoir");
+        $barNantes5->setStreet("Canal St Felix Peniche quai Malakoff");
+        $barNantes5->setZipCode("44000");
+        $barNantes5->setCity("Nantes");
+
+        $barNiort= new Location();
+        $barNiort->setName('VLA');
+        $barNiort->setStreet('30 rue Brisson');
+        $barNiort->setZipCode('79000');
+        $barNiort->setCity("Niort");
+
+        $locations = [$barNiort, $barNantes1, $barRennes];
         $allLocations = [];
         foreach ($locations as $l){
             $location = new Location();
             $location->setName($l);
-            $location->setLatitude('47.220316');
-            $location->setLongitude('-1.549559');
-            $location->setStreet($faker->streetAddress);
             $allLocations[] = $location;
             $this->em->persist($location);
         }
         $this->em->flush();
+
+
         //création d'events
         $state = ['ouvert', 'fermé', 'en création', 'terminé', 'annulé'];
         $allEvents = [];
