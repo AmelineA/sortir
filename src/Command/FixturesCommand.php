@@ -157,13 +157,11 @@ class FixturesCommand extends Command
         $barNiort->setZipCode('79000');
         $barNiort->setCity("Niort");
 
-        $locations = [$barNiort, $barNantes1, $barRennes];
+        $locations = [$barNiort, $barNantes1, $barNantes2, $barNantes3, $barNantes4, $barNantes5, $barRennes];
         $allLocations = [];
         foreach ($locations as $l){
-            $location = new Location();
-            $location->setName($l);
-            $allLocations[] = $location;
-            $this->em->persist($location);
+            $allLocations[] = $l;
+            $this->em->persist($l);
         }
         $this->em->flush();
 
