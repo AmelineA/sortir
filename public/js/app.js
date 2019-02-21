@@ -12,19 +12,23 @@ $('input[type="file"]').change(function (event) {
 
 //pour faire correspondre la largeur des th aux largeurs des td
     let length = $(".table-event").children('thead').children('tr').children('th').length;
+function resizeTable() {
     for (let i=1; i<=length;i++){
         let widthTd = parseInt($(".table-event").children('tbody').children('tr:first').children('td:nth-child('+i+')').width());
 
         let owidthTh = $(".table-event").children('thead').children('tr').children('th:nth-child('+i+')').width(widthTd);
-       console.log("owidthTh = " + parseInt(owidthTh.width()) + " widthTd = " +widthTd );
+        console.log("owidthTh = " + parseInt(owidthTh.width()) + " widthTd = " +widthTd );
 
-       if (owidthTh.width()>widthTd){
-          let widthTh = parseInt($(".table-event").children('thead').children('tr').children('th:nth-child('+i+')').width());
-          let owidthTd = $(".table-event").children('tbody').children('tr:first').children('td:nth-child('+i+')').width(widthTh);
+        if (owidthTh.width()>widthTd){
+            let widthTh = parseInt($(".table-event").children('thead').children('tr').children('th:nth-child('+i+')').width());
+            let owidthTd = $(".table-event").children('tbody').children('tr:first').children('td:nth-child('+i+')').width(widthTh);
 
-          console.log("2 widthTh = " + widthTh + " widthTd = " +parseInt(owidthTd.width()));
-       }
+            console.log("2 widthTh = " + widthTh + " widthTd = " +parseInt(owidthTd.width()));
+        }
     }
+}
+
+$(document).resize(resizeTable());
 
 // pointer le lieu sur une carte openstreetmap
 
