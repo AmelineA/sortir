@@ -4,27 +4,29 @@
 
 {% block content %}
 
-    <div class="my-profil-flex-container">
-        <div class="my-profil-title">
-            <h2>Ajouter un utilisateur</h2>
-        </div>
-        <h3>Manuellement</h3>
-        <div class="my-profil-content-container">
-            <div class="my-profil-details">
-                {{ form_start(registerForm, {'attr':{'novalidate': 'novalidate'}}) }}
-                {{ form_widget(registerForm) }}
-                <button class="btn btn-md btn-primary">Inscrire</button>
-                {{ form_end(registerForm) }}
+    <div class="container-register">
+        <h1>Ajouter un utilisateur</h1>
+        <div class="manually">
+            <h4>Manuellement</h4>
+            <div class="">
+                <div class="">
+                    {{ form_start(registerForm, {'attr':{'novalidate': 'novalidate'}}) }}
+                    {{ form_widget(registerForm) }}
+                    <button class="btn btn-md btn-primary">Inscrire</button>
+                    {{ form_end(registerForm) }}
+                </div>
             </div>
         </div>
 
-        <h3>Via fichier</h3>
-        <div class="my-profil-content-container">
-            <div class="my-profil-details">
-                {{ form_start(csvForm, {'attr':{'novalidate': 'novalidate'}}) }}
-                {{ form_widget(csvForm) }}
-                <button class="btn btn-md btn-primary">Charger fichier</button>
-                {{ form_end(csvForm) }}
+        <div class="byFile">
+            <h4>Via fichier</h4>
+            <div class="">
+                <div class="">
+                    {{ form_start(csvForm, {'attr':{'novalidate': 'novalidate'}}) }}
+                    {{ form_widget(csvForm) }}
+                    <button class="btn btn-md btn-primary">Charger fichier</button>
+                    {{ form_end(csvForm) }}
+                </div>
             </div>
         </div>
     </div>

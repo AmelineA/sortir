@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Event;
+use App\Entity\Location;
 use App\Form\EventType;
+use App\Form\LocationType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -41,7 +43,7 @@ class EventController extends AbstractController
         }
 
         return $this->render('event/event-form.html.twig', [
-            'eventForm'=>$eventForm->createView()
+            'eventForm'=>$eventForm->createView(),
         ]);
 
     }
@@ -210,4 +212,30 @@ class EventController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route(
+     *     "creer-nouveau-lieu",
+     *     name="new_location",
+     *     methods={"GET", "POST"}
+     *     )
+     */
+    public function createLocation(Request $request)
+    {
+        $location = new Location();
+        $locationForm = $this->createForm(LocationType::class, $location);
+        $locationForm->handleRequest($request);
+
+        if($locationForm->isSubmitted() && $locationForm->isValid()){
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($location);
+            $em->flush();
+
+            $this->addFlash('success', 'Merci ! vous venez de créer un nouveau lieu');
+            return $this->redirectToRoute('create_event');
+        }
+
+        return $this->render('event/location.html.twig',[
+            'locationForm'=>$locationForm->createView()
+        ]);
+    }
 }

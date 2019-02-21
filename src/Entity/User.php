@@ -141,6 +141,7 @@ class User implements UserInterface
     {
         $this->activated = true;
         $this->organizedEvents = new ArrayCollection();
+        $this->signedOnEvents = new ArrayCollection();
     }
 
 

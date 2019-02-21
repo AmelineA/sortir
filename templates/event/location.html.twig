@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} {{  parent() }}Créer un nouveau lieu{% endblock %}
+
+{% block content %}
+
+    <h2>Créer un nouveau lieu de sortie</h2>
+
+        {{ form_start(locationForm, {'attr':{'novalidate':'novalidate'}}) }}
+        {{ form_widget(locationForm) }}
+            <button class="btn btn-primary btn-md">Créer le lieu</button>
+        {{ form_end(locationForm) }}
+
+{% endblock %}
