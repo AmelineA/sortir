@@ -31,7 +31,7 @@ function resizeTable() {
 $(document).resize(resizeTable());
 
 
-    //récupérer les coordonnées à partir de l' address  inséré par l'utilisateur avec nominatim(OSM)
+    //methode pour récupérer les coordonnées à partir de l' address  inséré par l'utilisateur avec nominatim(OSM)
 
     $('#coordonnates').click(function () {
 
@@ -39,10 +39,10 @@ $(document).resize(resizeTable());
             let street = $('#location_street').val();
             let zipcode = $('#location_zipCode').val();
             let city = $('#location_city').val();
-            console.log(street+" "+zipcode+" "+city);
+            console.log(street+zipcode+city);
         //préparer la request pour l'api OSM type  https://nominatim.openstreetmap.org/search?q=135+pilkington+avenue,+birmingham&format=xml&polygon=1&addressdetails=1
-            let address = street+" "+zipcode+" "+city;
-        //envoyer la request GET en Ajax
+            let address = street+" "+zipcode+" "+city; //attention au format de la string mettre des espaces
+        //envoyer la request GET en Ajax et récuperer les coordonnés dans les var "lat" et "lon"
             let lat;
             let lon;
         if (address !== "") {
@@ -53,12 +53,15 @@ $(document).resize(resizeTable());
                 // Données envoyées (q : adresse complète, format : format attendu pour la réponse, limit : nombre de réponses attendu,
                 // polygon_svg : fournit les données de polygone de la réponse en svg)
             }).done(function (response) {//resupérer la response et extraire les données de l'objet Json
-               console.log(response);
-                if (response !== "") {
+               console.log(response.length);
+                if (response.length>0) {
                     lat = response[0]['lat'];
                     lon = response[0]['lon'];
                     $('#location_latitude').val(lat);
                     $('#location_longitude').val(lon);
+                }else{
+                    //affiche message d'erreur
+                    alert('pas de coordonnées trouvées');
                 }
             }).fail(function (error) {
                 alert(error);
@@ -72,26 +75,20 @@ $(document).resize(resizeTable());
         let street = $('#street').text();
         let zipcode = $('#zipcode').text();
         let city = $('#city').text();
-        console.log(street+" "+zipcode+" "+city);
-        //préparer la request pour l'api OSM type  https://nominatim.openstreetmap.org/search?q=135+pilkington+avenue,+birmingham&format=xml&polygon=1&addressdetails=1
         let address = street+" "+zipcode+" "+city;
-        //envoyer la request GET en Ajax
         let lat;
         let lon;
         if (address !== "") {
             $.ajax({
-                url: "https://nominatim.openstreetmap.org/search", //url de Nominatim
+                url: "https://nominatim.openstreetmap.org/search",
                 type: 'get',
                 data: "q="+address+"&format=json&addressdetails=1&limit=1&polygon_svg=1"
-                // Données envoyées (q : adresse complète, format : format attendu pour la réponse, limit : nombre de réponses attendu,
-                // polygon_svg : fournit les données de polygone de la réponse en svg)
-            }).done(function (response) {//resupérer la response et extraire les données de l'objet Json
+            }).done(function (response) {
                 console.log(response);
                 if (response !== "") {
                     lat = response[0]['lat'];
                     lon = response[0]['lon'];
-                    // $('#location_latitude').val(lat);
-                    // $('#location_longitude').val(lon);
+                    //set lat et lon dans le twig display-event
                     $('#lat').val(lat);
                     $('#lon').val(lon);
                     initMap();
@@ -104,7 +101,6 @@ $(document).resize(resizeTable());
     let maCarte = null;
     //function d'initialisation de la carte
     function initMap() {
-        console.log(lat + " " + lon);
         //Créer l'objet "macarte" et l'inserer dans l'élément HTML id="map"
         maCarte = L.map('map').setView([lat, lon], 12) //3ème argument est la taille du zoom par défaut
         //récupérer la carte (tile) via openstreetmap
@@ -119,7 +115,3 @@ $(document).resize(resizeTable());
         marker.bindPopup(lat, lon); //popup du marqueur
     }
 
-    //initMap() s'execute au chargement du DOM à commenter si on n'utilise pas les coordonnées ramenée par
-    // window.onload = function () {
-    //     initMap();
-    // };

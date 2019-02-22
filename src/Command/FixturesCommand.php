@@ -120,42 +120,56 @@ class FixturesCommand extends Command
         $barRennes->setStreet("92 mail françois Mitterrand");
         $barRennes->setZipCode("35000");
         $barRennes->setCity("Rennes");
+        $barRennes->setLatitude('47.2106138');
+        $barRennes->setLongitude('-1.5491828');
 
         $barNantes1=new Location();
         $barNantes1->setName("Altercafé");
         $barNantes1->setStreet("21 quai des Antilles");
         $barNantes1->setZipCode("44200");
         $barNantes1->setCity("Nantes");
+        $barNantes1->setLatitude('47.2012309');
+        $barNantes1->setLongitude('-1.5728972');
 
         $barNantes2=new Location();
         $barNantes2->setName("Zygobar");
         $barNantes2->setStreet("35 rue des olivettes");
         $barNantes2->setZipCode("44000");
         $barNantes2->setCity("Nantes");
+        $barNantes2->setLatitude('47.2106138');
+        $barNantes2->setLongitude('-1.5491828');
 
         $barNantes3=new Location();
         $barNantes3->setName("Baclerie");
         $barNantes3->setStreet("7 rue Baclerie");
         $barNantes3->setZipCode("44000");
         $barNantes3->setCity("Nantes");
+        $barNantes3->setLatitude('47.2152648');
+        $barNantes3->setLongitude('-1.5533777');
 
         $barNantes4=new Location();
         $barNantes4->setName("Delirium Café");
         $barNantes4->setStreet("19 allée Baco");
         $barNantes4->setZipCode("44000");
         $barNantes4->setCity("Nantes");
+        $barNantes4->setLatitude('47.2133234');
+        $barNantes4->setLongitude('-1.550475');
 
         $barNantes5=new Location();
         $barNantes5->setName("Bateau Lavoir");
-        $barNantes5->setStreet("Canal St Felix Peniche quai Malakoff");
+        $barNantes5->setStreet("Canal St Felix");
         $barNantes5->setZipCode("44000");
         $barNantes5->setCity("Nantes");
+        $barNantes5->setLatitude('47.2310484');
+        $barNantes5->setLongitude('-1.5559399');
 
         $barNiort= new Location();
         $barNiort->setName('VLA');
         $barNiort->setStreet('30 rue Brisson');
         $barNiort->setZipCode('79000');
         $barNiort->setCity("Niort");
+        $barNiort->setLatitude('46.3258318');
+        $barNiort->setLongitude('-0.4640339');
 
         $locations = [$barNiort, $barNantes1, $barNantes2, $barNantes3, $barNantes4, $barNantes5, $barRennes];
         $allLocations = [];
