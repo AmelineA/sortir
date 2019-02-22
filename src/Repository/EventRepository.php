@@ -6,6 +6,7 @@ use App\Entity\Event;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use Symfony\Component\Validator\Constraints\Date;
 
 /**
  * @method Event|null find($id, $lockMode = null, $lockVersion = null)
@@ -58,9 +59,10 @@ class EventRepository extends ServiceEntityRepository
      */
     public function findListEventsBy(User $user, $site, $searchBar, $dateStart, $dateEnd, $organizer, $signedOn, $notSignedOn, $pastEvent)
     {
-        $today = new \DateTime();
+        $today = new \DateTime('now');
+        $day30 = new \DateTime('now');
         $interval= \DateInterval::createFromDateString("30 days");
-        $day30=$today->sub($interval);
+        $day30=$day30->sub($interval);
         $qb = $this->createQueryBuilder('e');
         $qb->join('e.participants', 'p');
      //   $qb->addSelect('p');

@@ -68,7 +68,6 @@ class SecurityController extends AbstractController
     public function updateMyProfile(UserPasswordEncoderInterface $encoder, Request $request, $id)
     {
         $fileUploader=new FileUploader('img/profile-pictures');
-        $userRepo = $this->getDoctrine()->getRepository(User::class);
         $currentUser = $this->getUser();
         $registerForm = $this->createForm(UserType::class, $currentUser);
         //récupération du nom de la photo présent dans l'objet User
@@ -84,6 +83,8 @@ class SecurityController extends AbstractController
             //si le mot de passe n'est pas renseigné, remettre celui récupérer avant la soumission du formulaire
             if(empty($request->request->get('password'))){
                 $currentUser->setPassword($password);
+                $hash = $encoder->encodePassword($currentUser, $password);
+                $currentUser->setPassword($hash);
             }
 
             if ($registerForm->isValid()) {
