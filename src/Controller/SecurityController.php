@@ -57,7 +57,7 @@ class SecurityController extends AbstractController
 
     /**
      * @Route(
-     *     "/mon-profil",
+     *     "/mon-profil/{id}",
      *     name="app_my_profile",
      *     methods={"GET", "POST"}
      *     )
@@ -65,43 +65,54 @@ class SecurityController extends AbstractController
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
-    public function updateMyProfile(UserPasswordEncoderInterface $encoder, Request $request )
+    public function updateMyProfile(UserPasswordEncoderInterface $encoder, Request $request, $id)
     {
         $fileUploader=new FileUploader('img/profile-pictures');
+        $userRepo = $this->getDoctrine()->getRepository(User::class);
         $currentUser = $this->getUser();
         $registerForm = $this->createForm(UserType::class, $currentUser);
         //récupération du nom de la photo présent dans l'objet User
         $profilePictureName=$currentUser->getProfilePictureName();
-        //handleReques récupère puis efface tous les champs
+        //récuparation du password pour consever la connexion
+        $password = $this->getUser()->getPassword();
+        //handleRequest récupère puis efface tous les champs
         $registerForm->handleRequest($request);
-        if($registerForm->isSubmitted() && $registerForm->isValid()){
 
-            $password = $currentUser->getPassword();
-            $hash = $encoder->encodePassword($currentUser, $password);
-            $currentUser->setPassword($hash);
-
-            //Si le user veut uploader
-            if(null!==$registerForm->get("profilePictureName")->getData()){
-                //Permet d'ajouter une photo
-                //TODO gérer la suppression des photos préexistantes. cf fichier pour uploader une photo, dans un des liens.
-                //récupération du fichier photo
-                $profilePicture = $registerForm->get("profilePictureName")->getData();
-                //construction du nom de fichier unique avec l'extension réelle du fichier + copie du fichier dans le directory
-                $profilePictureName=$fileUploader->upload($profilePicture);
-                // attribution du nom de fichier dans l'objet User
-                $currentUser->setProfilePictureName($profilePictureName);
+        if($registerForm->isSubmitted()){
+            $currentUser = $registerForm->getData();
+            $currentUser->setProfilePictureName($profilePictureName);
+            //si le mot de passe n'est pas renseigné, remettre celui récupérer avant la soumission du formulaire
+            if(empty($request->request->get('password'))){
+                $currentUser->setPassword($password);
             }
-            //ou si le user ne veut pas uploader, il faut conserver le lien entre le User et le nom de fichier
-            else{
-                //réattribution du nom de la photo à l'objet User
-                $currentUser->setProfilePictureName($profilePictureName);
-            }
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($currentUser);
-            $em->flush();
 
-            $this->addFlash("success", 'Votre compte a bien été modifié ! ');
-            return $this->redirectToRoute('home');
+            if ($registerForm->isValid()) {
+                $password = $currentUser->getPassword();
+                $hash = $encoder->encodePassword($currentUser, $password);
+                $currentUser->setPassword($hash);
+
+                //Si le user veut uploader
+                if (null !== $registerForm->get("profilePictureName")->getData()) {
+                    //Permet d'ajouter une photo
+
+                    //récupération du fichier photo
+                    $profilePicture = $registerForm->get("profilePictureName")->getData();
+                    //construction du nom de fichier unique avec l'extension réelle du fichier + copie du fichier dans le directory
+                    $profilePictureName = $fileUploader->upload($profilePicture);
+                    // attribution du nom de fichier dans l'objet User
+                    $currentUser->setProfilePictureName($profilePictureName);
+                } //ou si le user ne veut pas uploader, il faut conserver le lien entre le User et le nom de fichier
+                else {
+                    //réattribution du nom de la photo à l'objet User
+                    $currentUser->setProfilePictureName($profilePictureName);
+                }
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($currentUser);
+                $em->flush();
+
+                $this->addFlash("success", 'Votre compte a bien été modifié ! ');
+                return $this->redirectToRoute('home');
+            }
         }
 
 

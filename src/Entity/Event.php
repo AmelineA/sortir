@@ -39,6 +39,7 @@ class Event
     private $rdvTime;
 
     /**
+     * @Assert\Type(type="integer")
      * @Assert\NotBlank(message=" Veuillez préciser le temps de sortie !")
      * @ORM\Column(type="integer")
      */

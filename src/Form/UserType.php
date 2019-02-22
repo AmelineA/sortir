@@ -33,25 +33,29 @@ class UserType extends AbstractType
                 'label'=>'Nom',
                 'attr'=>[
                     'placeholder'=>'Mon nom'
-                ]
+                ],
+                'empty_data' => "",
             ])
             ->add('firstName', TextType::class, [
                 'label'=>'Prénom',
                 'attr'=>[
                     'placeholder'=>'Mon Prénom'
-                ]
+                ],
+                'empty_data' => "",
             ])
             ->add('telephone', TextType::class, [
                 'label'=>'Téléphone',
                 'attr'=>[
                     'placeholder'=>'ex : 0699999999'
-                ]
+                ],
+                'empty_data' => "",
             ])
             ->add('email', TextType::class, [
                 'label'=>'Email',
                 'attr'=>[
                     'placeholder'=>'ex : monEmail@Email.com'
-                ]
+                ],
+                'empty_data' => "",
             ])
             ->add('password', PasswordType::class, [
                 'label'=>'Mot de passe',
@@ -59,7 +63,7 @@ class UserType extends AbstractType
                     'placeholder'=>'ex: K!4851o$'
                 ],
                 'empty_data' => "",
-                'constraints'=>[new NotBlank(['message'=>'Veuillez renseigner un identifiant'])]
+                'constraints'=>[new NotBlank(['message'=>'Veuillez renseigner un mot de passe'])]
             ])
             ->add('profilePictureName', FileType::class, [
                 'label'=>"Ma photo",
@@ -67,7 +71,8 @@ class UserType extends AbstractType
                 'data_class'=>null,
                 'attr'=>[
                     'value'=>'choisir une photo'
-                ]
+                ],
+                'empty_data' => "",
 
             ])
         ;

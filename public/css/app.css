@@ -42,6 +42,10 @@
                 "info info";
     }
 
+    .profile-img{
+        justify-self: start;
+    }
+
     .profile-img img{
         height: 100px;
     }
@@ -115,6 +119,16 @@
             "header header"
             ". ."
             "photo info";
+    }
+
+    .profile-img{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .profile-img img{
+        width: 300px;
     }
 
     /*fixed header on tables*/
@@ -278,6 +292,10 @@ footer{
     grid-area: header;
 }
 
+.container-event a{
+    width: 0;
+}
+
 .info-event{
     grid-area: info;
 }
@@ -289,6 +307,7 @@ footer{
 .participants-event{
     grid-area: participants;
     justify-self: center;
+    margin-top: 20px;
 }
 
 .participants-event h4{

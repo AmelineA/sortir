@@ -6,12 +6,12 @@
 
     <h1>Modifier la sortie</h1>
 
-    {{ form_start(eventForm, {'attr':{'class':'col-sm-6', 'novalidate': 'novalidate'}}) }}
+    {{ form_start(eventForm, {'attr':{'novalidate': 'novalidate'}}) }}
     {{ form_widget(eventForm) }}
         <button type="submit" class="btn btn-md btn-primary offset-2">Enregistrer Modifications</button>
-        <a href="{{ path('cancel_event', {'eventId':event.id}) }}" class="btn btn-md btn-primary ">Annuler la sortie</a>
-        <a href="{{ path('home') }}" class="btn btn-md btn-primary offset-2">Retour</a>
-    {{ form_end(eventForm) }}
 
+    {{ form_end(eventForm) }}
+    <a href="{{ path('home') }}" class="btn btn-md btn-primary offset-2">Retour</a>
+    <a href="{{ path('cancel_event', {'eventId': event.id}) }}" class="btn btn-md btn-primary ">Annuler la sortie</a>
 
 {% endblock %}

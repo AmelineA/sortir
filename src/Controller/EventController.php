@@ -149,7 +149,7 @@ class EventController extends AbstractController
             $em->flush();
 
             $this->addFlash('success', "La sortie a bien été modifiée !");
-            return $this->redirectToRoute("home");
+            return $this->redirectToRoute("display_event", ['eventId'=>$eventId]);
         }
 
         return $this->render('event/modify-event.html.twig', [

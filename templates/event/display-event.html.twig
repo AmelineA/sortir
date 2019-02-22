@@ -72,10 +72,12 @@
         <div id="map">
             <!-- map display here -->
         </div>
-        <a href="javascript:history.go(-1)"><button type="button" class="btn btn-md btn-primary" title="back">Retour</button></a>
-        {% if app.user.id is same as (event.organizer.id) %}
-            <a href="{{ path('modify_event', {'eventId':event.id}) }}"><button type="button" class="btn btn-md btn-primary" title="modify">Modifier la sortie</button></a>
-        {% endif %}
+        <div>
+            <a href="javascript:history.go(-1)"><button type="button" class="btn btn-md btn-primary" title="back">Retour</button></a>
+            {% if app.user.id is same as (event.organizer.id) %}
+                <a href="{{ path('modify_event', {'eventId':event.id}) }}"><button type="button" class="btn btn-md btn-primary" title="modify">Modifier la sortie</button></a>
+            {% endif %}
+        </div>
     </div><!--container-->
 
 

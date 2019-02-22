@@ -38,7 +38,7 @@
                         <div class="dropdown" id="dropUser">
                             <div class="dropbtn">Utilisateur</div>
                             <div class="dropcontent">
-                                <a href="{{ path('app_my_profile') }}" class="nav-link">Mon Profil</a>
+                                <a href="{{ path('app_my_profile', {"id": app.user.id}) }}" class="nav-link">Mon Profil</a>
                                 <a href="{{ path('create_event') }}" class="nav-link">Créer une sortie</a>
                             </div>
                         </div>
