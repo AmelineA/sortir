@@ -32,34 +32,98 @@ function resizeTable() {
 $(document).resize(resizeTable());
 
 
-// pointer le lieu sur une carte openstreetmap
+    //récupérer les coordonnées à partir de l' address  inséré par l'utilisateur avec nominatim(OSM)
 
-    //initialiser les coordonnées (Nantes)
-    let lat = $('#lat').text();
-    let lon =$('#lon').text();
+    $('#coordonnates').click(function () {
+
+        //récupérer l'adresse dans le dom :
+            let street = $('#location_street').val();
+            let zipcode = $('#location_zipCode').val();
+            let city = $('#location_city').val();
+            console.log(street+" "+zipcode+" "+city);
+        //préparer la request pour l'api OSM type  https://nominatim.openstreetmap.org/search?q=135+pilkington+avenue,+birmingham&format=xml&polygon=1&addressdetails=1
+            let address = street+" "+zipcode+" "+city;
+        //envoyer la request GET en Ajax
+            let lat;
+            let lon;
+        if (address !== "") {
+            $.ajax({
+                url: "https://nominatim.openstreetmap.org/search", //url de Nominatim
+                type: 'get',
+                data: "q="+address+"&format=json&addressdetails=1&limit=1&polygon_svg=1"
+                // Données envoyées (q : adresse complète, format : format attendu pour la réponse, limit : nombre de réponses attendu,
+                // polygon_svg : fournit les données de polygone de la réponse en svg)
+            }).done(function (response) {//resupérer la response et extraire les données de l'objet Json
+               console.log(response);
+                if (response !== "") {
+                    lat = response[0]['lat'];
+                    lon = response[0]['lon'];
+                    $('#location_latitude').val(lat);
+                    $('#location_longitude').val(lon);
+                }
+            }).fail(function (error) {
+                alert(error);
+            });
+        }
+    });
+
+    //methode pour l'affichage de la map dans display-event
+
+        //récupérer l'adresse dans le dom :
+        let street = $('#street').text();
+        let zipcode = $('#zipcode').text();
+        let city = $('#city').text();
+        console.log(street+" "+zipcode+" "+city);
+        //préparer la request pour l'api OSM type  https://nominatim.openstreetmap.org/search?q=135+pilkington+avenue,+birmingham&format=xml&polygon=1&addressdetails=1
+        let address = street+" "+zipcode+" "+city;
+        //envoyer la request GET en Ajax
+        let lat;
+        let lon;
+        if (address !== "") {
+            $.ajax({
+                url: "https://nominatim.openstreetmap.org/search", //url de Nominatim
+                type: 'get',
+                data: "q="+address+"&format=json&addressdetails=1&limit=1&polygon_svg=1"
+                // Données envoyées (q : adresse complète, format : format attendu pour la réponse, limit : nombre de réponses attendu,
+                // polygon_svg : fournit les données de polygone de la réponse en svg)
+            }).done(function (response) {//resupérer la response et extraire les données de l'objet Json
+                console.log(response);
+                if (response !== "") {
+                    lat = response[0]['lat'];
+                    lon = response[0]['lon'];
+                    // $('#location_latitude').val(lat);
+                    // $('#location_longitude').val(lon);
+                    $('#lat').val(lat);
+                    $('#lon').val(lon);
+                    initMap();
+                }
+            }).fail(function (error) {
+                alert(error);
+            });
+        }
+
     let maCarte = null;
-    console.log(lat, lon);
     //function d'initialisation de la carte
     function initMap() {
+        console.log(lat + " " + lon);
         //Créer l'objet "macarte" et l'inserer dans l'élément HTML id="map"
         maCarte = L.map('map').setView([lat, lon], 12) //3ème argument est la taille du zoom par défaut
         //récupérer la carte (tile) via openstreetmap
         L.tileLayer('https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', {
             //laisser la source de données
-            attribution : 'données © <a href="//osm.org/copyright">OpenStreetMap</a>/ODbL - rendu <a href="//openstreetmap.fr">OSM France</a>',
-            minZoom : 1,
-            maxZoom : 20
+            attribution: 'données © <a href="//osm.org/copyright">OpenStreetMap</a>/ODbL - rendu <a href="//openstreetmap.fr">OSM France</a>',
+            minZoom: 1,
+            maxZoom: 20
         }).addTo(maCarte);
         //ajouter le marqueur de coordonnées
-        let marker = L.marker([lat,lon]).addTo(maCarte);
-        marker.bindPopup(lat,lon); //popup du marqueur
-
+        let marker = L.marker([lat, lon]).addTo(maCarte);
+        marker.bindPopup(lat, lon); //popup du marqueur
     }
 
-    //initMap() s'execute au chargement du DOM
-    window.onload = function () {
-        initMap();
-    };
+    // //initMap() s'execute au chargement du DOM
+    // window.onload = function () {
+    //     initMap();
+    // };
 
 
 //convertir les boutons de la navbar du header en dropdown

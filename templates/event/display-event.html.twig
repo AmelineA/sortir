@@ -39,36 +39,43 @@
             </div><!--info top-->
             <div>
                 <div class="row-justify-between">
-                    <label>Ville organisatrice : </label>
+                    <label>Campus de l'organisateur : </label>
                     <p class="col-6"> {{ event.site.name }}</p>
                 </div>
                 <div class="row-justify-between">
                     <label>Lieu : </label>
-                    <p class="col-6">#</p>
+                    <p class="col-6">{{ event.location.name }}</p>
                 </div>
                 <div class="row-justify-between">
-                    <label>Rue : </label>
-                    <p class="col-6">#</p>
+                    <label>Adresse : </label>
+                    <p id="street" class="col-6">{{ event.location.street }}</p>
                 </div>
                 <div class="row-justify-between">
                     <label>Code Postal : </label>
-                    <p class="col-6">#</p>
+                    <p id="zipcode" class="col-6">{{ event.location.zipCode }}</p>
+                </div>
+                <div class="row-justify-between">
+                    <label>Code Postal : </label>
+                    <p id="city" class="col-6">{{ event.location.city }}</p>
                 </div>
                 <div class="row-justify-between">
                     <label>Latitude : </label>
-                    <p id="lat" class="col-6">{{ event.location.latitude }}</p>
+                    <p  id="lat" class="col-6">{{ event.location.latitude }}</p>
                 </div>
                 <div class="row-justify-between">
                     <label>Longitude : </label>
                     <p id="lon" class="col-6">{{ event.location.longitude }}</p>
                 </div>
             </div><!--info bottom-->
-            <a href="javascript:history.go(-1)"><button type="button" class="btn btn-md btn-primary" title="back">Retour</button></a>
         </div><!--info event-->
 
         <div id="map">
             <!-- map display here -->
         </div>
+        <a href="javascript:history.go(-1)"><button type="button" class="btn btn-md btn-primary" title="back">Retour</button></a>
+        {% if app.user.id is same as (event.organizer.id) %}
+            <a href="{{ path('modify_event', {'eventId':event.id}) }}"><button type="button" class="btn btn-md btn-primary" title="modify">Modifier la sortie</button></a>
+        {% endif %}
     </div><!--container-->
 
 

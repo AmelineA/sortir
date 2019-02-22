@@ -69,7 +69,7 @@ class EventRepository extends ServiceEntityRepository
         $qb->setParameter('day30', $day30);
 
         //liste les events par site
-        if($site!==0){
+        if($site!=="0"){
             $qb->andWhere('e.site=:site');
             $qb->setParameter('site', $site);
         }

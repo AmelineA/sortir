@@ -176,11 +176,21 @@ class AdminController extends AbstractController
     public function deleteUser($userId)
     {
         $userRepo = $this->getDoctrine()->getRepository(User::class);
-        $user = $userRepo->find($userId);
+        $targetUser = $userRepo->find($userId);
 
-        if ($user !== null) {
+
+        if ($targetUser !== null) {
+            $signedOnEvents=$targetUser->getSignedOnEvents();
+            foreach($signedOnEvents as $event){
+                $targetUser->removeSignedOnEvent($event);
+            }
+            $organizedEvents=$targetUser->getOrganizedEvents();
+            foreach ($organizedEvents as $ev){
+                $ev->setOrganizer($this->getUser());
+                $targetUser->removeOrganizedEvent($ev);
+            }
             $em = $this->getDoctrine()->getManager();
-            $em->remove($user);
+            $em->remove($targetUser);
             $em->flush();
             $this->addFlash('success', "L'utilisateur a bien été supprimé !");
         } else {
