@@ -26,12 +26,12 @@
                 <td class="hidden"> {{ user.email }} </td>
                 <td class="hidden"> {{ user.site.name }} </td>
                 {% if user.activated is same as(true) %}
-                    <td>
+                    <td class="actions row-justify-between">
                         <a href="{{ path('deactivate_user', {'userId':user.id}) }}" class="nav-link">
                             <button class="btn btn-sm btn-primary">Désactiver</button>
                         </a>
                 {% else %}
-                    <td>
+                    <td class="actions row-justify-between">
                         <a href="{{ path('reactivate_user', {'userId':user.id}) }}" class="nav-link">
                             <button class="btn btn-sm btn-primary">Réactiver</button>
                         </a>
