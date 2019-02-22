@@ -9,7 +9,7 @@
     body{
         display: grid;
         grid-template-columns: [start] 1fr [end];
-        grid-template-rows: [start] 20% [main-start] 1fr [main-end] 20% [end];
+        grid-template-rows: [start] auto [main-start] 1fr [main-end] auto [end];
         grid-template-areas:
             "header"
             "main"
@@ -28,6 +28,10 @@
     /*hide table columns*/
     .hidden{
         display: none;
+    }
+
+    .icon{
+
     }
 
     /*profile*/
@@ -96,7 +100,7 @@
     body{
         display: grid;
         grid-template-columns: [start] 15% [main-start] 1fr [main-end] 15% [end];
-        grid-template-rows: [start] 25% [header-end] 10% [main-start] 1fr [main-end] 20% [end];
+        grid-template-rows: [start] auto [header-end] auto [main-start] 1fr [main-end] auto [end];
         grid-template-areas:
             "header header header"
             ". alert ."
@@ -209,14 +213,17 @@
 
 header{
     grid-area: header;
+    height: 20%;
 }
 
 main{
     grid-area: main;
+
 }
 
 footer{
     grid-area: footer;
+    height: 20%;
 }
 
 /*profile*/
@@ -341,6 +348,10 @@ th, td{
 .actions .nav-link{
     padding: 0;
 }
+
+textarea{
+    width: 100%;
+}
 /***********************************BUTTONS***************************************/
 .btn-primary{
     background-color: #4e7988;
@@ -350,7 +361,7 @@ th, td{
 .btn-primary:hover{
     background-color: #005066;
 }
-#icon{
+.icon{
     display: flex;
     padding: 0;
     margin: 0;
