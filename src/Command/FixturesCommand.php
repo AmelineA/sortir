@@ -181,7 +181,8 @@ class FixturesCommand extends Command
 
 
         //création d'events
-        $state = ['ouvert', 'fermé', 'en création', 'terminé', 'annulé'];
+//        $state = ['ouvert', 'fermé', 'en création', 'terminé', 'annulé'];
+        $state = ['ouvert', 'fermé', 'terminé', 'annulé'];
         $allEvents = [];
         for($i=0; $i<150; $i++){
             $event = new Event();
@@ -192,8 +193,26 @@ class FixturesCommand extends Command
             $event->setLocation($faker->randomElement($allLocations));
             $event->setDuration(120);
             $event->setMaxNumber(10);
-            $event->setRdvTime($faker->dateTimeBetween("-45 days", "+30 days"));
-            $event->setSignOnDeadline($faker->dateTimeBetween("-15 days", "+10 days"));
+            switch ($event->getState()){
+                case 'ouvert':
+                    $event->setRdvTime($faker->dateTimeBetween("+10days", "+30 days"));
+                    $event->setSignOnDeadline($faker->dateTimeBetween("+2 days", "+5 days"));
+                break;
+                case 'fermé':
+                    $event->setRdvTime($faker->dateTimeBetween("+10days", "+30 days"));
+                    $event->setSignOnDeadline($faker->dateTimeBetween("-20 days", "-2 days"));
+                break;
+                case 'terminé':
+                    $event->setRdvTime($faker->dateTimeBetween("-50days", "-2 days"));
+                    $event->setSignOnDeadline($faker->dateTimeInInterval($event->getRdvTime(), "-5 days"));
+                break;
+                case 'annulé':
+                    $event->setRdvTime($faker->dateTimeBetween("-15days", "+10 days"));
+                    $event->setSignOnDeadline($faker->dateTimeInInterval($event->getRdvTime(), "-10 days"));
+                break;
+            }
+//            $event->setRdvTime($faker->dateTimeBetween("-45 days", "+30 days"));
+//            $event->setSignOnDeadline($faker->dateTimeBetween("-15 days", "+10 days"));
             $event->setDescription("Ca va être une super soirée. On va bien s'amuser. Ramenez vos écrans, ramenez vos souris, ramenez du chocolat, ça va être la guerre sur BattleField3. Ouais trop chouette. ");
             $allEvents[] = $event;
             $this->em->persist($event);

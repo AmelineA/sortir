@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Event;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query\Expr;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\Validator\Constraints\Date;
 
@@ -63,6 +64,7 @@ class EventRepository extends ServiceEntityRepository
         $day30 = new \DateTime('now');
         $interval= \DateInterval::createFromDateString("30 days");
         $day30=$day30->sub($interval);
+
         $qb = $this->createQueryBuilder('e');
         $qb->join('e.participants', 'p');
      //   $qb->addSelect('p');
@@ -109,7 +111,9 @@ class EventRepository extends ServiceEntityRepository
 
         //liste les events auxquels je ne suis PAS inscrits
         if($notSignedOn==='on'){
-            $qb->andWhere('p.id!=:userId');
+//            $qb->expr()->neq('p.id', $user->getId());
+            $qb->andWhere(new Expr\Comparison('p.id', '!=', ':userId'));
+//            $qb->andWhere('p.id<>:userId');
             $qb->setParameter('userId', $user->getId());
         }
 

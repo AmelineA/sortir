@@ -50,7 +50,7 @@
                        </div><!--col left inside row form-->
 
                         <div class="filters-right"><!--col right inside row form-->
-                            <div class="row-justify-between"><!--first field-->
+                            <div class="row-justify-between align-items-baseline"><!--first field-->
                                 {% if organizer != "on" %}
                                     <input class="" type="checkbox" name="organizer" id="organizer">
                                 {% else %}
@@ -58,7 +58,7 @@
                                 {% endif %}
                                 <label for="organizer" class="">Sorties dont je suis l'organisateur/trice</label>
                             </div><!--first field-->
-                            <div class="row-justify-between"><!--second field-->
+                            <div class="row-justify-between align-items-baseline"><!--second field-->
                                 {% if signedOn != "on" %}
                                     <input class="" type="checkbox" name="signedOn" id="signedOn">
                                 {% else %}
@@ -66,7 +66,7 @@
                                 {% endif %}
                                 <label for="signedOn" class="">Sorties auxquelles je suis inscrit/e</label>
                             </div><!--second field-->
-                            <div class="row-justify-between"><!--third field-->
+                            <div class="row-justify-between align-items-baseline"><!--third field-->
                                 {% if notSignedOn != "on" %}
                                     <input class="" type="checkbox" name="notSignedOn" id="notSignedOn">
                                 {% else %}
@@ -74,7 +74,7 @@
                                 {% endif %}
                                 <label for="notSignedOn" class="">Sorties auxquelles je ne suis pas inscrit/e</label>
                             </div><!--third field-->
-                            <div class="row-justify-between"><!--fourth field-->
+                            <div class="row-justify-between align-items-baseline"><!--fourth field-->
                                 {% if pastEvents != "on" %}
                                     <input class="" type="checkbox" name="pastEvents" id="pastEvents">
                                 {% else %}
@@ -127,9 +127,9 @@
                 <td class="icon">
                     <a href="{{ path('display_event', {'eventId':event.id}) }}"><button class="btn btn-sm btn-primary btn-icon" title="Voir l'événement"><img src="{{ asset('img/eyeIcon.png') }}" alt="show"></button></a>
                 {% if app.user in event.participants %}
-                    <a href="{{ path('sign_on_to_event', {'eventId':event.id}) }}"><button class="btn btn-sm btn-primary btn-icon" title="S'inscrire"><img src="{{ asset('img/signonIcon.png') }}" alt="sign on"></button></a>
-                {% else %}
                     <a href="{{ path('withdraw_event', {'eventId' : event.id}) }}"><button class="btn btn-sm btn-primary btn-icon" title="Se désister"><img src="{{ asset('img/withdrawIcon.png') }}" alt="withdraw"></button></a>
+                {% else %}
+                    <a href="{{ path('sign_on_to_event', {'eventId':event.id}) }}"><button class="btn btn-sm btn-primary btn-icon" title="S'inscrire"><img src="{{ asset('img/signonIcon.png') }}" alt="sign on"></button></a>
                 {% endif %}
                 {% if is_granted('ROLE_ADMIN') or event.organizer.id == app.user.id %}
                     {% if "annulé"is not same as(event.state) and "terminé"is not same as(event.state) %}

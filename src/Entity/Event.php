@@ -86,7 +86,7 @@ class Event
     private $participants;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Location", inversedBy="relation")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Location", inversedBy="event")
      * @ORM\JoinColumn(nullable=false)
      */
     private $location;
