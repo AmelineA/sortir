@@ -148,3 +148,4 @@ $("#dropUser").click(function () {
     $("#dropAdmin").height(heightAdmin);
 });
 
+// todo: unchecked signedIn checkbox if notSignedIn checkbox is checked and reverse
