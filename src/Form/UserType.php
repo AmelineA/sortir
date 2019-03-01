@@ -57,14 +57,14 @@ class UserType extends AbstractType
                 ],
                 'empty_data' => "",
             ])
-            ->add('password', PasswordType::class, [
-                'label'=>'Mot de passe',
-                'attr'=>[
-                    'placeholder'=>'ex: K!4851o$'
-                ],
-                'empty_data' => "",
-                'constraints'=>[new NotBlank(['message'=>'Veuillez renseigner un mot de passe'])]
-            ])
+//            ->add('password', PasswordType::class, [
+//                'label'=>'Mot de passe',
+//                'attr'=>[
+//                    'placeholder'=>'ex: K!4851o$'
+//                ],
+//                'empty_data' => "",
+//                'constraints'=>[new NotBlank(['message'=>'Veuillez renseigner un mot de passe'])]
+//            ])
             ->add('profilePictureName', FileType::class, [
                 'label'=>"Ma photo",
                 'required'=>false,

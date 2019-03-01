@@ -45,14 +45,14 @@ class LocationType extends AbstractType
             ->add('latitude', TextType::class, [
                 'label'=> 'latitude',
                 'attr'=>[
-                    'placeholder'=>'+000.46.00',
+                    'placeholder'=>'insérer par exemple : +000.46.00',
                 ],
                 'empty_data'=> ""
             ])
             ->add('longitude', TextType::class, [
                 'label'=> 'longitude',
                 'attr'=>[
-                    'placeholder'=>'-000.05.00',
+                    'placeholder'=>'insérer par exemple : -000.05.00',
                 ],
                 'empty_data'=> ""
             ])

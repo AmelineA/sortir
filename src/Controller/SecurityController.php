@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\ChangePasswordType;
 use App\Form\EmailResetType;
 use App\Form\ResetType;
 use App\Entity\CsvFile;
@@ -81,11 +82,11 @@ class SecurityController extends AbstractController
             $currentUser = $registerForm->getData();
             $currentUser->setProfilePictureName($profilePictureName);
             //si le mot de passe n'est pas renseigné, remettre celui récupérer avant la soumission du formulaire
-            if(empty($request->request->get('password'))){
-                $currentUser->setPassword($password);
-                $hash = $encoder->encodePassword($currentUser, $password);
-                $currentUser->setPassword($hash);
-            }
+//            if(empty($request->request->get('password'))){
+//                $currentUser->setPassword($password);
+//                $hash = $encoder->encodePassword($currentUser, $password);
+//                $currentUser->setPassword($hash);
+//            }
 
             if ($registerForm->isValid()) {
                 $password = $currentUser->getPassword();
@@ -123,7 +124,44 @@ class SecurityController extends AbstractController
         ]);
 
     }
+    /**
+     * @Route(
+     *     "/changer-de-mot-de-passe",
+     *     name="change_password",
+     *     methods={"GET", "POST"}
+     *     )
+     */
+    public function changePassword(Request $request, UserPasswordEncoderInterface $encoder)
+    {
+        $user = $this->getUser();
+        $changePasswordForm = $this->createForm(ChangePasswordType::class);
+        $changePasswordForm->handleRequest($request);
 
+        if($changePasswordForm->isSubmitted() && $changePasswordForm->isValid()){
+
+            if($encoder->isPasswordValid($user, $changePasswordForm->get('oldPassword')->getData())){
+                $newPassword = $changePasswordForm->get('newPassword')->getData();
+                $hash = $encoder->encodePassword($user, $newPassword);
+                $user->setPassword($hash);
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($user);
+                $em->flush();
+
+                $this->addFlash('success', 'Votre mot de passe a bien été modifié');
+                return $this->redirectToRoute('app_login');
+            }else{
+                $this->addFlash('warning', 'Identifiants incorrects');
+            }
+
+        }
+
+        return $this->render('security/change-password.html.twig',[
+            'changePasswordForm'=>$changePasswordForm->createView(),
+            'user'=>$user
+        ]);
+
+
+    }
 
     /**
      * @Route(
