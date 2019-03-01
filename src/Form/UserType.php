@@ -19,16 +19,17 @@ class UserType extends AbstractType
     {
 
         $builder
-            ->add('username', TextType::class, [
-                'label'=>'Pseudo',
-                'attr'=>[
-                    'placeholder'=>'ex:yoyo44'
-                ],
-                'empty_data' => "",
-//               ajout d'une contrainte à la place d'une annotation sur l'entity,
-//               ce cette manière le username n'est pas obligatoire dans UserByAdminType
-                'constraints' => [new NotBlank(['message' => "Veuillez rensigner un identifiant!"])]
-            ])
+            //block conservé en commentaire pour l'exeple de syntaxe "constraints"
+//            ->add('username', TextType::class, [
+//                'label'=>'Pseudo',
+//                'attr'=>[
+//                    'placeholder'=>'ex:yoyo44'
+//                ],
+//                'empty_data' => "",
+////               ajout d'une contrainte à la place d'une annotation sur l'entity,
+////               ce cette manière le username n'est pas obligatoire dans UserByAdminType
+//                'constraints' => [new NotBlank(['message' => "Veuillez rensigner un identifiant!"])]
+//            ])
             ->add('name', TextType::class, [
                 'label'=>'Nom',
                 'attr'=>[
