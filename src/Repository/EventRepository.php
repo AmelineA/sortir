@@ -112,9 +112,13 @@ class EventRepository extends ServiceEntityRepository
         //liste les events auxquels je ne suis PAS inscrits
         if($notSignedOn==='on'){
 //            $qb->expr()->neq('p.id', $user->getId());
-            $qb->andWhere(new Expr\Comparison('p.id', '!=', ':userId'));
+//            $qb->andWhere(new Expr\Comparison('p.id', '!=', ':userId'));
 //            $qb->andWhere('p.id<>:userId');
-            $qb->setParameter('userId', $user->getId());
+            //get the events where user is participant
+            $idEvents = $this->signedOnEvents($user->getId());
+            //add where event.id is not in the array returned (id events)
+            $qb->andWhere('e.id NOT IN (:idEvents)');
+            $qb->setParameter('idEvents', $idEvents);
         }
 
         //liste les events déjà passés
@@ -127,9 +131,33 @@ class EventRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
+    /**
+     * return all events where user is signed on
+     * @param $idUser
+     * @return array of the events id
+     */
+    public function signedOnEvents($idUser)
+    {
+        $qb = $this->createQueryBuilder('e');
+        $qb->join('e.participants', 'p');
+        $qb->andWhere('p.id = :idUser');
+        $qb->setParameter('idUser', $idUser);
+        $events = $qb->getQuery()->getResult();
+
+        $idEvents = [];
+        foreach ($events as $event){
+            $idEvents[] = $event->getId();
+        }
+
+        return $idEvents;
+    }
 
 
-
+    /**
+     * @param User $user
+     * @param $idEvent
+     * @return mixed
+     */
     public function alreadySignedOn(User $user, $idEvent)
     {
         $qb = $this->createQueryBuilder('e');
