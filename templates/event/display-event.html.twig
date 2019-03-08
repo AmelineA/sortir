@@ -78,6 +78,13 @@
                 <a href="{{ path('modify_event', {'eventId':event.id}) }}"><button type="button" class="btn btn-md btn-primary" title="modify">Modifier la sortie</button></a>
             {% endif %}
         </div>
+        <div>
+        {% if app.user in event.participants %}
+            <a href="{{ path('withdraw_event', {'eventId' : event.id}) }}"><button class="btn btn-sm btn-primary" title="Se désister">Se désister de la sortie</button></a>
+        {% else %}
+            <a href="{{ path('sign_on_to_event', {'eventId':event.id}) }}"><button class="btn btn-sm btn-primary" title="S'inscrire">S'inscrire à la sortie</button></a>
+        {% endif %}
+        </div>
     </div><!--container-->
 
 

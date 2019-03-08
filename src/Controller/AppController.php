@@ -121,7 +121,7 @@ class AppController extends AbstractController
             ]);
         }
         else{
-            $this->addFlash('danger', "Ce camarade n'existe pas. Mais il nous rejoindra... bientôt. Et nous serons assez nombreux pour reconquérir la mère patrie! Da zdrovzdrutd Lenine");
+            $this->addFlash('danger', "Utilisateur inconnu");
             return $this->redirectToRoute('home');
         }
     }

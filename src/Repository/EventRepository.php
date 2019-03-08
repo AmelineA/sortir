@@ -154,9 +154,10 @@ class EventRepository extends ServiceEntityRepository
 
 
     /**
+     *
      * @param User $user
      * @param $idEvent
-     * @return mixed
+     * @return the event if the user is already signed on
      */
     public function alreadySignedOn(User $user, $idEvent)
     {
