@@ -180,8 +180,8 @@ class FixturesCommand extends Command
         $barNantes5->setStreet("Canal St Felix");
         $barNantes5->setZipCode("44000");
         $barNantes5->setCity("Nantes");
-        $barNantes4->setLatitude("47.2310484");
-        $barNantes4->setLongitude("-1.5559399");
+        $barNantes5->setLatitude("47.2310484");
+        $barNantes5->setLongitude("-1.5559399");
 
         $barNiort= new Location();
         $barNiort->setName('VLA');

@@ -53,6 +53,11 @@ class Location
      */
     private $city;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="locations")
+     */
+    private $creator;
+
     public function __construct()
     {
         $this->event = new ArrayCollection();
@@ -164,6 +169,18 @@ class Location
     public function setLongitude(?string $longitude): self
     {
         $this->longitude = $longitude;
+
+        return $this;
+    }
+
+    public function getCreator(): ?User
+    {
+        return $this->creator;
+    }
+
+    public function setCreator(?User $creator): self
+    {
+        $this->creator = $creator;
 
         return $this;
     }

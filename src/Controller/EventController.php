@@ -232,9 +232,32 @@ class EventController extends AbstractController
         $locationForm = $this->createForm(LocationType::class, $location);
         $locationForm->handleRequest($request);
 
+        $locationRepo=$this->getDoctrine()->getRepository(Location::class);
+        $locations=$locationRepo->findAll();
+
+
         if($locationForm->isSubmitted() && $locationForm->isValid()){
             $em = $this->getDoctrine()->getManager();
+            //crée l'objet
             $em->persist($location);
+
+            //compare les coord de $location avec les coord de chaque location en BDD (contenues dans $locations)
+            if ($location->getLatitude()!==null && $location->getLongitude()!==null){
+                foreach ($locations as $loc){
+                    if($loc->getLatitude()===$location->getLatitude() && $loc->getLongitude()===$location->getLongitude()){
+                        $this->addFlash('danger', 'Il semblerait que ce lieu existe déjà au vu des coordonnées renseignées');
+                        return $this->redirectToRoute('create_event');
+                    }
+                }
+            }else{
+                foreach ($locations as $loc){
+                    if($loc->getStreet()===$location->getStreet() && $loc->getCity()===$location->getCity()){
+                        $this->addFlash('danger', 'Il semblerait que ce lieu existe déjà au vu de l\'adresse renseignée');
+                        return $this->redirectToRoute('create_event');
+                    }
+                }
+            }
+            //enregistre en BDD
             $em->flush();
 
             $this->addFlash('success', 'Merci ! vous venez de créer un nouveau lieu');
