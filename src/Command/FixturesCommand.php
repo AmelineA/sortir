@@ -97,6 +97,19 @@ class FixturesCommand extends Command
         $allUser[] = $adminUser;
         $this->em->persist($adminUser);
 
+        $userENI = new User();
+        $userENI->setUsername('ENI');
+        $userENI->setName('ENI');
+        $userENI->setFirstName('ENI');
+        $userENI->setEmail('eni@email.fr');
+        $userENI->setSite($faker->randomElement($allSites));
+        $userENI->setTelephone('0101010101');
+        $userENI->setPassword($this->encoder->encodePassword($userENI, $userENI->getUsername()));
+        $userENI->setActivated(true);
+        $userENI->setAddedOn(new \DateTime('now'));
+        $allUser[] = $userENI;
+        $this->em->persist($userENI);
+
         for ($i=0;$i<30; $i++){
             $user = new User();
             $user->setUsername($faker->unique()->userName);
@@ -171,7 +184,15 @@ class FixturesCommand extends Command
         $barNiort->setLatitude("46.3258318");
         $barNiort->setLongitude("-0.4640339");
 
-        $locations = [$barNiort, $barNantes1, $barNantes2, $barNantes3, $barNantes4, $barNantes5, $barRennes];
+        $kartNantes = new Location();
+        $kartNantes->setName('Karting Nantes');
+        $kartNantes->setStreet('33 rue Marie Curie');
+        $kartNantes->setZipCode('44230');
+        $kartNantes->setCity("Saint-Sébastien-sur-Loire");
+        $kartNantes->setLatitude("47.1898627");
+        $kartNantes->setLongitude("-1.4897022");
+
+        $locations = [$barNiort, $barNantes1, $barNantes2, $barNantes3, $barNantes4, $barNantes5, $barRennes, $kartNantes];
         $allLocations = [];
         foreach ($locations as $l){
             $allLocations[] = $l;
@@ -179,14 +200,30 @@ class FixturesCommand extends Command
         }
         $this->em->flush();
 
-
         //création d'events
+        $nomSorties = ["Bowling", "Fléchettes", "LAN", "Disco", "LaserGame", "Restaurant", "Happy Hour"];
 //        $state = ['ouvert', 'fermé', 'en création', 'terminé', 'annulé'];
         $state = ['ouvert', 'fermé', 'terminé', 'annulé'];
         $allEvents = [];
+
+        //creation d'une sortie karting pour la demo
+        $event = new Event();
+        $event->setName("Karting");
+        $event->setOrganizer(array_pop($allUser)); //autre que admin, FAG et ENI
+        $event->setState('ouvert');
+        $event->setSite($allSites[array_search('Nantes', $allSites)]); //Nantes
+        $event->setLocation(array_pop($allLocations)); //kartNantes
+        $event->setDuration(120);
+        $event->setMaxNumber(15);
+        $event->setRdvTime(new \DateTime('2019-03-20 18:00'));
+        $event->setSignOnDeadline(new \DateTime('2019-03-17'));
+        $event->setDescription("Vous êtes fous de vitesse, cette sortie est faites pour vous!");
+        $allEvents[] = $event;
+        $this->em->persist($event);
+
         for($i=0; $i<150; $i++){
             $event = new Event();
-            $event->setName($faker->unique()->name);
+            $event->setName($faker->randomElement($nomSorties));
             $event->setOrganizer($faker->randomElement($allUser));
             $event->setState($faker->randomElement($state));
             $event->setSite($faker->randomElement($allSites));

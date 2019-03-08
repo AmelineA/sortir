@@ -96,9 +96,9 @@ class SecurityController extends AbstractController
 //            }
 
             if ($registerForm->isValid()) {
-                $password = $currentUser->getPassword();
-                $hash = $encoder->encodePassword($currentUser, $password);
-                $currentUser->setPassword($hash);
+//                $password = $currentUser->getPassword();
+//                $hash = $encoder->encodePassword($currentUser, $password);
+//                $currentUser->setPassword($hash);
 
                 //Si le user veut uploader
                 if (null !== $registerForm->get("profilePictureName")->getData()) {
