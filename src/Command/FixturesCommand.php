@@ -67,6 +67,9 @@ class FixturesCommand extends Command
             $this->em->persist($site);
         }
         $this->em->flush();
+        //création de promotions
+        $allPromos = ['CDA75','TSSR110','D2WM130','CDI73','ASR108','MS2I35'];
+
 
         $allUser = [];
         //default user known from us
@@ -77,6 +80,7 @@ class FixturesCommand extends Command
         $defaultUser->setEmail('fag@email.fr');
         $defaultUser->setSite($faker->randomElement($allSites));
         $defaultUser->setTelephone('0101010101');
+        $defaultUser->setPromo($faker->randomElement($allPromos));
         $defaultUser->setPassword($this->encoder->encodePassword($defaultUser, $defaultUser->getUsername()));
         $defaultUser->setActivated(true);
         $defaultUser->setAddedOn(new \DateTime('now'));
@@ -90,6 +94,7 @@ class FixturesCommand extends Command
         $adminUser->setEmail('admin@email.fr');
         $adminUser->setSite($faker->randomElement($allSites));
         $adminUser->setTelephone('0101010101');
+        $adminUser->setPromo("CDA75");
         $adminUser->setPassword($this->encoder->encodePassword($adminUser, $adminUser->getUsername()));
         $adminUser->setActivated(true);
         $adminUser->setRoles(['ROLE_ADMIN']);
@@ -104,6 +109,7 @@ class FixturesCommand extends Command
         $userENI->setEmail('eni@email.fr');
         $userENI->setSite($allSites[array_search('Nantes', $allSites)]);
         $userENI->setTelephone('0101010101');
+        $userENI->setPromo("CDA75");
         $userENI->setPassword($this->encoder->encodePassword($userENI, $userENI->getUsername()));
         $userENI->setActivated(true);
         $userENI->setAddedOn(new \DateTime('now'));
@@ -118,6 +124,7 @@ class FixturesCommand extends Command
             $user->setEmail($faker->unique()->email);
             $user->setSite($faker->randomElement($allSites));
             $user->setTelephone($faker->randomNumber([10, true]));
+            $user->setPromo($faker->randomElement($allPromos));
             $user->setPassword($this->encoder->encodePassword($user, $user->getUsername()));
             $user->setActivated(true);
             $user->setAddedOn(new \DateTime('now'));

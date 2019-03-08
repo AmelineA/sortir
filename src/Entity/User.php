@@ -134,6 +134,11 @@ class User implements UserInterface
      */
     private $addedOn;
 
+    /**
+     * @ORM\Column(type="string", length=10, nullable=true)
+     */
+    private $promo;
+
 
 
 
@@ -421,6 +426,18 @@ class User implements UserInterface
     public function setAddedOn(?\DateTimeInterface $addedOn): self
     {
         $this->addedOn = $addedOn;
+
+        return $this;
+    }
+
+    public function getPromo(): ?string
+    {
+        return $this->promo;
+    }
+
+    public function setPromo(?string $promo): self
+    {
+        $this->promo = $promo;
 
         return $this;
     }
