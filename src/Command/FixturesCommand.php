@@ -107,7 +107,7 @@ class FixturesCommand extends Command
         $userENI->setName('ENI');
         $userENI->setFirstName('ENI');
         $userENI->setEmail('eni@email.fr');
-        $userENI->setSite($faker->randomElement($allSites));
+        $userENI->setSite($allSites[array_search('Nantes', $allSites)]);
         $userENI->setTelephone('0101010101');
         $userENI->setPromo("CDA75");
         $userENI->setPassword($this->encoder->encodePassword($userENI, $userENI->getUsername()));
@@ -214,19 +214,19 @@ class FixturesCommand extends Command
         $allEvents = [];
 
         //creation d'une sortie karting pour la demo
-        $event = new Event();
-        $event->setName("Karting");
-        $event->setOrganizer(array_pop($allUser)); //autre que admin, FAG et ENI
-        $event->setState('ouvert');
-        $event->setSite($allSites[array_search('Nantes', $allSites)]); //Nantes
-        $event->setLocation(array_pop($allLocations)); //kartNantes
-        $event->setDuration(120);
-        $event->setMaxNumber(15);
-        $event->setRdvTime(new \DateTime('2019-03-20 18:00'));
-        $event->setSignOnDeadline(new \DateTime('2019-03-17'));
-        $event->setDescription("Vous êtes fous de vitesse, cette sortie est faites pour vous!");
-        $allEvents[] = $event;
-        $this->em->persist($event);
+        $eventKart = new Event();
+        $eventKart->setName("Karting");
+        $eventKart->setOrganizer(array_pop($allUser)); //autre que admin, FAG et ENI
+        $eventKart->setState('ouvert');
+        $eventKart->setSite($allSites[array_search('Nantes', $allSites)]); //Nantes
+        $eventKart->setLocation(array_pop($allLocations)); //kartNantes
+        $eventKart->setDuration(120);
+        $eventKart->setMaxNumber(15);
+        $eventKart->setRdvTime(new \DateTime('2019-03-20 18:00'));
+        $eventKart->setSignOnDeadline(new \DateTime('2019-03-17'));
+        $eventKart->setDescription("Vous êtes fous de vitesse, cette sortie est faites pour vous!");
+        $allEvents[] = $eventKart;
+        $this->em->persist($eventKart);
 
         for($i=0; $i<150; $i++){
             $event = new Event();

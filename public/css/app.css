@@ -4,7 +4,7 @@
 
 /***********************************GRID***************************************/
 @media only screen
-    and (max-width: 700px) {
+    and (max-width: 576px) {
 
     body{
         display: grid;
@@ -94,12 +94,7 @@
 
 
 @media screen
-    and (min-width: 700px){
-
-    /*a supprimer*/
-    body{
-        background-color: #002439;
-    }
+    and (min-width: 768px){
 
     body{
         display: grid;
@@ -144,7 +139,7 @@
         display: block;
     }
 
-    .table{
+    .table-event{
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -224,6 +219,9 @@
 
 }
 
+body{
+    background-color: #002439;
+}
 
 header{
     grid-area: header;
@@ -360,8 +358,12 @@ th, td{
     font-size: 0.8em;
 }
 
-.table th{
+.table th, .table td{
     border-top: none;
+}
+
+.table tbody tr{
+    border-top: 1px solid #dee2e6;
 }
 
 .actions .nav-link{
