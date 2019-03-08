@@ -214,7 +214,7 @@ class EventController extends AbstractController
             ]);
         }
         else{
-            $this->addFlash('danger', "Cette sortie n'existe pas. Pas encore... Mouaha, Mouhaha MOUHAHAHAHAHAHA");
+            $this->addFlash('danger', "Cette sortie n'a pas encore été créée");
             return $this->redirectToRoute('home');
         }
     }
