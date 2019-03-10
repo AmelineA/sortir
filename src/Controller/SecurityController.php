@@ -131,6 +131,7 @@ class SecurityController extends AbstractController
         ]);
 
     }
+
     /**
      * @Route(
      *     "/changer-de-mot-de-passe",

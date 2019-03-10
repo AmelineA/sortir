@@ -78,10 +78,10 @@ class AdminController extends AbstractController
             $message->setTo($user->getEmail())
                 ->setSubject("Votre inscription")
                 ->setFrom("ameline.aubin2018@campus-eni.fr")
-                ->setBody($this->renderView('mail/email.html.twig', [
+                ->setBody($this->render('mail/email.html.twig', [
                     'username' => $username,
                     'password' => $password
-                ]));
+                ]), 'text/html');
             $mailer->send($message);
 
 

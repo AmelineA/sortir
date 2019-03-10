@@ -39,7 +39,7 @@ class EventController extends AbstractController
 
             $this->addFlash('success', "La sortie a bien été créée !");
 
-          return $this->redirectToRoute("home");
+            return $this->redirectToRoute("home");
         }
 
         return $this->render('event/event-form.html.twig', [
