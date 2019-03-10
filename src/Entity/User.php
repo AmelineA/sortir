@@ -144,6 +144,11 @@ class User implements UserInterface
      */
     private $beInformed;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Location", mappedBy="creator")
+     */
+    private $locations;
+
 
 
 
@@ -152,6 +157,7 @@ class User implements UserInterface
         $this->activated = true;
         $this->organizedEvents = new ArrayCollection();
         $this->signedOnEvents = new ArrayCollection();
+        $this->locations = new ArrayCollection();
     }
 
 
@@ -455,6 +461,37 @@ class User implements UserInterface
     public function setBeInformed(?bool $beInformed): self
     {
         $this->beInformed = $beInformed;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Location[]
+     */
+    public function getLocations(): Collection
+    {
+        return $this->locations;
+    }
+
+    public function addLocation(Location $location): self
+    {
+        if (!$this->locations->contains($location)) {
+            $this->locations[] = $location;
+            $location->setCreator($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLocation(Location $location): self
+    {
+        if ($this->locations->contains($location)) {
+            $this->locations->removeElement($location);
+            // set the owning side to null (unless already changed)
+            if ($location->getCreator() === $this) {
+                $location->setCreator(null);
+            }
+        }
 
         return $this;
     }
