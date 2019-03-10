@@ -139,6 +139,11 @@ class User implements UserInterface
      */
     private $promo;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $beInformed;
+
 
 
 
@@ -438,6 +443,18 @@ class User implements UserInterface
     public function setPromo(?string $promo): self
     {
         $this->promo = $promo;
+
+        return $this;
+    }
+
+    public function getBeInformed(): ?bool
+    {
+        return $this->beInformed;
+    }
+
+    public function setBeInformed(?bool $beInformed): self
+    {
+        $this->beInformed = $beInformed;
 
         return $this;
     }

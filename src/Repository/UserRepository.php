@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Event;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
@@ -31,6 +32,21 @@ class UserRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
+
+    /**
+     * get all the users who want to be informed of new event on their site
+     * @param Event $event
+     * @return mixed
+     */
+    public function getUserBySiteAndBeInformed(Event $event)
+    {
+        $qb=$this->createQueryBuilder('u');
+        $qb->andWhere('u.beInformed = true');
+        $qb->andWhere('u.site = :organizerSite');
+        $qb->setParameter('organizerSite', $event->getSite()->getId());
+        $query = $qb->getQuery();
+        return $query->getResult();
+    }
 //    public function findByAfterDate(DateTime $time)
 //    {
 //        return $this->createQueryBuilder('u')
