@@ -20,30 +20,30 @@ class UserType extends AbstractType
 
         $builder
             //block conservé en commentaire pour l'exeple de syntaxe "constraints"
-//            ->add('username', TextType::class, [
-//                'label'=>'Pseudo',
+            ->add('username', TextType::class, [
+                'label'=>'Pseudo',
+                'attr'=>[
+                    'placeholder'=>'ex:yoyo44'
+                ],
+                'empty_data' => "",
+//               ajout d'une contrainte à la place d'une annotation sur l'entity,
+//               ce cette manière le username n'est pas obligatoire dans UserByAdminType
+  //              'constraints' => [new NotBlank(['message' => "Veuillez rensigner un identifiant!"])]
+            ])
+//            ->add('name', TextType::class, [
+//                'label'=>'Nom',
 //                'attr'=>[
-//                    'placeholder'=>'ex:yoyo44'
+//                    'placeholder'=>'Mon nom'
 //                ],
 //                'empty_data' => "",
-////               ajout d'une contrainte à la place d'une annotation sur l'entity,
-////               ce cette manière le username n'est pas obligatoire dans UserByAdminType
-//                'constraints' => [new NotBlank(['message' => "Veuillez rensigner un identifiant!"])]
 //            ])
-            ->add('name', TextType::class, [
-                'label'=>'Nom',
-                'attr'=>[
-                    'placeholder'=>'Mon nom'
-                ],
-                'empty_data' => "",
-            ])
-            ->add('firstName', TextType::class, [
-                'label'=>'Prénom',
-                'attr'=>[
-                    'placeholder'=>'Mon Prénom'
-                ],
-                'empty_data' => "",
-            ])
+//            ->add('firstName', TextType::class, [
+//                'label'=>'Prénom',
+//                'attr'=>[
+//                    'placeholder'=>'Mon Prénom'
+//                ],
+//                'empty_data' => "",
+//            ])
             ->add('telephone', TextType::class, [
                 'label'=>'Téléphone',
                 'attr'=>[

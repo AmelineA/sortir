@@ -23,11 +23,11 @@ class EventType extends AbstractType
     {
         $builder
             ->add('name',TextType::class, [
-                'label'=>'La sortie',
+                'label'=>'Nom de la sortie',
                 'empty_data'=> ""
             ])
             ->add('location',EntityType::class, [
-                'label'=>'C\'est où ?',
+                'label'=>'Lieu de la sortie',
                 'class'=>Location::class,
                 'choice_label'=>'name',
                 'empty_data'=> ""

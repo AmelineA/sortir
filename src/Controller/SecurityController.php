@@ -81,11 +81,12 @@ class SecurityController extends AbstractController
         //récupération du nom de la photo présent dans l'objet User
         $profilePictureName=$currentUser->getProfilePictureName();
         //récuparation du password pour consever la connexion
-        $password = $this->getUser()->getPassword();
+       // $password = $this->getUser()->getPassword();
+
         //handleRequest récupère puis efface tous les champs
         $registerForm->handleRequest($request);
 
-        if($registerForm->isSubmitted()){
+        if($registerForm->isSubmitted() && $registerForm->isValid()){
             $currentUser = $registerForm->getData();
             $currentUser->setProfilePictureName($profilePictureName);
             //si le mot de passe n'est pas renseigné, remettre celui récupérer avant la soumission du formulaire
@@ -94,11 +95,6 @@ class SecurityController extends AbstractController
 //                $hash = $encoder->encodePassword($currentUser, $password);
 //                $currentUser->setPassword($hash);
 //            }
-
-            if ($registerForm->isValid()) {
-//                $password = $currentUser->getPassword();
-//                $hash = $encoder->encodePassword($currentUser, $password);
-//                $currentUser->setPassword($hash);
 
                 //Si le user veut uploader
                 if (null !== $registerForm->get("profilePictureName")->getData()) {
@@ -115,13 +111,21 @@ class SecurityController extends AbstractController
                     //réattribution du nom de la photo à l'objet User
                     $currentUser->setProfilePictureName($profilePictureName);
                 }
+
+                //si le champs pseudo est vide, inserer firstname.name
+                $fieldUserName = $registerForm->get('username')->getData();
+                if($fieldUserName === ""){
+                        $currentUser->setUserName($currentUser->getFirstName() . "." . $currentUser->getName());
+                }
+
+                //persiter en BDD
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($currentUser);
                 $em->flush();
 
                 $this->addFlash("success", 'Votre compte a bien été modifié ! ');
                 return $this->redirectToRoute('home');
-            }
+
         }
 
 
