@@ -32,7 +32,7 @@ function resizeTable() {
 $(document).resize(resizeTable());
 
 
-    //methode pour récupérer les coordonnées à partir de l' address  inséré par l'utilisateur avec nominatim(OSM)
+    //methode pour récupérer les coordonnées à partir de l' addresse  insérée par l'utilisateur avec nominatim(OSM)
 
     $('#coordonnates').click(function () {
 
@@ -147,5 +147,3 @@ $("#dropUser").click(function () {
     $(this).height('auto');
     $("#dropAdmin").height(heightAdmin);
 });
-
-// todo: unchecked signedIn checkbox if notSignedIn checkbox is checked and reverse

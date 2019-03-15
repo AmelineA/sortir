@@ -29,6 +29,7 @@ security:
 
     role_hierarchy:
         ROLE_ADMIN: ROLE_USER
+
             # activate different ways to authenticate
 
             # http_basic: true
@@ -40,6 +41,9 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
+        # access control is managed by annotations either on classes or on functions.
+        # => every controller class is annoted except SecurityController because
+        # it contains functions destined to non-ROLE_USER-granted users (ex : login and reset password)
 #         - { path: ^/public, roles: ROLE_USER }
 #         - { path: ^/public, roles: ROLE_FORBIDDEN }
 #         - { path: ^/mon-profil, roles: ROLE_USER }

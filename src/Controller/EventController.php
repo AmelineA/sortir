@@ -11,11 +11,18 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
+
+/**
+ * @IsGranted("ROLE_USER")
+ * This class is related to everything that concerns events
+ * Class EventController
+ * @package App\Controller
+ */
 class EventController extends AbstractController
 {
 
     /**
-     *
+     * is used to create an event
      * @IsGranted("ROLE_USER")
      * @Route(
      *     "/creer-une-sortie",
@@ -92,7 +99,7 @@ class EventController extends AbstractController
 
 
     /**
-     *
+     * is used to withdraw from an event (if the user changes his mind about going to the event)
      * @IsGranted("ROLE_USER")
      * @Route(
      *     "/se-désister/{eventId}",
@@ -124,7 +131,6 @@ class EventController extends AbstractController
 
 
     /**
-     *
      * @IsGranted("ROLE_USER")
      * @Route(
      *     "/modifier-une-sortie/{eventId}",
@@ -196,7 +202,6 @@ class EventController extends AbstractController
     }
 
     /**
-     *
      * @IsGranted("ROLE_USER")
      * @Route("/afficher-sortie/{eventId}", name="display_event", requirements={"id"="\d+"})
      */
@@ -225,6 +230,7 @@ class EventController extends AbstractController
      *     name="new_location",
      *     methods={"GET", "POST"}
      *     )
+     * @IsGranted("ROLE_USER")
      */
     public function createLocation(Request $request)
     {
@@ -232,9 +238,33 @@ class EventController extends AbstractController
         $locationForm = $this->createForm(LocationType::class, $location);
         $locationForm->handleRequest($request);
 
+        $locationRepo=$this->getDoctrine()->getRepository(Location::class);
+        //get every location from database
+        $locations=$locationRepo->findAll();
+
+
         if($locationForm->isSubmitted() && $locationForm->isValid()){
             $em = $this->getDoctrine()->getManager();
+            //crée l'objet
             $em->persist($location);
+            // compares the coordinates of $location with the coordinates of every location in database
+            if ($location->getLatitude()!==null && $location->getLongitude()!==null){
+                foreach ($locations as $loc){
+                    if($loc->getLatitude()===$location->getLatitude() && $loc->getLongitude()===$location->getLongitude()){
+                        $this->addFlash('danger', 'Il semblerait que ce lieu existe déjà au vu des coordonnées renseignées');
+                        return $this->redirectToRoute('create_event');
+                    }
+                }
+            // compares the adresses of $location with the adresses of every location in database
+            }else{
+                foreach ($locations as $loc){
+                    if($loc->getStreet()===$location->getStreet() && $loc->getCity()===$location->getCity()){
+                        $this->addFlash('danger', 'Il semblerait que ce lieu existe déjà au vu de l\'adresse renseignée');
+                        return $this->redirectToRoute('create_event');
+                    }
+                }
+            }
+            // records in database
             $em->flush();
 
             $this->addFlash('success', 'Merci ! vous venez de créer un nouveau lieu');

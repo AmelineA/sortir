@@ -9,13 +9,26 @@
 namespace App\Services;
 
 
+/**
+ * Class ConvertCsvToArray
+ * @package App\Services
+ */
 class ConvertCsvToArray
 {
 
+    /**
+     * ConvertCsvToArray constructor.
+     */
     public function __construct()
     {
     }
 
+    /**
+     * is used to convert a csv file into an array of data
+     * @param $filePath
+     * @param string $delimiter
+     * @return array|string
+     */
     public function convert($filePath, $delimiter = ',')
     {
 //        dd($filePath);

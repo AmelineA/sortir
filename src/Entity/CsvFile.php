@@ -10,6 +10,10 @@ namespace App\Entity;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
+/**
+ * Class CsvFile
+ * @package App\Entity
+ */
 class CsvFile
 {
     /**

@@ -12,9 +12,15 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
+/**
+ * @isGranted("ROLE_USER")
+ * Class AppController
+ * @package App\Controller
+ */
 class AppController extends AbstractController
 {
     /**
+     * is used to display the home page with a list of events depending of the user's site
      * @IsGranted("ROLE_USER")
      * @Route("/accueil", name="home", methods={"GET"})
      * @throws \Exception
@@ -52,6 +58,7 @@ class AppController extends AbstractController
 
 
     /**
+     * is used to search events depending on criterias selected by the user
      * @IsGranted("ROLE_USER")
      * @Route("/recherche", name="search", methods="POST")
      * @throws \Exception
@@ -103,6 +110,7 @@ class AppController extends AbstractController
 
 
     /**
+     * is used to show other users'profiles
      * @Route("/profil/{id}",
      *     name="show_profile",
      *     requirements={"id"="\d+"})

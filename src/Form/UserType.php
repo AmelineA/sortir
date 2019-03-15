@@ -12,9 +12,17 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
+/**
+ * Class UserType
+ * @package App\Form
+ */
 class UserType extends AbstractType
 {
 
+    /**
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
 
@@ -36,6 +44,9 @@ class UserType extends AbstractType
 //                    'placeholder'=>'Mon nom'
 //                ],
 //                'empty_data' => "",
+////               ajout d'une contrainte à la place d'une annotation sur l'entity,
+////               ce cette manière le username n'est pas obligatoire dans UserByAdminType
+//                'constraints' => [new NotBlank(['message' => "Veuillez rensigner un identifiant!"])]
 //            ])
 //            ->add('firstName', TextType::class, [
 //                'label'=>'Prénom',
@@ -79,6 +90,9 @@ class UserType extends AbstractType
         ;
     }
 
+    /**
+     * @param OptionsResolver $resolver
+     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([

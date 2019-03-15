@@ -24,6 +24,7 @@ class EventRepository extends ServiceEntityRepository
 
 
     /**
+     * is used to list all the events of the user's site
      * @param User $user
      * @return mixed
      * @throws \Exception
@@ -46,6 +47,7 @@ class EventRepository extends ServiceEntityRepository
 
 
     /**
+     * is used to search for events depending on criterias selected by the user
      * @param User $user
      * @param $site
      * @param $searchBar
@@ -72,44 +74,44 @@ class EventRepository extends ServiceEntityRepository
         $qb->andWhere('e.rdvTime>:day30');
         $qb->setParameter('day30', $day30);
 
-        //liste les events par site
+        //list the events depending on sites
         if($site!=="0"){
             $qb->andWhere('e.site=:site');
             $qb->setParameter('site', $site);
         }
 
-        //liste les events selon rechercher
+        //list the events depending on what the user typed in the searchbar
         if($searchBar!==""){
             $qb->andWhere('e.name LIKE :searchBar');
             $qb->setParameter('searchBar', '%'.$searchBar.'%');
         }
 
-        //liste les events à partir de dateStart
+        //list the events happening after the date typed by the user
         if($dateStart!==""){
             $qb->andWhere('e.rdvTime>:dateStart');
             $qb->setParameter('dateStart', $dateStart);
         }
 
-        //liste les events après dateEnd
+        //list the events happening before the date typed by the user
         if($dateEnd!==""){
             $qb->andWhere('e.rdvTime<:dateEnd');
             $qb->setParameter('dateEnd', $dateEnd);
         }
 
 
-        //liste les events dont le user est l'organisateur
+        //list the events organized by the user
         if($organizer==='on'){
             $qb->andWhere('e.organizer=:user');
             $qb->setParameter('user', $user);
         }
 
-        //liste les events auxquels je suis inscrits
+        //list the events the user has signed on
         if($signedOn==='on'){
             $qb->andWhere('p.id=:userId');
             $qb->setParameter('userId', $user->getId());
         }
 
-        //liste les events auxquels je ne suis PAS inscrits
+        //list the events the user has NOT signed on
         if($notSignedOn==='on'){
 //            $qb->expr()->neq('p.id', $user->getId());
 //            $qb->andWhere(new Expr\Comparison('p.id', '!=', ':userId'));
@@ -121,7 +123,7 @@ class EventRepository extends ServiceEntityRepository
             $qb->setParameter('idEvents', $idEvents);
         }
 
-        //liste les events déjà passés
+        //list the events already happened
         if($pastEvent==='on'){
             $qb->andWhere('e.rdvTime<:today');
             $qb->setParameter('today', $today);
@@ -132,9 +134,9 @@ class EventRepository extends ServiceEntityRepository
     }
 
     /**
-     * return all events where user is signed on
+     * return every event the user has signed on
      * @param $idUser
-     * @return array of the events id
+     * @return array of the ids of the events
      */
     public function signedOnEvents($idUser)
     {
@@ -176,22 +178,44 @@ class EventRepository extends ServiceEntityRepository
     }
 
 
-    /*
-     * Sert à ramener tous les événements à mettre à jour
+    /**
+     * is used to get every event "open"
      */
-    public function updateState()
+    public function updateStateToClosed()
     {
-        // récupération de la date d'aujourd'hui
+        // get today's date
         $now = new \DateTime();
-        // création d'une date "aujourd'hui + 1 jour"
+        // create a date of today plus one day
         $interval = \DateInterval::createFromDateString("1 day");
         $now->add($interval);
         $qb = $this->createQueryBuilder('e');
-        // va chercher tous les évents dont le statut est "ouvert" et dont la date de fin d'inscription est passée
+        // get every event which status is "ouvert" and which signon deadline is passed
         $qb->andWhere('e.state = :state')
             ->andWhere('e.signOnDeadline < :now')
             ->setParameters([
                 'state' => 'ouvert',
+                'now' => $now
+            ]);
+        $query = $qb->getQuery();
+        return $query->getResult();
+    }
+
+    /**
+     * is used to get every event "fermé"
+     */
+    public function updateStateToPassed()
+    {
+        // get today's date
+        $now = new \DateTime();
+        // create a date of today plus one day
+        $interval = \DateInterval::createFromDateString("1 day");
+        $now->add($interval);
+        $qb = $this->createQueryBuilder('e');
+        //get every event which status is "fermé" and which rdvTime is passed
+        $qb->andWhere('e.state = :state')
+            ->andWhere('e.rdvTime < :now')
+            ->setParameters([
+                'state' => 'fermé',
                 'now' => $now
             ]);
         $query = $qb->getQuery();
