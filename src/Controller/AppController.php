@@ -12,6 +12,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
+/**
+ * @isGranted("ROLE_USER")
+ * Class AppController
+ * @package App\Controller
+ */
 class AppController extends AbstractController
 {
     /**

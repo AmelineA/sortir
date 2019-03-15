@@ -37,6 +37,7 @@ class SecurityController extends AbstractController
 
 
     /**
+     * @IsGranted("ROLE_USER")
      * automatic function by Symfony
      * @Route(
      *     "/logout",
@@ -69,6 +70,7 @@ class SecurityController extends AbstractController
     }
 
     /**
+     * @IsGranted("ROLE_USER")
      * @Route(
      *     "/mon-profil/{id}",
      *     name="app_my_profile",
@@ -136,6 +138,7 @@ class SecurityController extends AbstractController
 
     }
     /**
+     * @IsGranted("ROLE_USER")
      * @Route(
      *     "/changer-de-mot-de-passe",
      *     name="change_password",

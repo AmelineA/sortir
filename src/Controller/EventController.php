@@ -13,6 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 
 /**
+ * @IsGranted("ROLE_USER")
  * This class is related to everything that concerns events
  * Class EventController
  * @package App\Controller
