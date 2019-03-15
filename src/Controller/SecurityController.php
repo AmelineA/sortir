@@ -126,7 +126,6 @@ class SecurityController extends AbstractController
                 $this->addFlash("success", 'Votre compte a bien été modifié ! ');
                 return $this->redirectToRoute('home');
             }
-        }
 
         return $this->render('security/myprofile.html.twig',[
           'registerForm'=>$registerForm->createView(),
