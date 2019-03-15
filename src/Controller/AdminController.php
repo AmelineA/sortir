@@ -55,11 +55,11 @@ class AdminController extends AbstractController
         if ($registerForm->isSubmitted() && $registerForm->isValid()) {
 
             $year = new \DateTime();
-            //generate a username with the first letter of the name, the firstname and the year of inscription
+            //generate a username with the first letter of the name, the firstname and the year of registration
             $usernameFName = substr(strtolower($user->getFirstName()), 0, 1);
             $usernameName = strtolower($user->getName());
             $username = $usernameFName . $usernameName . $year->format("Y");
-            //generate a password with the 2 first letters of the name, the first name and the year of inscription
+            //generate a password with the 2 first letters of the name, the first name and the year of registration
             $passwordName = substr($user->getName(), 0, 2);
             $passwordFName = substr($user->getFirstName(), 0, 2);
             $password = $passwordName . $passwordFName . $year->format("Y");
@@ -83,8 +83,6 @@ class AdminController extends AbstractController
                     'password' => $password
                 ]));
             $mailer->send($message);
-
-
 
             $this->addFlash('success', "Un nouvel utilisateur a été inscrit");
 
@@ -121,6 +119,7 @@ class AdminController extends AbstractController
 
 
     /**
+     * is used to list all the users
      * @IsGranted("ROLE_ADMIN")
      * @Route("/liste-utilisateurs", name="show_list_of_users")
      */
@@ -200,6 +199,12 @@ class AdminController extends AbstractController
     }
 
 
+    /**
+     * is used to send messages to users when their profiles are created by an admin
+     * @param \Swift_Mailer $mailer
+     * @param \DateTime $time
+     * @throws \Exception
+     */
     private function sendMessageToUsers(\Swift_Mailer $mailer, \DateTime $time)
     {
         $userRepo=$this->getDoctrine()->getRepository(User::class);
@@ -209,7 +214,7 @@ class AdminController extends AbstractController
 
         foreach($users as $user){
             $username=$user->getUsername();
-            //generate a password with the 2 first letters of the name, the first name and the year of inscription
+            //generate a password with the 2 first letters of the name, the first name and the year of registration
             $passwordName = substr($user->getName(), 0, 2);
             $passwordFName = substr($user->getFirstName(), 0, 2);
             $password = $passwordFName.$passwordName.$year->format("Y");

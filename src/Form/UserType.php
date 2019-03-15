@@ -12,14 +12,22 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
+/**
+ * Class UserType
+ * @package App\Form
+ */
 class UserType extends AbstractType
 {
 
+    /**
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
 
         $builder
-            //block conservé en commentaire pour l'exeple de syntaxe "constraints"
+            //block conservé en commentaire pour l'exemple de syntaxe "constraints"
 //            ->add('username', TextType::class, [
 //                'label'=>'Pseudo',
 //                'attr'=>[
@@ -79,6 +87,9 @@ class UserType extends AbstractType
         ;
     }
 
+    /**
+     * @param OptionsResolver $resolver
+     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
