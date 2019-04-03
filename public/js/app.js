@@ -149,3 +149,8 @@ $("#dropUser").click(function () {
 });
 
 // todo: unchecked signedIn checkbox if notSignedIn checkbox is checked and reverse
+
+//modal form
+// $(document).ready(
+//   $(".modal").modal("show")
+// );

@@ -465,3 +465,18 @@ header{
 p{
     text-align: left;
 }
+
+/***********************************MODAL***************************************/
+.modal{
+    position: absolute;
+    background-color: #002439;
+    border-radius: 10px;
+    /*width: 50%;*/
+    height: 30%;
+}
+
+#form-popup{
+    display: flex;
+    flex-direction: column;
+}
+

@@ -15,12 +15,17 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 class AppController extends AbstractController
 {
     /**
-     * @IsGranted("ROLE_USER")
-     * @Route("/accueil", name="home", methods={"GET"})
+     * @IsGranted("ROLE_USER_ACCESS")
+     * @Route("/accueil", name="home", methods={"GET", "POST"})
      * @throws \Exception
      */
-    public function home()
+    public function home(Request $request)
     {
+//        if(!empty($request->request->get('beInformed'))){
+//
+//        dd($request->request->get('beInformed'));
+//        }
+
         $today=new \DateTime();
         $today->format("d-m-Y");
         $user=$this->getUser();
@@ -52,7 +57,7 @@ class AppController extends AbstractController
 
 
     /**
-     * @IsGranted("ROLE_USER")
+     * @IsGranted("ROLE_USER_ACCESS")
      * @Route("/recherche", name="search", methods="POST")
      * @throws \Exception
      */

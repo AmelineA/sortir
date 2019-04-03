@@ -28,7 +28,8 @@ security:
                 path: app_logout
 
     role_hierarchy:
-        ROLE_ADMIN: ROLE_USER
+        ROLE_USER_ACCESS: ROLE_USER
+        ROLE_ADMIN: ROLE_USER_ACCESS
             # activate different ways to authenticate
 
             # http_basic: true

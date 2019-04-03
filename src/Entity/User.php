@@ -158,6 +158,7 @@ class User implements UserInterface
         $this->organizedEvents = new ArrayCollection();
         $this->signedOnEvents = new ArrayCollection();
         $this->locations = new ArrayCollection();
+        $this->roles = ["ROLE_USER_ACCESS"];
     }
 
 

@@ -102,6 +102,20 @@ class FixturesCommand extends Command
         $allUser[] = $adminUser;
         $this->em->persist($adminUser);
 
+        $user2 = new User();
+        $user2->setUsername('ameline');
+        $user2->setName('ameline');
+        $user2->setFirstName('ameline');
+        $user2->setEmail('aaa@email.fr');
+        $user2->setSite($allSites[array_search('Nantes', $allSites)]);
+        $user2->setTelephone('0101010101');
+        $user2->setPromo("CDA75");
+        $user2->setPassword($this->encoder->encodePassword($user2, $user2->getUsername()));
+        $user2->setActivated(true);
+        $user2->setAddedOn(new \DateTime('now'));
+        $allUser[] = $user2;
+        $this->em->persist($user2);
+
         $userENI = new User();
         $userENI->setUsername('ENI');
         $userENI->setName('ENI');
@@ -192,12 +206,12 @@ class FixturesCommand extends Command
         $barNiort->setLongitude("-0.4640339");
 
         $kartNantes = new Location();
-        $kartNantes->setName('Karting Nantes');
-        $kartNantes->setStreet('33 rue Marie Curie');
-        $kartNantes->setZipCode('44230');
-        $kartNantes->setCity("Saint-Sébastien-sur-Loire");
-        $kartNantes->setLatitude("47.1898627");
-        $kartNantes->setLongitude("-1.4897022");
+        $kartNantes->setName('Bowl Center');
+        $kartNantes->setStreet('rue du Moulin de la Rousselière');
+        $kartNantes->setZipCode('44800');
+        $kartNantes->setCity("Saint-Herblain");
+        $kartNantes->setLatitude("47.2238428");
+        $kartNantes->setLongitude("-1.638979");
 
         $locations = [$barNiort, $barNantes1, $barNantes2, $barNantes3, $barNantes4, $barNantes5, $barRennes, $kartNantes];
         $allLocations = [];
@@ -215,7 +229,7 @@ class FixturesCommand extends Command
 
         //creation d'une sortie karting pour la demo
         $eventKart = new Event();
-        $eventKart->setName("Karting");
+        $eventKart->setName("Bowling");
         $eventKart->setOrganizer(array_pop($allUser)); //autre que admin, FAG et ENI
         $eventKart->setState('ouvert');
         $eventKart->setSite($allSites[array_search('Nantes', $allSites)]); //Nantes
@@ -224,7 +238,7 @@ class FixturesCommand extends Command
         $eventKart->setMaxNumber(15);
         $eventKart->setRdvTime(new \DateTime('2019-03-20 18:00'));
         $eventKart->setSignOnDeadline(new \DateTime('2019-03-17'));
-        $eventKart->setDescription("Vous êtes fous de vitesse, cette sortie est faites pour vous!");
+        $eventKart->setDescription("Vous êtes prêts à vous défouler!");
         $allEvents[] = $eventKart;
         $this->em->persist($eventKart);
 
