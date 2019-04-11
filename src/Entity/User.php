@@ -42,7 +42,7 @@ class User implements UserInterface
 
     /**
      * @var string The hashed password
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
     private $password;
 
@@ -107,7 +107,7 @@ class User implements UserInterface
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Site", inversedBy="users")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $site;
 
@@ -148,6 +148,11 @@ class User implements UserInterface
      * @ORM\OneToMany(targetEntity="App\Entity\Location", mappedBy="creator")
      */
     private $locations;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $idAD;
 
 
 
@@ -493,6 +498,18 @@ class User implements UserInterface
                 $location->setCreator(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getIdAD(): ?string
+    {
+        return $this->idAD;
+    }
+
+    public function setIdAD(?string $idAD): self
+    {
+        $this->idAD = $idAD;
 
         return $this;
     }

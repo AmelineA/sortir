@@ -2,8 +2,11 @@
 
 namespace App\Security;
 
+use App\Entity\Site;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
+use League\OAuth2\Client\Provider\GenericProvider;
+use Microsoft\Graph\Graph;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -18,6 +21,7 @@ use Symfony\Component\Security\Csrf\CsrfToken;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Component\Security\Guard\Authenticator\AbstractFormLoginAuthenticator;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
+use Unirest\Request\Body;
 
 class UserAuthenticator extends AbstractFormLoginAuthenticator
 {
@@ -64,19 +68,38 @@ class UserAuthenticator extends AbstractFormLoginAuthenticator
             throw new InvalidCsrfTokenException();
         }
 
-        $user = $this->entityManager->getRepository(User::class)->findOneBy(['username' => $credentials['username']]);
+        $userFromAD = $this->getUserFromActiveDirectory($credentials['username'], $credentials['password']);
+//        dd($userFromAD);
+        $user = null;
+        if($userFromAD){
+//        $user = $this->entityManager->getRepository(User::class)->findOneBy(['username' => $credentials['username']]);
+            $siteRepo = $this->entityManager->getRepository(Site::class);
+            $user = $this->entityManager->getRepository(User::class)->findOneBy(['idAD' => $userFromAD->getId()]);
+            if(!$user) {
+                $user = new User();
+                $user->setEmail($userFromAD->getUserPrincipalName())
+                    ->setUsername($userFromAD->getGivenName())
+                    ->setName($userFromAD->getGivenName())
+                    ->setFirstName($userFromAD->getSurname())
+                    ->setIdAD($userFromAD->getId())
+                    ->setSite($siteRepo->find(1));
+
+                $this->entityManager->persist($user);
+                $this->entityManager->flush();
+            }
+            return $user;
+        }
 
         if (!$user) {
             // fail authentication with a custom error
             throw new CustomUserMessageAuthenticationException('Vos identifiants ne sont pas corrects');
         }
-
-        return $user;
     }
 
     public function checkCredentials($credentials, UserInterface $user)
     {
-        return $this->passwordEncoder->isPasswordValid($user, $credentials['password']);
+//        return $this->passwordEncoder->isPasswordValid($user, $credentials['password']);
+        return true;
     }
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
@@ -84,7 +107,6 @@ class UserAuthenticator extends AbstractFormLoginAuthenticator
         if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
             return new RedirectResponse($targetPath);
         }
-
         return new RedirectResponse($this->urlGenerator->generate('home'));
        // throw new \Exception();
     }
@@ -93,4 +115,69 @@ class UserAuthenticator extends AbstractFormLoginAuthenticator
     {
         return $this->urlGenerator->generate('app_login');
     }
+
+    /**
+     * check if user (mail and password) is in Active Directory
+     * @param $username
+     * @param $password
+     * @return bool|mixed
+     * @throws \Microsoft\Graph\Exception\GraphException
+     */
+    private function getUserFromActiveDirectory($username, $password)
+    {
+        //params for the provider
+        $dataProvider = array(
+            'clientId'                => getenv('OAUTH_APP_ID'),
+            'clientSecret'            => getenv('OAUTH_APP_PASSWORD'),
+            'redirectUri'             => getenv('OAUTH_REDIRECT_URI'),
+            'urlAuthorize'            => getenv('OAUTH_AUTHORITY').getenv('OAUTH_AUTHORIZE_ENDPOINT'),
+            'urlAccessToken'          => getenv('OAUTH_AUTHORITY').getenv('OAUTH_TOKEN_ENDPOINT'),
+            'urlResourceOwnerDetails' => '',
+            'scopes'                  => getenv('OAUTH_SCOPES'));
+
+        //params for the request getting the access token for the user
+        $bodyRequest = array(
+            'client_id'        => getenv('OAUTH_APP_ID'),
+            'client_secret'    => getenv('OAUTH_APP_PASSWORD'),
+            'grant_type'       => 'password',
+            'username'         => $username,
+            'password'         => $password,
+            'scope'            => 'openid',
+            'resource'         => 'https://graph.microsoft.com',
+        );
+
+        $provider = new GenericProvider($dataProvider);
+
+        $accessTokenUrl = $provider->getBaseAccessTokenUrl($dataProvider);
+
+
+        //building the POST request
+        $body = Body::Form($bodyRequest);
+        $headers = array('Accept' => 'application/json', 'Authorization' => 'Basic');
+
+        $request = new \Unirest\Request();
+        $request::jsonOpts(true);
+
+        //getting the response from the request
+        //200 if user is found - 400 if an error occured
+        $response = $request::post($accessTokenUrl, $headers, $body);
+//        dd($response);
+        if($response->code == 200) {
+            $accessToken = $response->body['access_token'];
+
+            //accessing Windows Graph to get user
+            $graph = new Graph();
+            $graph->setAccessToken($accessToken);
+
+            //get the current user
+            $getUser = '/me';
+            $user = $graph->createRequest('GET', $getUser)
+                ->setReturnType(\Microsoft\Graph\Model\User::class)
+                ->execute();
+
+            return $user;
+        }
+        return false;
+    }
+
 }
