@@ -32,6 +32,18 @@ class UserRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
+    /**
+     * get all the users ordered by name
+     * @return User users
+     */
+    public function getUsersOrderByAsc()
+    {
+        $qb = $this->createQueryBuilder('u');
+        $qb->orderBy('u.firstName', 'ASC');
+        $query = $qb->getQuery();
+        return $query->getResult();
+    }
+
 
     /**
      * get all the users who want to be informed of new event on their site

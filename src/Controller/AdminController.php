@@ -127,7 +127,7 @@ class AdminController extends AbstractController
     public function showUsers()
     {
         $userRepo = $this->getDoctrine()->getRepository(User::class);
-        $users = $userRepo->findAll();
+        $users = $userRepo->getUsersOrderByAsc();
 
         return $this->render('admin/list-of-users.html.twig', [
             'users' => $users
