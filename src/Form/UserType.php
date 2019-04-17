@@ -2,7 +2,9 @@
 
 namespace App\Form;
 
+use App\Entity\Site;
 use App\Entity\User;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -20,16 +22,16 @@ class UserType extends AbstractType
 
         $builder
             //block conservé en commentaire pour l'exeple de syntaxe "constraints"
-//            ->add('username', TextType::class, [
-//                'label'=>'Pseudo',
-//                'attr'=>[
-//                    'placeholder'=>'ex:yoyo44'
-//                ],
-//                'empty_data' => "",
-////               ajout d'une contrainte à la place d'une annotation sur l'entity,
-////               ce cette manière le username n'est pas obligatoire dans UserByAdminType
-//                'constraints' => [new NotBlank(['message' => "Veuillez rensigner un identifiant!"])]
-//            ])
+            ->add('username', TextType::class, [
+                'label'=>'Pseudo',
+                'attr'=>[
+                    'placeholder'=>'ex:yoyo44'
+                ],
+                'empty_data' => "",
+//               ajout d'une contrainte à la place d'une annotation sur l'entity,
+//               ce cette manière le username n'est pas obligatoire dans UserByAdminType
+                'constraints' => [new NotBlank(['message' => "Veuillez rensigner un identifiant!"])]
+            ])
             ->add('name', TextType::class, [
                 'label'=>'Nom',
                 'attr'=>[
@@ -51,13 +53,21 @@ class UserType extends AbstractType
                 ],
                 'empty_data' => "",
             ])
-            ->add('email', TextType::class, [
-                'label'=>'Email',
-                'attr'=>[
-                    'placeholder'=>'ex : monEmail@Email.com'
-                ],
-                'empty_data' => "",
+            ->add('site', EntityType::class, [
+                'label' => 'Site',
+                'class'=>Site::class,
+                'choice_label'=>'name',
+                'empty_data'=> ""
             ])
+//            AUTH for email
+//            ->add('email', TextType::class, [
+//                'label'=>'Email',
+//                'attr'=>[
+//                    'placeholder'=>'ex : monEmail@Email.com'
+//                ],
+//                'empty_data' => "",
+//            ])
+
 //            ->add('password', PasswordType::class, [
 //                'label'=>'Mot de passe',
 //                'attr'=>[

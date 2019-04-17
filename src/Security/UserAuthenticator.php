@@ -69,7 +69,6 @@ class UserAuthenticator extends AbstractFormLoginAuthenticator
         }
 
         $userFromAD = $this->getUserFromActiveDirectory($credentials['username'], $credentials['password']);
-//        dd($userFromAD);
         $user = null;
         if($userFromAD){
 //        $user = $this->entityManager->getRepository(User::class)->findOneBy(['username' => $credentials['username']]);
@@ -78,11 +77,10 @@ class UserAuthenticator extends AbstractFormLoginAuthenticator
             if(!$user) {
                 $user = new User();
                 $user->setEmail($userFromAD->getUserPrincipalName())
-                    ->setUsername($userFromAD->getGivenName())
+                    ->setUsername($userFromAD->getGivenName().$userFromAD->getSurname())
                     ->setName($userFromAD->getGivenName())
                     ->setFirstName($userFromAD->getSurname())
-                    ->setIdAD($userFromAD->getId())
-                    ->setSite($siteRepo->find(1));
+                    ->setIdAD($userFromAD->getId());
 
                 $this->entityManager->persist($user);
                 $this->entityManager->flush();

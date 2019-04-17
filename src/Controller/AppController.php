@@ -6,6 +6,7 @@ namespace App\Controller;
 use App\Entity\Event;
 use App\Entity\Site;
 use App\Entity\User;
+use phpDocumentor\Reflection\Types\This;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,10 +22,9 @@ class AppController extends AbstractController
      */
     public function home(Request $request)
     {
-//        if(!empty($request->request->get('beInformed'))){
-//
-//        dd($request->request->get('beInformed'));
-//        }
+        if(empty($this->getUser()->getSite())){
+            return $this->render(''); //rediriger vers le formulaire de choix du site
+        }
 
         $today=new \DateTime();
         $today->format("d-m-Y");
