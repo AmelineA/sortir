@@ -6,21 +6,26 @@ namespace App\Controller;
 use App\Entity\Event;
 use App\Entity\Site;
 use App\Entity\User;
-use phpDocumentor\Reflection\Types\This;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
+/**
+ * @isGranted("ROLE_USER")
+ * Class AppController
+ * @package App\Controller
+ */
 class AppController extends AbstractController
 {
     /**
+     * is used to display the home page with a list of events depending of the user's site
      * @IsGranted("ROLE_USER_ACCESS")
      * @Route("/accueil", name="home", methods={"GET", "POST"})
      * @throws \Exception
      */
-    public function home(Request $request)
+    public function home()
     {
         if(empty($this->getUser()->getSite())){
             return $this->render(''); //rediriger vers le formulaire de choix du site
@@ -57,6 +62,7 @@ class AppController extends AbstractController
 
 
     /**
+     * is used to search events depending on criterias selected by the user
      * @IsGranted("ROLE_USER_ACCESS")
      * @Route("/recherche", name="search", methods="POST")
      * @throws \Exception
@@ -108,6 +114,7 @@ class AppController extends AbstractController
 
 
     /**
+     * is used to show other users'profiles
      * @Route("/profil/{id}",
      *     name="show_profile",
      *     requirements={"id"="\d+"})

@@ -10,59 +10,59 @@
         <div class="info-event">
             <h4>Informations</h4>
             <div>
-                <div class="row-justify-between">
+                <div class="row-justify-between align-items-baseline">
                     <label>Nom de la sortie : </label>
                     <p class="col-6">{{ event.name }}</p>
                 </div>
-                <div class="row-justify-between">
+                <div class="row-justify-between align-items-baseline">
                     <label>Date et heure de la sortie : </label>
                     <p class="col-6">{{ event.rdvTime | date("d/m/Y H:i")}}</p>
                 </div>
-                <div class="row-justify-between">
+                <div class="row-justify-between align-items-baseline">
                     <label>Date limite d'inscription : </label>
                     <p class="col-6">{{ event.signOnDeadline |date("d/m/Y") }}</p>
                 </div>
-                <div class="row-justify-between">
+                <div class="row-justify-between align-items-baseline">
                     <label>Nombre de places : </label>
                     <p class="col-6">{{ event.maxNumber }}</p>
                 </div>
-                <div class="row-justify-between">
+                <div class="row-justify-between align-items-baseline">
                     <label>Durée : </label>
                     <p class="col-6">{{ event.duration }} minutes</p>
                 </div>
                 {% if event.description is not empty %}
-                    <div class="row-justify-between">
+                    <div class="row-justify-between align-items-baseline">
                         <label>Description et infos : </label>
                         <p class="col-6">{{ event.description }} </p>
                     </div>
                 {% endif %}
             </div><!--info top-->
             <div>
-                <div class="row-justify-between">
+                <div class="row-justify-between align-items-baseline">
                     <label>Campus de l'organisateur : </label>
                     <p class="col-6"> {{ event.site.name }}</p>
                 </div>
-                <div class="row-justify-between">
+                <div class="row-justify-between align-items-baseline">
                     <label>Lieu : </label>
                     <p class="col-6">{{ event.location.name }}</p>
                 </div>
-                <div class="row-justify-between">
+                <div class="row-justify-between align-items-baseline">
                     <label>Adresse : </label>
                     <p id="street" class="col-6">{{ event.location.street }}</p>
                 </div>
-                <div class="row-justify-between">
+                <div class="row-justify-between align-items-baseline">
                     <label>Code Postal : </label>
                     <p id="zipcode" class="col-6">{{ event.location.zipCode }}</p>
                 </div>
-                <div class="row-justify-between">
+                <div class="row-justify-between align-items-baseline">
                     <label>Code Postal : </label>
                     <p id="city" class="col-6">{{ event.location.city }}</p>
                 </div>
-                <div class="row-justify-between">
+                <div class="row-justify-between align-items-baseline">
                     <label>Latitude : </label>
                     <p  id="lat" class="col-6">{{ event.location.latitude }}</p>
                 </div>
-                <div class="row-justify-between">
+                <div class="row-justify-between align-items-baseline">
                     <label>Longitude : </label>
                     <p id="lon" class="col-6">{{ event.location.longitude }}</p>
                 </div>

@@ -325,6 +325,9 @@ footer{
     grid-area: file;
 }
 
+.info-event div div p{
+    font-size: 0.8em
+}
 /***********************************GENERAL***************************************/
 body{
     font-family: Nunito, sans-serif;
