@@ -95,7 +95,7 @@ $(document).resize(resizeTable());
                     initMap();
                 }
             }).fail(function (error) {
-                alert(error);
+                // alert(error);
             });
         }
 

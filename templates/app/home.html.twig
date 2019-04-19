@@ -3,21 +3,6 @@
 {% block title %}{{ parent() }}Accueil{% endblock %}
 
 {% block content %}
-    {#<div class="modal">#}
-        {#<div class="modal-header">#}
-            {#<h2>Faites votre choix:</h2>#}
-        {#</div>#}
-        {#<div class="modal-body">#}
-            {#<form action="{{ path('home') }}" method="post"  id="form-popup">#}
-                {#<div>#}
-                    {#<label for="beInformed">Être informé des nouvelles sorties:</label>#}
-                    {#<input type="checkbox" id="beInformed" name="beInformed">#}
-                {#</div>#}
-                {#<p>Il vous sera possible de modifier votre choix dans votre profil.</p>#}
-                {#<button type="submit" class="btn btn-sm btn-primary">Valider</button>#}
-            {#</form>#}
-        {#</div>#}
-    {#</div>#}
 
     <div class="container-home-search">
         <div class="search">
@@ -108,7 +93,7 @@
         <div class="welcome row-justify-between"> <!--col right-->
             <div>
                 <h5>{{ today | date("d/m/Y") }}</h5>
-                <p>Bonjour {{ app.user.name }} !</p>
+                <p>Bonjour {{ app.user.username }} !</p>
             </div>
             <a href="{{ path('create_event') }}"><button class="btn btn-lg btn-primary">Créer une sortie</button></a>
         </div><!--col right-->

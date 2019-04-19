@@ -21,18 +21,18 @@ class AppController extends AbstractController
 {
     /**
      * is used to display the home page with a list of events depending of the user's site
-     * @IsGranted("ROLE_USER_ACCESS")
+     * @IsGranted("ROLE_USER")
      * @Route("/accueil", name="home", methods={"GET", "POST"})
      * @throws \Exception
      */
     public function home()
     {
         if(empty($this->getUser()->getSite())){
-            return $this->render(''); //rediriger vers le formulaire de choix du site
+            return $this->redirectToRoute('first_connection'); //rediriger vers le formulaire de choix du site
         }
 
         $today=new \DateTime();
-        $today->format("d-m-Y");
+
         $user=$this->getUser();
         $userSite=$this->getUser()->getSite();
 
@@ -93,7 +93,7 @@ class AppController extends AbstractController
 
         //dd($site);
         $events=$eventRepo->findListEventsBy($user, $site, $searchBar, $dateStart, $dateEnd, $organizer, $signedOn, $notSignedOn, $pastEvents);
- //       dd($events);
+
         return $this->render('app/home.html.twig', [
             'today'=>$today,
             'user'=>$user,

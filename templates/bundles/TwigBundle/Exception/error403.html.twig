@@ -1,5 +1,7 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}{{ parent() }}Accès interdit{% endblock %}
+
 {% block content %}
    <h1>Désolé, vous n'êtes pas autorisé à accéder à cette page</h1>
    <a href="{{ path('home') }}">Retour sur la page d'accueil</a>

@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -42,7 +43,7 @@ class User implements UserInterface
 
     /**
      * @var string The hashed password
-     * @ORM\Column(type="string", nullable=true)
+     * Need to be kept because User implements UserInterface but is never used
      */
     private $password;
 
@@ -107,7 +108,6 @@ class User implements UserInterface
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Site", inversedBy="users")
-     * @ORM\JoinColumn(nullable=true)
      */
     private $site;
 
@@ -124,25 +124,17 @@ class User implements UserInterface
      */
     private $profilePictureName;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $resetPassword;
+//    AUTH
+//    /**
+//     * @ORM\Column(type="string", length=255, nullable=true)
+//     */
+//    private $resetPassword;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $addedOn;
 
-    /**
-     * @ORM\Column(type="string", length=10, nullable=true)
-     */
-    private $promo;
-
-    /**
-     * @ORM\Column(type="boolean", nullable=true)
-     */
-    private $beInformed;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Location", mappedBy="creator")
@@ -152,9 +144,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $idAD;
-
-
+    private $idActiveDirectory;
 
 
     public function __construct()
@@ -163,9 +153,10 @@ class User implements UserInterface
         $this->organizedEvents = new ArrayCollection();
         $this->signedOnEvents = new ArrayCollection();
         $this->locations = new ArrayCollection();
-        $this->roles = ["ROLE_USER_ACCESS"];
-    }
+        $this->addedOn = new \DateTime('now');
+        $this->password = "default";
 
+    }
 
 
     public function getId(): ?int
@@ -423,17 +414,17 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getResetPassword(): ?string
-    {
-        return $this->resetPassword;
-    }
-
-    public function setResetPassword(?string $resetPassword): self
-    {
-        $this->resetPassword = $resetPassword;
-
-        return $this;
-    }
+//    public function getResetPassword(): ?string
+//    {
+//        return $this->resetPassword;
+//    }
+//
+//    public function setResetPassword(?string $resetPassword): self
+//    {
+//        $this->resetPassword = $resetPassword;
+//
+//        return $this;
+//    }
 
     public function getAddedOn(): ?\DateTimeInterface
     {
@@ -447,29 +438,6 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getPromo(): ?string
-    {
-        return $this->promo;
-    }
-
-    public function setPromo(?string $promo): self
-    {
-        $this->promo = $promo;
-
-        return $this;
-    }
-
-    public function getBeInformed(): ?bool
-    {
-        return $this->beInformed;
-    }
-
-    public function setBeInformed(?bool $beInformed): self
-    {
-        $this->beInformed = $beInformed;
-
-        return $this;
-    }
 
     /**
      * @return Collection|Location[]
@@ -502,16 +470,18 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getIdAD(): ?string
+    public function getIdActiveDirectory(): ?string
     {
-        return $this->idAD;
+        return $this->idActiveDirectory;
     }
 
-    public function setIdAD(?string $idAD): self
+    public function setIdActiveDirectory(?string $idActiveDirectory): self
     {
-        $this->idAD = $idAD;
+        $this->idActiveDirectory = $idActiveDirectory;
 
         return $this;
     }
+
+
 
 }

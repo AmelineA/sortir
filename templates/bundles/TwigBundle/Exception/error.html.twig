@@ -1,6 +1,8 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}{{ parent() }}Erreur serveur{% endblock %}
+
 {% block content %}
-   <h1>désolé un problème est survenu ...</h1>
+   <h1>Désolé un problème est survenu ...</h1>
    <a href="{{ path('home') }}">Retour sur la page d'accueil</a>
 {% endblock %}

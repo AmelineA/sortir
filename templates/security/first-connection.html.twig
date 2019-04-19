@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }}Ajout utilisateur{% endblock %}
+
+{% block content %}
+
+    <div class="container-register">
+        <h1>Ajouter un utilisateur</h1>
+        <div class="manually">
+            <h4>Manuellement</h4>
+            <div class="">
+                <div class="">
+                    {{ form_start(firstConnForm, {'attr':{'novalidate': 'novalidate'}}) }}
+                    {{ form_widget(firstConnForm) }}
+                    <button class="btn btn-md btn-primary">Inscrire</button>
+                    {{ form_end(firstConnForm) }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

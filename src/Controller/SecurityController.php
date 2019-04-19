@@ -2,9 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Site;
 use App\Entity\User;
 use App\Form\ChangePasswordType;
 use App\Form\EmailResetType;
+use App\Form\FirstConnectionType;
 use App\Form\ResetType;
 use App\Entity\CsvFile;
 use App\Form\UserByAdminType;
@@ -63,10 +65,31 @@ class SecurityController extends AbstractController
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
 
-        if($authChecker->isGranted(['ROLE_USER_ACCESS']))
-            return new RedirectResponse($router->generate('home'));
-
         return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
+    }
+
+    /**
+     * @IsGranted("ROLE_USER")
+     * @Route("/entrer-mes-infos", name="first_connection")
+     */
+    public function registerFirstConnection(Request $request)
+    {
+        $currentUser = $this->getUser();
+        $firstConnForm = $this->createForm(FirstConnectionType::class, $currentUser);
+        $firstConnForm->handleRequest($request);
+
+        if($firstConnForm->isSubmitted() && $firstConnForm->isValid()){
+//dd($currentUser);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($currentUser);
+            $em->flush();
+
+//            $this->addFlash("success", 'Votre compte a bien été modifié ! ');
+            return $this->redirectToRoute('home');
+        }
+        return $this->render('security/first-connection.html.twig', [
+            'firstConnForm' => $firstConnForm->createView(),
+        ]);
     }
 
     /**

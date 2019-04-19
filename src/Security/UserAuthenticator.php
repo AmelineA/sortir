@@ -7,8 +7,10 @@ use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use League\OAuth2\Client\Provider\GenericProvider;
 use Microsoft\Graph\Graph;
+use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
@@ -97,31 +99,38 @@ class UserAuthenticator extends AbstractFormLoginAuthenticator
      * @param mixed $credentials
      * @param UserProviderInterface $userProvider
      * @return User|object|UserInterface|null
+     * @throws \Microsoft\Graph\Exception\GraphException
      */
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
+        //paragraph preventing some kind of attack WTM
         $token = new CsrfToken('authenticate', $credentials['csrf_token']);
         if (!$this->csrfTokenManager->isTokenValid($token)) {
             throw new InvalidCsrfTokenException();
         }
 
+        //we get the user from the active directory
         $userFromAD = $this->getUserFromActiveDirectory($credentials['username'], $credentials['password']);
         $user = null;
+
         if($userFromAD){
-//        $user = $this->entityManager->getRepository(User::class)->findOneBy(['username' => $credentials['username']]);
-            $siteRepo = $this->entityManager->getRepository(Site::class);
-            $user = $this->entityManager->getRepository(User::class)->findOneBy(['idAD' => $userFromAD->getId()]);
+            $user = $this->entityManager->getRepository(User::class)->findOneBy(['idActiveDirectory' => $userFromAD->getId()]);
             if(!$user) {
                 $user = new User();
                 $user->setEmail($userFromAD->getUserPrincipalName())
                     ->setUsername($userFromAD->getGivenName().$userFromAD->getSurname())
                     ->setName($userFromAD->getGivenName())
                     ->setFirstName($userFromAD->getSurname())
-                    ->setIdAD($userFromAD->getId());
+                    ->setIdActiveDirectory($userFromAD->getId());
 
                 $this->entityManager->persist($user);
                 $this->entityManager->flush();
             }
+
+            if($user->getActivated() == false){
+                throw new AccessDeniedHttpException();
+            }
+
             return $user;
         }
 
@@ -138,6 +147,7 @@ class UserAuthenticator extends AbstractFormLoginAuthenticator
      */
     public function checkCredentials($credentials, UserInterface $user)
     {
+//        AUTH
 //        return $this->passwordEncoder->isPasswordValid($user, $credentials['password']);
         return true;
     }
@@ -194,9 +204,9 @@ class UserAuthenticator extends AbstractFormLoginAuthenticator
             'scope'            => 'openid',
             'resource'         => 'https://graph.microsoft.com',
         );
-
+        //this is the container with which we communicate with Azure's API (we fill it with the informations about the app : the array called $dataProvider)
         $provider = new GenericProvider($dataProvider);
-
+        //the $provider builds the Request's URL
         $accessTokenUrl = $provider->getBaseAccessTokenUrl($dataProvider);
 
 
@@ -205,12 +215,12 @@ class UserAuthenticator extends AbstractFormLoginAuthenticator
         $headers = array('Accept' => 'application/json', 'Authorization' => 'Basic');
 
         $request = new \Unirest\Request();
-        $request::jsonOpts(true);
+        $request::jsonOpts(true);  //we ask Azure's API to send the response in Json format
 
         //getting the response from the request
-        //200 if user is found - 400 if an error occured
-        $response = $request::post($accessTokenUrl, $headers, $body);
-//        dd($response);
+        //200 if user is found - 400 if an error occurred
+        $response = $request::post($accessTokenUrl, $headers, $body);   //this line sends the request and get the response
+
         if($response->code == 200) {
             $accessToken = $response->body['access_token'];
 
@@ -218,11 +228,11 @@ class UserAuthenticator extends AbstractFormLoginAuthenticator
             $graph = new Graph();
             $graph->setAccessToken($accessToken);
 
-            //get the current user
-            $getUser = '/me';
-            $user = $graph->createRequest('GET', $getUser)
-                ->setReturnType(\Microsoft\Graph\Model\User::class)
-                ->execute();
+            //get user's infos from the active directory
+            $getMicrosoftUser = '/me';  //me is Microsoft Graph's user
+            $user = $graph->createRequest('GET', $getMicrosoftUser)  //create a new Get request: GET /me
+                ->setReturnType(\Microsoft\Graph\Model\User::class)   //defines the type of return (here: a Microsoft User)
+                ->execute();                                                     //sends the request to microsoft
 
             return $user;
         }

@@ -80,7 +80,6 @@ class FixturesCommand extends Command
         $defaultUser->setEmail('fag@email.fr');
         $defaultUser->setSite($faker->randomElement($allSites));
         $defaultUser->setTelephone('0101010101');
-        $defaultUser->setPromo($faker->randomElement($allPromos));
         $defaultUser->setPassword($this->encoder->encodePassword($defaultUser, $defaultUser->getUsername()));
         $defaultUser->setActivated(true);
         $defaultUser->setAddedOn(new \DateTime('now'));
@@ -94,7 +93,6 @@ class FixturesCommand extends Command
         $adminUser->setEmail('admin@email.fr');
         $adminUser->setSite($faker->randomElement($allSites));
         $adminUser->setTelephone('0101010101');
-        $adminUser->setPromo("CDA75");
         $adminUser->setPassword($this->encoder->encodePassword($adminUser, $adminUser->getUsername()));
         $adminUser->setActivated(true);
         $adminUser->setRoles(['ROLE_ADMIN']);
@@ -109,7 +107,6 @@ class FixturesCommand extends Command
         $user2->setEmail('aaa@email.fr');
         $user2->setSite($allSites[array_search('Nantes', $allSites)]);
         $user2->setTelephone('0101010101');
-        $user2->setPromo("CDA75");
         $user2->setPassword($this->encoder->encodePassword($user2, $user2->getUsername()));
         $user2->setActivated(true);
         $user2->setAddedOn(new \DateTime('now'));
@@ -123,14 +120,13 @@ class FixturesCommand extends Command
         $userENI->setEmail('eni@email.fr');
         $userENI->setSite($allSites[array_search('Nantes', $allSites)]);
         $userENI->setTelephone('0101010101');
-        $userENI->setPromo("CDA75");
         $userENI->setPassword($this->encoder->encodePassword($userENI, $userENI->getUsername()));
         $userENI->setActivated(true);
         $userENI->setAddedOn(new \DateTime('now'));
         $allUser[] = $userENI;
         $this->em->persist($userENI);
 
-        for ($i=0;$i<30; $i++){
+        for ($i=0;$i<10; $i++){
             $user = new User();
             $user->setUsername($faker->unique()->userName);
             $user->setName($faker->name);
@@ -138,7 +134,6 @@ class FixturesCommand extends Command
             $user->setEmail($faker->unique()->email);
             $user->setSite($faker->randomElement($allSites));
             $user->setTelephone($faker->randomNumber([10, true]));
-            $user->setPromo($faker->randomElement($allPromos));
             $user->setPassword($this->encoder->encodePassword($user, $user->getUsername()));
             $user->setActivated(true);
             $user->setAddedOn(new \DateTime('now'));
@@ -242,7 +237,7 @@ class FixturesCommand extends Command
         $allEvents[] = $eventKart;
         $this->em->persist($eventKart);
 
-        for($i=0; $i<150; $i++){
+        for($i=0; $i<30; $i++){
             $event = new Event();
             $event->setName($faker->randomElement($nomSorties));
             $event->setOrganizer($faker->randomElement($allUser));
@@ -278,7 +273,7 @@ class FixturesCommand extends Command
         $this->em->flush();
 
         foreach ($allEvents as $e){
-            for($j=0; $j<10; $j++){
+            for($j=0; $j<7; $j++){
                 $e->addParticipant($faker->randomElement($allUser));
             }
             $this->em->persist($e);
