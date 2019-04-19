@@ -1,21 +1,26 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ parent() }}Ajout utilisateur{% endblock %}
+{% block title %}{{ parent() }}Première connexion{% endblock %}
 
 {% block content %}
 
     <div class="container-register">
-        <h1>Ajouter un utilisateur</h1>
+        <h1>Première connexion</h1>
         <div class="manually">
-            <h4>Manuellement</h4>
-            <div class="">
-                <div class="">
-                    {{ form_start(firstConnForm, {'attr':{'novalidate': 'novalidate'}}) }}
-                    {{ form_widget(firstConnForm) }}
-                    <button class="btn btn-md btn-primary">Inscrire</button>
-                    {{ form_end(firstConnForm) }}
-                </div>
-            </div>
+            <h4>Mes infos</h4>
+            {{ form_start(firstConnForm, {'attr':{'novalidate': 'novalidate'}}) }}
+            {{ form_widget(firstConnForm) }}
+            <button class="btn btn-md btn-primary">Enregistrer</button>
+            {{ form_end(firstConnForm) }}
+        </div>
+        <div>
+            <h4>Les règles</h4>
+            {#TODO: indiquer regles d'utilisation + suggestions...#}
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolore expedita itaque labore laborum
+                maiores molestiae nemo provident? Alias architecto consequatur doloremque error illum, in numquam,
+                reiciendis saepe tempora, totam voluptatibus!
+            </p>
         </div>
     </div>
 {% endblock %}

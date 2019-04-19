@@ -71,7 +71,6 @@ class AppController extends AbstractController
     {
         //éléments nécessaire à l'affichage de base de home
         $today=new \DateTime();
-        $today->format("d-m-Y");
 
         $user=$this->getUser();
 
