@@ -4,20 +4,18 @@
 
 {% block content %}
 
-    <div class="container">
-
-            <h1 class="">Connectez-vous</h1>
-
-            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-body">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                            Merci de vous diriger vers Office 365.
-                        </div>
-                    </div>
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    Merci de vous diriger vers <a href="https://login.microsoftonline.com">Microsoft.</a>
                 </div>
             </div>
+        </div>
+    </div>
+    <div class="container">
+            <h1 class="">Connectez-vous</h1>
 
             <form method="post" novalidate="novalidate">
                 {% if error %}
