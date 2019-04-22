@@ -36,16 +36,15 @@ class FileUploader
     }
 
 
-
     /**
      * is used to set a unique name and its real extension to the file in parameter and then copy the file into the target directory
      * @param UploadedFile $file
+     * @param String $formerFileName
      * @return string
      */
-    public function upload(UploadedFile $file, String $formerFileName)
+    public function upload(UploadedFile $file, String $formerFileName = null)
     {
         $fileName = md5(uniqid()).'.'.$file->guessExtension();
-
         try {
             if ($formerFileName){
                 $filesystem = new Filesystem();

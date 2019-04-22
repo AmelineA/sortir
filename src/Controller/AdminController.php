@@ -137,6 +137,11 @@ class AdminController extends AbstractController
     }
 
 
+    /**
+     * is used to list all the moderations
+     * @IsGranted("ROLE_ADMIN")
+     * @Route("/moderations", name="show_moderations")
+     */
     public function showModerations()
     {
         $moderationRepo = $this->getDoctrine()->getRepository(Moderation::class);
