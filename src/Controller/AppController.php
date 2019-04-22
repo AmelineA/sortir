@@ -4,6 +4,7 @@ namespace App\Controller;
 
 
 use App\Entity\Event;
+use App\Entity\Moderation;
 use App\Entity\Site;
 use App\Entity\User;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -128,7 +129,8 @@ class AppController extends AbstractController
         if($id>0 && $id<=$userNb){
             $user = $userRepo->find($id);
             return $this->render('app/show-profile.html.twig', [
-                'user' => $user
+                'user' => $user,
+                'currentUser' => $this->getUser()
             ]);
         }
         else{
@@ -137,6 +139,34 @@ class AppController extends AbstractController
         }
     }
 
+    /**
+     * is used to moderate a content
+     * @Route("/moderation", name="moderate", methods="POST")
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function moderate(Request $request)
+    {
+        $reporter=$request->request->get('currentUser');
+        $reportedUser=$request->request->get('userToBeReported');
+
+        $moderation = new Moderation();
+        $moderation->setReportedUserId($reportedUser->id);
+        $moderation->setReporterId($reporter->id);
+        $moderation->setStatus("en attente de modération");
+        try {
+            $moderation->setDate(new \DateTime());
+        } catch (\Exception $e) {
+            //TODO catch the exception properly
+        }
+        $em=$this->getDoctrine()->getManager();
+        $em->persist($moderation);
+        $em->flush();
+
+
+        $this->addFlash('danger', "Utilisateur signalé. L'équipe du BDE commence son enquête et prendra les mesures nécessaires si besoin");
+        return $this->showProfile($reportedUser->id);
+    }
 
 
 }

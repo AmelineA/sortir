@@ -9,7 +9,11 @@
 
         <div class="profile-img"><!--col left-->
             <img src="{{ asset('img/profile-pictures/') }}{{ user.profilePictureName }}" alt="profile photo">
-
+            <form id="moderate-form" method="post" action="{{ path('moderate') }}">
+                <input class="" type="hidden" name="userToBeReported" id="userToBeReported" value="{{ user }}">
+                <input class="" type="hidden" name="reporter" id="reporter" value="{{ currentUser }}">
+                <button type="submit">Signaler ce contenu comme inapproprié</button>
+            </form>
         </div><!--col left-->
 
         <div class="profile-info"><!--col right-->

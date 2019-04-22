@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Moderation;
 use App\Entity\User;
 use App\Entity\CsvFile;
 use App\Form\UserByAdminType;
@@ -135,6 +136,17 @@ class AdminController extends AbstractController
         ]);
     }
 
+
+    public function showModerations()
+    {
+        $moderationRepo = $this->getDoctrine()->getRepository(Moderation::class);
+        $moderations=$moderationRepo->findAll();
+
+        return $this->render('admin/list-of-moderations.html.twig',[
+            'moderations'=>$moderations
+        ]);
+    }
+
     /**
      * @IsGranted("ROLE_ADMIN")
      * @Route("/desactiver-utilisateur/{userId}", name="deactivate_user")
@@ -232,6 +244,8 @@ class AdminController extends AbstractController
         }
 //
     }
+
+
 
 
 }

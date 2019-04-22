@@ -32,9 +32,10 @@ class UserRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
+
     /**
-     * get all the users ordered by name
-     * @return User users
+     *  get all the users ordered by name
+     * @return mixed
      */
     public function getUsersOrderByAsc()
     {
