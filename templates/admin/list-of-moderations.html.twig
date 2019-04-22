@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Moderations{% endblock %}
+
+{% block content %}
+    <h1>Moderations</h1>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Utilisateur signaleur</th>
+                <th>Utilisateur signalé</th>
+                <th>Date du signalement</th>
+                <th>Statut du signalement</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for moderation in moderations %}
+            <tr>
+                <td><a href="{{ path('show_profile', {'id':user.id}) }}">{{ moderation.reporterId }}</a></td>
+                <td><a href="{{ path('show_profile', {'id':user.id}) }}">{{ moderation.reportedUserId }}</a></td>
+                <td> {{ moderation.date }}</td>
+                <td> {{ moderation.status }} </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+{% endblock %}
