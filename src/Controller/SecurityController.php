@@ -125,8 +125,8 @@ class SecurityController extends AbstractController
 
                     //get the picture file
                     $profilePicture = $registerForm->get("profilePictureName")->getData();
-                    //builds the unique filename with the real extension of the file and copies the file into the directory
-                    $profilePictureName = $fileUploader->upload($profilePicture);
+                    //builds the unique filename with the real extension of the file and copies the file into the directory and deletes the former picture file
+                    $profilePictureName = $fileUploader->upload($profilePicture, $profilePictureName);
                     // sets the file name in the User object
                     $currentUser->setProfilePictureName($profilePictureName);
                 } // or if the user does NOT want to upload, the link between the User object and the file name must be kept

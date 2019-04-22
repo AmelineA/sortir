@@ -9,6 +9,7 @@
 namespace App\Services;
 
 
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
@@ -41,11 +42,15 @@ class FileUploader
      * @param UploadedFile $file
      * @return string
      */
-    public function upload(UploadedFile $file)
+    public function upload(UploadedFile $file, String $formerFileName)
     {
         $fileName = md5(uniqid()).'.'.$file->guessExtension();
 
         try {
+            if ($formerFileName){
+                $filesystem = new Filesystem();
+                $filesystem->remove($formerFileName);
+            }
             $file->move($this->getTargetDirectory(), $fileName);
         } catch (FileException $e) {
             // TODO... handle exception if something happens during file upload
