@@ -46,9 +46,9 @@ class FileUploader
     {
         $fileName = md5(uniqid()).'.'.$file->guessExtension();
         try {
-            if ($formerFileName){
+            if ($formerFileName !== null){
                 $filesystem = new Filesystem();
-                $filesystem->remove($formerFileName);
+                $filesystem->remove($this->getTargetDirectory().'/'.$formerFileName);
             }
             $file->move($this->getTargetDirectory(), $fileName);
         } catch (FileException $e) {
