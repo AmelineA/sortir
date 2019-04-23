@@ -60,6 +60,11 @@ class SecurityController extends AbstractController
         $authChecker=$this->get('security.authorization_checker');
         $router=$this->get('router');
 
+        //redirect to the home page if the user is already connected
+        if($this->isGranted("ROLE_USER")){
+            return $this->redirectToRoute('home');
+        }
+
         // gets the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
         // last username entered by the user
@@ -79,7 +84,7 @@ class SecurityController extends AbstractController
         $firstConnForm->handleRequest($request);
 
         if($firstConnForm->isSubmitted() && $firstConnForm->isValid()){
-//dd($currentUser);
+
             $em = $this->getDoctrine()->getManager();
             $em->persist($currentUser);
             $em->flush();

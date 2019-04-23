@@ -153,6 +153,29 @@ class AdminController extends AbstractController
     }
 
     /**
+     * @Route("profil/signale/{id}", name="show_profile_reported_user", requirements={"id"="\d+"})
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     */
+    public function showProfileReportedUser($id)
+    {
+        $userRepo = $this->getDoctrine()->getRepository(User::class);
+        $userNb=count($userRepo->findAll());
+        if($id>0 && $id<=$userNb){
+            $user = $userRepo->find($id);
+            return $this->render('app/show-profile.html.twig', [
+                'user' => $user,
+                //moderation to true to display deactivated button
+                'moderation' => true
+            ]);
+        }
+        else{
+            $this->addFlash('danger', "Utilisateur inconnu");
+            return $this->redirectToRoute('home');
+        }
+    }
+
+    /**
      * @IsGranted("ROLE_ADMIN")
      * @Route("/desactiver-utilisateur/{userId}", name="deactivate_user")
      */

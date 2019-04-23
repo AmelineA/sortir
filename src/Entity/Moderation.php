@@ -36,6 +36,16 @@ class Moderation
      */
     private $status;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $reporterName;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $reportedUserName;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -85,6 +95,30 @@ class Moderation
     public function setStatus(string $status): self
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    public function getReporterName(): ?string
+    {
+        return $this->reporterName;
+    }
+
+    public function setReporterName(string $reporterName): self
+    {
+        $this->reporterName = $reporterName;
+
+        return $this;
+    }
+
+    public function getReportedUserName(): ?string
+    {
+        return $this->reportedUserName;
+    }
+
+    public function setReportedUserName(string $reportedUserName): self
+    {
+        $this->reportedUserName = $reportedUserName;
 
         return $this;
     }

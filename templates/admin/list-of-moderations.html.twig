@@ -16,9 +16,9 @@
         <tbody>
         {% for moderation in moderations %}
             <tr>
-                <td><a href="{{ path('show_profile', {'id':user.id}) }}">{{ moderation.reporterId }}</a></td>
-                <td><a href="{{ path('show_profile', {'id':user.id}) }}">{{ moderation.reportedUserId }}</a></td>
-                <td> {{ moderation.date }}</td>
+                <td><a href="{{ path('show_profile', {'id':moderation.reporterId}) }}">{{ moderation.reporterName }}</a></td>
+                <td><a href="{{ path('show_profile_reported_user', {'id':moderation.reportedUserId}) }}">{{ moderation.reportedUserName }}</a></td>
+                <td> {{ moderation.date | date("d/m/Y")}}</td>
                 <td> {{ moderation.status }} </td>
             </tr>
         {% endfor %}

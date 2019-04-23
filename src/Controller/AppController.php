@@ -130,7 +130,8 @@ class AppController extends AbstractController
             $user = $userRepo->find($id);
             return $this->render('app/show-profile.html.twig', [
                 'user' => $user,
-                'currentUser' => $this->getUser()
+                //moderation to false to display the moderation button
+                'moderation' => false
             ]);
         }
         else{
@@ -141,31 +142,38 @@ class AppController extends AbstractController
 
     /**
      * is used to moderate a content
-     * @Route("/moderation", name="moderate", methods="POST")
+     * @Route("/moderation/{id}",
+     *      name="moderate",
+     *      methods="GET",
+     *      requirements={"id"="\d+"})
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function moderate(Request $request)
+    public function moderate(Request $request, $id)
     {
-        $reporter=$request->request->get('currentUser');
-        $reportedUser=$request->request->get('userToBeReported');
+        $userRepo = $this->getDoctrine()->getRepository(User::class);
+        $reporter=$this->getUser();
 
         $moderation = new Moderation();
-        $moderation->setReportedUserId($reportedUser->id);
-        $moderation->setReporterId($reporter->id);
+        $moderation->setReportedUserId($id);
+        $moderation->setReporterId($reporter->getId());
         $moderation->setStatus("en attente de modération");
+        $moderation->setReporterName($reporter->getUsername());
+        $moderation->setReportedUserName($userRepo->find($id)->getUsername());
+
         try {
             $moderation->setDate(new \DateTime());
         } catch (\Exception $e) {
             //TODO catch the exception properly
         }
+
         $em=$this->getDoctrine()->getManager();
         $em->persist($moderation);
         $em->flush();
 
 
         $this->addFlash('danger', "Utilisateur signalé. L'équipe du BDE commence son enquête et prendra les mesures nécessaires si besoin");
-        return $this->showProfile($reportedUser->id);
+        return $this->showProfile($id);
     }
 
 
