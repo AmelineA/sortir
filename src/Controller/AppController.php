@@ -11,7 +11,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
  * @isGranted("ROLE_USER")
@@ -64,7 +63,7 @@ class AppController extends AbstractController
 
     /**
      * is used to search events depending on criterias selected by the user
-     * @IsGranted("ROLE_USER_ACCESS")
+     * @IsGranted("ROLE_USER")
      * @Route("/recherche", name="search", methods="POST")
      * @throws \Exception
      */
@@ -115,11 +114,9 @@ class AppController extends AbstractController
 
     /**
      * is used to show other users'profiles
-     * @Route("/profil/{id}",
-     *     name="show_profile",
-     *     requirements={"id"="\d+"})
+     * @Route("/profil/{id}", name="show_profile", requirements={"id"="\d+"})
+     * @IsGranted("ROLE_USER")
      * @param $id
-     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function showProfile($id)
@@ -141,10 +138,8 @@ class AppController extends AbstractController
 
     /**
      * is used to moderate a content
-     * @Route("/moderation/{id}",
-     *      name="moderate",
-     *      methods="GET",
-     *      requirements={"id"="\d+"})
+     * @Route("/moderation/{id}", name="moderate", methods="GET", requirements={"id"="\d+"})
+     * @IsGranted("ROLE_USER")
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
