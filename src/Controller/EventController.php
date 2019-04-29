@@ -24,9 +24,7 @@ class EventController extends AbstractController
     /**
      * is used to create an event
      * @IsGranted("ROLE_USER")
-     * @Route(
-     *     "/creer-une-sortie",
-     *     name="create_event")
+     * @Route("/creer-une-sortie", name="create_event")
      */
     public function createEvent(Request $request)
     {
@@ -62,9 +60,7 @@ class EventController extends AbstractController
      * if user has not already signed on
      *
      * @IsGranted("ROLE_USER")
-     * @Route(
-     *     "/s'inscrire/{eventId}",
-     *     name="sign_on_to_event")
+     * @Route("/s'inscrire/{eventId}", name="sign_on_to_event")
      * @param $eventId
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
@@ -101,9 +97,7 @@ class EventController extends AbstractController
     /**
      * is used to withdraw from an event (if the user changes his mind about going to the event)
      * @IsGranted("ROLE_USER")
-     * @Route(
-     *     "/se-désister/{eventId}",
-     *     name="withdraw_event")
+     * @Route("/se-désister/{eventId}", name="withdraw_event")
      * @param $eventId
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      * @throws \Exception
@@ -132,11 +126,7 @@ class EventController extends AbstractController
 
     /**
      * @IsGranted("ROLE_USER")
-     * @Route(
-     *     "/modifier-une-sortie/{eventId}",
-     *     name="modify_event",
-     *     methods={"GET", "POST"}
-     * )
+     * @Route("/modifier-une-sortie/{eventId}", name="modify_event", methods={"GET", "POST"})
      * @param $eventId
      * @return \Symfony\Component\HttpFoundation\Response
      */
@@ -167,11 +157,7 @@ class EventController extends AbstractController
 
     /**
      * @IsGranted("ROLE_USER")
-     * @Route(
-     *     "/annuler-une-sortie/{eventId}",
-     *     name="cancel_event",
-     *     methods={"GET", "POST"}
-     * )
+     * @Route("/annuler-une-sortie/{eventId}", name="cancel_event", methods={"GET", "POST"})
      * @param $eventId
      * @return \Symfony\Component\HttpFoundation\Response
      */
@@ -224,11 +210,7 @@ class EventController extends AbstractController
     }
 
     /**
-     * @Route(
-     *     "creer-nouveau-lieu",
-     *     name="new_location",
-     *     methods={"GET", "POST"}
-     *     )
+     * @Route("creer-nouveau-lieu", name="new_location", methods={"GET", "POST"})
      * @IsGranted("ROLE_USER")
      */
     public function createLocation(Request $request)
