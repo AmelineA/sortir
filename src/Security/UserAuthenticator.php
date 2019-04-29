@@ -113,12 +113,12 @@ class UserAuthenticator extends AbstractFormLoginAuthenticator
         $userFromAD = $this->getUserFromActiveDirectory($credentials['username'], $credentials['password']);
         $user = null;
 
-        if($userFromAD){
+        if ($userFromAD) {
             $user = $this->entityManager->getRepository(User::class)->findOneBy(['idActiveDirectory' => $userFromAD->getId()]);
-            if(!$user) {
+            if (!$user) {
                 $user = new User();
                 $user->setEmail($userFromAD->getUserPrincipalName())
-                    ->setUsername($userFromAD->getGivenName().$userFromAD->getSurname())
+                    ->setUsername($userFromAD->getGivenName() . $userFromAD->getSurname())
                     ->setName($userFromAD->getGivenName())
                     ->setFirstName($userFromAD->getSurname())
                     ->setIdActiveDirectory($userFromAD->getId());
@@ -127,7 +127,7 @@ class UserAuthenticator extends AbstractFormLoginAuthenticator
                 $this->entityManager->flush();
             }
 
-            if($user->getActivated() == false){
+            if ($user->getActivated() == false) {
                 throw new AccessDeniedHttpException();
             }
 
@@ -164,7 +164,7 @@ class UserAuthenticator extends AbstractFormLoginAuthenticator
             return new RedirectResponse($targetPath);
         }
         return new RedirectResponse($this->urlGenerator->generate('home'));
-       // throw new \Exception();
+        // throw new \Exception();
     }
 
     /**
@@ -186,23 +186,23 @@ class UserAuthenticator extends AbstractFormLoginAuthenticator
     {
         //params for the provider
         $dataProvider = array(
-            'clientId'                => getenv('OAUTH_APP_ID'),
-            'clientSecret'            => getenv('OAUTH_APP_PASSWORD'),
-            'redirectUri'             => getenv('OAUTH_REDIRECT_URI'),
-            'urlAuthorize'            => getenv('OAUTH_AUTHORITY').getenv('OAUTH_AUTHORIZE_ENDPOINT'),
-            'urlAccessToken'          => getenv('OAUTH_AUTHORITY').getenv('OAUTH_TOKEN_ENDPOINT'),
+            'clientId' => getenv('OAUTH_APP_ID'),
+            'clientSecret' => getenv('OAUTH_APP_PASSWORD'),
+            'redirectUri' => getenv('OAUTH_REDIRECT_URI'),
+            'urlAuthorize' => getenv('OAUTH_AUTHORITY') . getenv('OAUTH_AUTHORIZE_ENDPOINT'),
+            'urlAccessToken' => getenv('OAUTH_AUTHORITY') . getenv('OAUTH_TOKEN_ENDPOINT'),
             'urlResourceOwnerDetails' => '',
-            'scopes'                  => getenv('OAUTH_SCOPES'));
+            'scopes' => getenv('OAUTH_SCOPES'));
 
         //params for the request getting the access token for the user
         $bodyRequest = array(
-            'client_id'        => getenv('OAUTH_APP_ID'),
-            'client_secret'    => getenv('OAUTH_APP_PASSWORD'),
-            'grant_type'       => 'password',
-            'username'         => $username,
-            'password'         => $password,
-            'scope'            => 'openid',
-            'resource'         => 'https://graph.microsoft.com',
+            'client_id' => getenv('OAUTH_APP_ID'),
+            'client_secret' => getenv('OAUTH_APP_PASSWORD'),
+            'grant_type' => 'password',
+            'username' => $username,
+            'password' => $password,
+            'scope' => 'openid',
+            'resource' => 'https://graph.microsoft.com',
         );
         //this is the container with which we communicate with Azure's API (we fill it with the informations about the app : the array called $dataProvider)
         $provider = new GenericProvider($dataProvider);
@@ -221,7 +221,7 @@ class UserAuthenticator extends AbstractFormLoginAuthenticator
         //200 if user is found - 400 if an error occurred
         $response = $request::post($accessTokenUrl, $headers, $body);   //this line sends the request and get the response
 
-        if($response->code == 200) {
+        if ($response->code == 200) {
             $accessToken = $response->body['access_token'];
 
             //accessing Windows Graph to get user
@@ -230,9 +230,9 @@ class UserAuthenticator extends AbstractFormLoginAuthenticator
 
             //get user's infos from the active directory
             $getMicrosoftUser = '/me';  //me is Microsoft Graph's user
-            $user = $graph->createRequest('GET', $getMicrosoftUser)  //create a new Get request: GET /me
-                ->setReturnType(\Microsoft\Graph\Model\User::class)   //defines the type of return (here: a Microsoft User)
-                ->execute();                                                     //sends the request to microsoft
+            $user = $graph->createRequest('GET', $getMicrosoftUser)//create a new Get request: GET /me
+            ->setReturnType(\Microsoft\Graph\Model\User::class)//defines the type of return (here: a Microsoft User)
+            ->execute();                                                     //sends the request to microsoft
 
             return $user;
         }

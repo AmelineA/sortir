@@ -22,12 +22,11 @@ class UserByFileType extends AbstractType
     {
         $builder
             ->add('csvFileName', FileType::class, [
-                'label'=>'Importer un fichier CSV',
-                'required'=>false,
-                'data_class'=>null,
-                'empty_data'=> ""
-            ])
-        ;
+                'label' => 'Importer un fichier CSV',
+                'required' => false,
+                'data_class' => null,
+                'empty_data' => ""
+            ]);
     }
 
     /**

@@ -29,40 +29,39 @@ class UserByAdminType extends AbstractType
 
         $builder
             ->add('name', TextType::class, [
-                'label'=>'Nom',
-                'attr'=>[
-                    'placeholder'=>'Mon nom'
+                'label' => 'Nom',
+                'attr' => [
+                    'placeholder' => 'Mon nom'
                 ],
-                'empty_data'=> ""
+                'empty_data' => ""
             ])
             ->add('firstName', TextType::class, [
-                'label'=>'Prénom',
-                'attr'=>[
-                    'placeholder'=>'Mon Prénom'
+                'label' => 'Prénom',
+                'attr' => [
+                    'placeholder' => 'Mon Prénom'
                 ],
-                'empty_data'=> ""
+                'empty_data' => ""
             ])
             ->add('telephone', TextType::class, [
-                'label'=>'Téléphone',
-                'attr'=>[
-                    'placeholder'=>'ex : 0699999999'
+                'label' => 'Téléphone',
+                'attr' => [
+                    'placeholder' => 'ex : 0699999999'
                 ],
-                'empty_data'=> ""
+                'empty_data' => ""
             ])
             ->add('email', TextType::class, [
-                'label'=>'Email',
-                'attr'=>[
-                    'placeholder'=>'ex : monEmail@Email.com'
+                'label' => 'Email',
+                'attr' => [
+                    'placeholder' => 'ex : monEmail@Email.com'
                 ],
-                'empty_data'=> ""
+                'empty_data' => ""
             ])
             ->add('site', EntityType::class, [
-                'label'=>'Site',
+                'label' => 'Site',
                 'class' => Site::class,
                 'choice_label' => 'name',
-                'empty_data'=> ""
-            ])
-        ;
+                'empty_data' => ""
+            ]);
     }
 
     /**

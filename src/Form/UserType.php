@@ -31,9 +31,9 @@ class UserType extends AbstractType
         $builder
             //block conservé en commentaire pour l'exeple de syntaxe "constraints"
             ->add('username', TextType::class, [
-                'label'=>'Pseudo',
-                'attr'=>[
-                    'placeholder'=>'ex:yoyo44'
+                'label' => 'Pseudo',
+                'attr' => [
+                    'placeholder' => 'ex:yoyo44'
                 ],
                 'empty_data' => "",
 //               ajout d'une contrainte à la place d'une annotation sur l'entity,
@@ -41,31 +41,31 @@ class UserType extends AbstractType
                 'constraints' => [new NotBlank(['message' => "Veuillez rensigner un identifiant!"])]
             ])
             ->add('name', TextType::class, [
-                'label'=>'Nom',
-                'attr'=>[
-                    'placeholder'=>'Mon nom'
+                'label' => 'Nom',
+                'attr' => [
+                    'placeholder' => 'Mon nom'
                 ],
                 'empty_data' => "",
             ])
             ->add('firstName', TextType::class, [
-                'label'=>'Prénom',
-                'attr'=>[
-                    'placeholder'=>'Mon Prénom'
+                'label' => 'Prénom',
+                'attr' => [
+                    'placeholder' => 'Mon Prénom'
                 ],
                 'empty_data' => "",
             ])
             ->add('telephone', TextType::class, [
-                'label'=>'Téléphone',
-                'attr'=>[
-                    'placeholder'=>'ex : 0699999999'
+                'label' => 'Téléphone',
+                'attr' => [
+                    'placeholder' => 'ex : 0699999999'
                 ],
                 'empty_data' => "",
             ])
             ->add('site', EntityType::class, [
                 'label' => 'Site',
-                'class'=>Site::class,
-                'choice_label'=>'name',
-                'empty_data'=> ""
+                'class' => Site::class,
+                'choice_label' => 'name',
+                'empty_data' => ""
             ])
 //            AUTH for email
 //            ->add('email', TextType::class, [
@@ -85,16 +85,15 @@ class UserType extends AbstractType
 //                'constraints'=>[new NotBlank(['message'=>'Veuillez renseigner un mot de passe'])]
 //            ])
             ->add('profilePictureName', FileType::class, [
-                'label'=>"Ma photo",
-                'required'=>false,
-                'data_class'=>null,
-                'attr'=>[
-                    'value'=>'choisir une photo'
+                'label' => "Ma photo",
+                'required' => false,
+                'data_class' => null,
+                'attr' => [
+                    'value' => 'choisir une photo'
                 ],
                 'empty_data' => "",
 
-            ])
-        ;
+            ]);
     }
 
     /**

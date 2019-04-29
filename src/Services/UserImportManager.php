@@ -47,8 +47,8 @@ class UserImportManager
     public function importUsers($users, UserPasswordEncoderInterface $encoder)
     {
 
-        foreach($users as $u){
-            $user= new User();
+        foreach ($users as $u) {
+            $user = new User();
 
             $year = new \DateTime();
 
@@ -59,9 +59,9 @@ class UserImportManager
             $user->setEmail($u["email"]);
             $user->setActivated($u["activated"]);
 
-            $siteRepo=$this->em->getRepository(Site::class);
+            $siteRepo = $this->em->getRepository(Site::class);
 //            dd($u["site_id"]);
-            $site=$siteRepo->find($u["site_id"]);
+            $site = $siteRepo->find($u["site_id"]);
 //            dd($site);
             $user->setSite($site);
             $user->setProfilePictureName(null);
@@ -70,11 +70,11 @@ class UserImportManager
             //generate a username with the first letter of the name, the firstname and the year of inscription
             $usernameFName = substr(strtolower($user->getFirstName()), 0, 1);
             $usernameName = strtolower($user->getName());
-            $username = $usernameFName.$usernameName.$year->format("Y");
+            $username = $usernameFName . $usernameName . $year->format("Y");
             //generate a password with the 2 first letters of the name, the first name and the year of inscription
             $passwordName = substr($user->getName(), 0, 2);
             $passwordFName = substr($user->getFirstName(), 0, 2);
-            $password = $passwordFName.$passwordName.$year->format("Y");
+            $password = $passwordFName . $passwordName . $year->format("Y");
             $hash = $encoder->encodePassword($user, $password);
 
             $user->setPassword($hash);
@@ -84,7 +84,7 @@ class UserImportManager
         }
 
         $this->em->flush();
-        $now=new \DateTime();
+        $now = new \DateTime();
 
         return $now;
     }

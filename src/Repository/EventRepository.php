@@ -32,16 +32,16 @@ class EventRepository extends ServiceEntityRepository
     public function listEventsBySite(User $user)
     {
         $today = new \DateTime();
-        $interval= \DateInterval::createFromDateString("30 days");
-        $day30=$today->sub($interval);
+        $interval = \DateInterval::createFromDateString("30 days");
+        $day30 = $today->sub($interval);
 
-        $site=$user->getSite();
-        $qb=$this->createQueryBuilder('e');
+        $site = $user->getSite();
+        $qb = $this->createQueryBuilder('e');
         $qb->andWhere('e.rdvTime>:day30');
         $qb->setParameter('day30', $day30);
         $qb->andWhere('e.site=:site');
         $qb->setParameter('site', $site);
-        $query=$qb->getQuery();
+        $query = $qb->getQuery();
         return $query->getResult();
     }
 
@@ -60,59 +60,60 @@ class EventRepository extends ServiceEntityRepository
      * @return mixed
      * @throws \Exception
      */
-    public function findListEventsBy(User $user, $site, $searchBar, $dateStart, $dateEnd, $organizer, $signedOn, $notSignedOn, $pastEvent)
+    public function findListEventsBy(User $user, $site, $searchBar, $dateStart, $dateEnd,
+                                     $organizer, $signedOn, $notSignedOn, $pastEvent)
     {
         $today = new \DateTime('now');
         $day30 = new \DateTime('now');
-        $interval= \DateInterval::createFromDateString("30 days");
-        $day30=$day30->sub($interval);
+        $interval = \DateInterval::createFromDateString("30 days");
+        $day30 = $day30->sub($interval);
 
         $qb = $this->createQueryBuilder('e');
         $qb->join('e.participants', 'p');
-     //   $qb->addSelect('p');
+        //   $qb->addSelect('p');
 
         $qb->andWhere('e.rdvTime>:day30');
         $qb->setParameter('day30', $day30);
 
         //list the events depending on sites
-        if($site!=="0"){
+        if ($site !== "0") {
             $qb->andWhere('e.site=:site');
             $qb->setParameter('site', $site);
         }
 
         //list the events depending on what the user typed in the searchbar
-        if($searchBar!==""){
+        if ($searchBar !== "") {
             $qb->andWhere('e.name LIKE :searchBar');
-            $qb->setParameter('searchBar', '%'.$searchBar.'%');
+            $qb->setParameter('searchBar', '%' . $searchBar . '%');
         }
 
         //list the events happening after the date typed by the user
-        if($dateStart!==""){
+        if ($dateStart !== "") {
             $qb->andWhere('e.rdvTime>:dateStart');
             $qb->setParameter('dateStart', $dateStart);
         }
 
         //list the events happening before the date typed by the user
-        if($dateEnd!==""){
+        if ($dateEnd !== "") {
             $qb->andWhere('e.rdvTime<:dateEnd');
             $qb->setParameter('dateEnd', $dateEnd);
         }
 
 
         //list the events organized by the user
-        if($organizer==='on'){
+        if ($organizer === 'on') {
             $qb->andWhere('e.organizer=:user');
             $qb->setParameter('user', $user);
         }
 
         //list the events the user has signed on
-        if($signedOn==='on'){
+        if ($signedOn === 'on') {
             $qb->andWhere('p.id=:userId');
             $qb->setParameter('userId', $user->getId());
         }
 
         //list the events the user has NOT signed on
-        if($notSignedOn==='on'){
+        if ($notSignedOn === 'on') {
 //            $qb->expr()->neq('p.id', $user->getId());
 //            $qb->andWhere(new Expr\Comparison('p.id', '!=', ':userId'));
 //            $qb->andWhere('p.id<>:userId');
@@ -124,7 +125,7 @@ class EventRepository extends ServiceEntityRepository
         }
 
         //list the events already happened
-        if($pastEvent==='on'){
+        if ($pastEvent === 'on') {
             $qb->andWhere('e.rdvTime<:today');
             $qb->setParameter('today', $today);
         }
@@ -147,7 +148,7 @@ class EventRepository extends ServiceEntityRepository
         $events = $qb->getQuery()->getResult();
 
         $idEvents = [];
-        foreach ($events as $event){
+        foreach ($events as $event) {
             $idEvents[] = $event->getId();
         }
 
@@ -221,35 +222,4 @@ class EventRepository extends ServiceEntityRepository
         $query = $qb->getQuery();
         return $query->getResult();
     }
-
-    // /**
-    //  * @return Event[] Returns an array of Event objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('e')
-            ->andWhere('e.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('e.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Event
-    {
-        return $this->createQueryBuilder('e')
-            ->andWhere('e.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
-
-
 }

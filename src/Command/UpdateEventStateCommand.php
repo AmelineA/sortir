@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Command;
 
 use App\Entity\Event;
@@ -21,7 +22,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class UpdateEventStateCommand extends Command
 {
     protected static $defaultName = 'app:updateEventState';
-    protected $em =null;
+    protected $em = null;
 
     /**
      * UpdateEventStateCommand constructor.
@@ -54,8 +55,8 @@ class UpdateEventStateCommand extends Command
         $eventRepo = $this->em->getRepository(Event::class);
         //change the state of the events from "ouvert" to "fermé"
         $events1 = $eventRepo->updateStateToClosed();
-        if(!empty($events1)){
-            foreach ($events1 as $event){
+        if (!empty($events1)) {
+            foreach ($events1 as $event) {
                 $event->setState('fermé');
                 $this->em->persist($event);
             }
@@ -63,8 +64,8 @@ class UpdateEventStateCommand extends Command
         }
         //change the state of the events from "fermé" to "terminé"
         $events2 = $eventRepo->updateStateToPassed();
-        if (!empty($events2)){
-            foreach ($events2 as $event){
+        if (!empty($events2)) {
+            foreach ($events2 as $event) {
                 $event->setState('terminé');
                 $this->em->persist($event);
             }

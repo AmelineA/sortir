@@ -16,20 +16,18 @@ class FirstConnectionType extends AbstractType
     {
         $builder
             ->add('username', TextType::class, [
-                'label'=>'Pseudo',
-                'attr'=>[
-                    'placeholder'=>'Mon pseudo'
+                'label' => 'Pseudo',
+                'attr' => [
+                    'placeholder' => 'Mon pseudo'
                 ],
                 'empty_data' => "",
             ])
             ->add('site', EntityType::class, [
                 'label' => 'Site',
-                'class'=>Site::class,
-                'choice_label'=>'name',
-                'empty_data'=> ""
-            ])
-
-        ;
+                'class' => Site::class,
+                'choice_label' => 'name',
+                'empty_data' => ""
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

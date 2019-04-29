@@ -25,10 +25,10 @@ class UserRepository extends ServiceEntityRepository
     public function findAfterDate($time)
     {
 
-        $qb=$this->createQueryBuilder('u');
+        $qb = $this->createQueryBuilder('u');
         $qb->andWhere('u.addedOn=:time');
         $qb->setParameter('time', $time);
-        $query=$qb->getQuery();
+        $query = $qb->getQuery();
         return $query->getResult();
     }
 
@@ -53,7 +53,7 @@ class UserRepository extends ServiceEntityRepository
      */
     public function getUserBySiteAndBeInformed(Event $event)
     {
-        $qb=$this->createQueryBuilder('u');
+        $qb = $this->createQueryBuilder('u');
         $qb->andWhere('u.beInformed = true');
         $qb->andWhere('u.site = :organizerSite');
         $qb->setParameter('organizerSite', $event->getSite()->getId());

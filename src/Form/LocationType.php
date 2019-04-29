@@ -23,48 +23,47 @@ class LocationType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, [
-                'label'=> 'nom du lieu',
-                'attr'=>[
-                    'placeholder'=>'ex : Le Macoumba',
+                'label' => 'nom du lieu',
+                'attr' => [
+                    'placeholder' => 'ex : Le Macoumba',
                 ],
-                'empty_data'=> ""
+                'empty_data' => ""
             ])
             ->add('street', TextType::class, [
-                'label'=> 'adresse',
-                'attr'=>[
-                    'placeholder'=>'ex : 15 rue de la soif',
+                'label' => 'adresse',
+                'attr' => [
+                    'placeholder' => 'ex : 15 rue de la soif',
                 ],
-                'empty_data'=> ""
+                'empty_data' => ""
             ])
             ->add('zipCode', TextType::class, [
-                'label'=> 'code postal',
-                'attr'=>[
-                    'placeholder'=>'ex : 44000',
+                'label' => 'code postal',
+                'attr' => [
+                    'placeholder' => 'ex : 44000',
                 ],
-                'empty_data'=> ""
+                'empty_data' => ""
             ])
             ->add('city', TextType::class, [
-                'label'=> 'ville',
-                'attr'=>[
-                    'placeholder'=>'ex : Nantes',
+                'label' => 'ville',
+                'attr' => [
+                    'placeholder' => 'ex : Nantes',
                 ],
-                'empty_data'=> ""
+                'empty_data' => ""
             ])
             ->add('latitude', TextType::class, [
-                'label'=> 'latitude',
-                'attr'=>[
-                    'placeholder'=>'insérer par exemple : +000.46.00',
+                'label' => 'latitude',
+                'attr' => [
+                    'placeholder' => 'insérer par exemple : +000.46.00',
                 ],
-                'empty_data'=> ""
+                'empty_data' => ""
             ])
             ->add('longitude', TextType::class, [
-                'label'=> 'longitude',
-                'attr'=>[
-                    'placeholder'=>'insérer par exemple : -000.05.00',
+                'label' => 'longitude',
+                'attr' => [
+                    'placeholder' => 'insérer par exemple : -000.05.00',
                 ],
-                'empty_data'=> ""
-            ])
-        ;
+                'empty_data' => ""
+            ]);
     }
 
     /**

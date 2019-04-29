@@ -93,7 +93,6 @@ class Location
     }
 
 
-
     /**
      * @return Collection|Event[]
      */

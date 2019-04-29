@@ -44,11 +44,11 @@ class FileUploader
      */
     public function upload(UploadedFile $file, String $formerFileName = null)
     {
-        $fileName = md5(uniqid()).'.'.$file->guessExtension();
+        $fileName = md5(uniqid()) . '.' . $file->guessExtension();
         try {
-            if ($formerFileName !== null){
+            if ($formerFileName !== null) {
                 $filesystem = new Filesystem();
-                $filesystem->remove($this->getTargetDirectory().'/'.$formerFileName);
+                $filesystem->remove($this->getTargetDirectory() . '/' . $formerFileName);
             }
             $file->move($this->getTargetDirectory(), $fileName);
         } catch (FileException $e) {

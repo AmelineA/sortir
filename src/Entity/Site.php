@@ -39,8 +39,6 @@ class Site
     private $users;
 
 
-
-
     //********************************************************  FONCTION INUTILE MAIS NECESSAIRE  *****************************************************
 
     public function __construct()

@@ -31,6 +31,7 @@
         "symfony/yaml": "4.2.*"
     },
     "require-dev": {
+        "escapestudios/symfony2-coding-standard": "3.x-dev",
         "symfony/debug-pack": "*",
         "symfony/maker-bundle": "^1.0",
         "symfony/profiler-pack": "*",

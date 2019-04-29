@@ -26,41 +26,39 @@ class EventType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name',TextType::class, [
-                'label'=>'Nom de la sortie',
-                'empty_data'=> ""
+            ->add('name', TextType::class, [
+                'label' => 'Nom de la sortie',
+                'empty_data' => ""
             ])
-            ->add('location',EntityType::class, [
-                'label'=>'Lieu de la sortie',
-                'class'=>Location::class,
-                'choice_label'=>'name',
-                'empty_data'=> ""
+            ->add('location', EntityType::class, [
+                'label' => 'Lieu de la sortie',
+                'class' => Location::class,
+                'choice_label' => 'name',
+                'empty_data' => ""
             ])
-
             ->add('rdvTime', DateTimeType::class, [
-                'label'=>'Le rendez-vous',
+                'label' => 'Le rendez-vous',
                 'widget' => 'single_text',
-                'data'=>new \DateTime('now'),
+                'data' => new \DateTime('now'),
             ])
             ->add('duration', IntegerType::class, [
-                'label'=>'Durée',
-                'empty_data'=> ""
+                'label' => 'Durée',
+                'empty_data' => ""
             ])
             ->add('signOnDeadline', DateTimeType::class, [
-                'label'=>'Date limite d\'inscription',
+                'label' => 'Date limite d\'inscription',
                 'widget' => 'single_text',
                 'date_format' => "Y",
-                'data'=>new \DateTime('now'),
+                'data' => new \DateTime('now'),
             ])
             ->add('maxNumber', IntegerType::class, [
-                'label'=>'Nombre maximal d\'inscrits',
-                'empty_data'=> ""
+                'label' => 'Nombre maximal d\'inscrits',
+                'empty_data' => ""
             ])
             ->add('description', TextType::class, [
-                'label'=>'Infos sortie',
-                'empty_data'=> ""
-            ])
-        ;
+                'label' => 'Infos sortie',
+                'empty_data' => ""
+            ]);
     }
 
     /**

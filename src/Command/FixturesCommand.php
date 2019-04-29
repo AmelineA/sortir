@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Command;
 
 use App\Entity\Event;
@@ -15,10 +16,10 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class FixturesCommand extends Command
 {
     protected static $defaultName = 'app:fixtures';
-    protected $em =null;
+    protected $em = null;
     protected $encoder = null;
 
-    public function __construct(UserPasswordEncoderInterface $encoder,EntityManagerInterface $em, ?string $name = null)
+    public function __construct(UserPasswordEncoderInterface $encoder, EntityManagerInterface $em, ?string $name = null)
     {
         $this->encoder = $encoder;
         $this->em = $em;
@@ -32,14 +33,14 @@ class FixturesCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-       // parent::execute($input, $output);
-       $io = new SymfonyStyle($input, $output);
-       $io->text("Now loading fixtures ...");
+        // parent::execute($input, $output);
+        $io = new SymfonyStyle($input, $output);
+        $io->text("Now loading fixtures ...");
 
         $faker = \Faker\Factory::create('fr_FR');
 
         $answer = $io->ask("Truncating all tables.... Sure? yes|no", 'no');
-        if($answer !== "yes"){
+        if ($answer !== "yes") {
             $io->text("Aborting");
             die();
         }
@@ -60,7 +61,7 @@ class FixturesCommand extends Command
         //site (Nantes, Rennes, Niort)
         $sites = ['Nantes', 'Rennes', 'Niort'];
         $allSites = [];
-        foreach($sites as $s){
+        foreach ($sites as $s) {
             $site = new Site();
             $site->setName($s);
             $allSites[] = $site;
@@ -68,7 +69,7 @@ class FixturesCommand extends Command
         }
         $this->em->flush();
         //création de promotions
-        $allPromos = ['CDA75','TSSR110','D2WM130','CDI73','ASR108','MS2I35'];
+        $allPromos = ['CDA75', 'TSSR110', 'D2WM130', 'CDI73', 'ASR108', 'MS2I35'];
 
 
         $allUser = [];
@@ -126,7 +127,7 @@ class FixturesCommand extends Command
         $allUser[] = $userENI;
         $this->em->persist($userENI);
 
-        for ($i=0;$i<10; $i++){
+        for ($i = 0; $i < 10; $i++) {
             $user = new User();
             $user->setUsername($faker->unique()->userName);
             $user->setName($faker->name);
@@ -144,7 +145,7 @@ class FixturesCommand extends Command
 
 
         //création de vraies locations
-        $barRennes=new Location();
+        $barRennes = new Location();
         $barRennes->setName("WarpZone");
         $barRennes->setStreet("92 mail françois Mitterrand");
         $barRennes->setZipCode("35000");
@@ -152,7 +153,7 @@ class FixturesCommand extends Command
         $barRennes->setLatitude("48.108237");
         $barRennes->setLongitude("-1.6956463");
 
-        $barNantes1=new Location();
+        $barNantes1 = new Location();
         $barNantes1->setName("Altercafé");
         $barNantes1->setStreet("21 quai des Antilles");
         $barNantes1->setZipCode("44200");
@@ -160,7 +161,7 @@ class FixturesCommand extends Command
         $barNantes1->setLatitude("47.2012309");
         $barNantes1->setLongitude("-1.5728972");
 
-        $barNantes2=new Location();
+        $barNantes2 = new Location();
         $barNantes2->setName("Zygobar");
         $barNantes2->setStreet("35 rue des olivettes");
         $barNantes2->setZipCode("44000");
@@ -168,7 +169,7 @@ class FixturesCommand extends Command
         $barNantes2->setLatitude("47.2106138");
         $barNantes2->setLongitude("-1.5491828");
 
-        $barNantes3=new Location();
+        $barNantes3 = new Location();
         $barNantes3->setName("Baclerie");
         $barNantes3->setStreet("7 rue Baclerie");
         $barNantes3->setZipCode("44000");
@@ -176,7 +177,7 @@ class FixturesCommand extends Command
         $barNantes3->setLatitude("47.2152648");
         $barNantes3->setLongitude("-1.5533777");
 
-        $barNantes4=new Location();
+        $barNantes4 = new Location();
         $barNantes4->setName("Delirium Café");
         $barNantes4->setStreet("19 allée Baco");
         $barNantes4->setZipCode("44000");
@@ -184,7 +185,7 @@ class FixturesCommand extends Command
         $barNantes4->setLatitude("47.2133234");
         $barNantes4->setLongitude("-1.550475");
 
-        $barNantes5=new Location();
+        $barNantes5 = new Location();
         $barNantes5->setName("Bateau Lavoir");
         $barNantes5->setStreet("Canal St Felix");
         $barNantes5->setZipCode("44000");
@@ -192,7 +193,7 @@ class FixturesCommand extends Command
         $barNantes5->setLatitude("47.2310484");
         $barNantes5->setLongitude("-1.5559399");
 
-        $barNiort= new Location();
+        $barNiort = new Location();
         $barNiort->setName('VLA');
         $barNiort->setStreet('30 rue Brisson');
         $barNiort->setZipCode('79000');
@@ -210,7 +211,7 @@ class FixturesCommand extends Command
 
         $locations = [$barNiort, $barNantes1, $barNantes2, $barNantes3, $barNantes4, $barNantes5, $barRennes, $kartNantes];
         $allLocations = [];
-        foreach ($locations as $l){
+        foreach ($locations as $l) {
             $allLocations[] = $l;
             $this->em->persist($l);
         }
@@ -237,7 +238,7 @@ class FixturesCommand extends Command
         $allEvents[] = $eventKart;
         $this->em->persist($eventKart);
 
-        for($i=0; $i<30; $i++){
+        for ($i = 0; $i < 30; $i++) {
             $event = new Event();
             $event->setName($faker->randomElement($nomSorties));
             $event->setOrganizer($faker->randomElement($allUser));
@@ -246,23 +247,23 @@ class FixturesCommand extends Command
             $event->setLocation($faker->randomElement($allLocations));
             $event->setDuration(120);
             $event->setMaxNumber(10);
-            switch ($event->getState()){
+            switch ($event->getState()) {
                 case 'ouvert':
                     $event->setRdvTime($faker->dateTimeBetween("+10days", "+30 days"));
                     $event->setSignOnDeadline($faker->dateTimeBetween("+2 days", "+5 days"));
-                break;
+                    break;
                 case 'fermé':
                     $event->setRdvTime($faker->dateTimeBetween("+10days", "+30 days"));
                     $event->setSignOnDeadline($faker->dateTimeBetween("-20 days", "-2 days"));
-                break;
+                    break;
                 case 'terminé':
                     $event->setRdvTime($faker->dateTimeBetween("-50days", "-2 days"));
                     $event->setSignOnDeadline($faker->dateTimeInInterval($event->getRdvTime(), "-5 days"));
-                break;
+                    break;
                 case 'annulé':
                     $event->setRdvTime($faker->dateTimeBetween("-15days", "+10 days"));
                     $event->setSignOnDeadline($faker->dateTimeInInterval($event->getRdvTime(), "-10 days"));
-                break;
+                    break;
             }
 //            $event->setRdvTime($faker->dateTimeBetween("-45 days", "+30 days"));
 //            $event->setSignOnDeadline($faker->dateTimeBetween("-15 days", "+10 days"));
@@ -272,8 +273,8 @@ class FixturesCommand extends Command
         }
         $this->em->flush();
 
-        foreach ($allEvents as $e){
-            for($j=0; $j<7; $j++){
+        foreach ($allEvents as $e) {
+            for ($j = 0; $j < 7; $j++) {
                 $e->addParticipant($faker->randomElement($allUser));
             }
             $this->em->persist($e);

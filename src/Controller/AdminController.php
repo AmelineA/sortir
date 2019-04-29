@@ -145,10 +145,10 @@ class AdminController extends AbstractController
     public function showModerations()
     {
         $moderationRepo = $this->getDoctrine()->getRepository(Moderation::class);
-        $moderations=$moderationRepo->findAll();
+        $moderations = $moderationRepo->findAll();
 
-        return $this->render('admin/list-of-moderations.html.twig',[
-            'moderations'=>$moderations
+        return $this->render('admin/list-of-moderations.html.twig', [
+            'moderations' => $moderations
         ]);
     }
 
@@ -160,16 +160,15 @@ class AdminController extends AbstractController
     public function showProfileReportedUser($id)
     {
         $userRepo = $this->getDoctrine()->getRepository(User::class);
-        $userNb=count($userRepo->findAll());
-        if($id>0 && $id<=$userNb){
+        $userNb = count($userRepo->findAll());
+        if ($id > 0 && $id <= $userNb) {
             $user = $userRepo->find($id);
             return $this->render('app/show-profile.html.twig', [
                 'user' => $user,
                 //moderation to true to display deactivated button
                 'moderation' => true
             ]);
-        }
-        else{
+        } else {
             $this->addFlash('danger', "Utilisateur inconnu");
             return $this->redirectToRoute('home');
         }
@@ -221,12 +220,12 @@ class AdminController extends AbstractController
 
 
         if ($targetUser !== null) {
-            $signedOnEvents=$targetUser->getSignedOnEvents();
-            foreach($signedOnEvents as $event){
+            $signedOnEvents = $targetUser->getSignedOnEvents();
+            foreach ($signedOnEvents as $event) {
                 $targetUser->removeSignedOnEvent($event);
             }
-            $organizedEvents=$targetUser->getOrganizedEvents();
-            foreach ($organizedEvents as $ev){
+            $organizedEvents = $targetUser->getOrganizedEvents();
+            foreach ($organizedEvents as $ev) {
                 $ev->setOrganizer($this->getUser());
                 $targetUser->removeOrganizedEvent($ev);
             }
@@ -249,17 +248,17 @@ class AdminController extends AbstractController
      */
     private function sendMessageToUsers(\Swift_Mailer $mailer, \DateTime $time)
     {
-        $userRepo=$this->getDoctrine()->getRepository(User::class);
-        $users=$userRepo->findAfterDate($time);
+        $userRepo = $this->getDoctrine()->getRepository(User::class);
+        $users = $userRepo->findAfterDate($time);
 //        dd($users)        //OK
         $year = new \DateTime();
 
-        foreach($users as $user){
-            $username=$user->getUsername();
+        foreach ($users as $user) {
+            $username = $user->getUsername();
             //generate a password with the 2 first letters of the name, the first name and the year of registration
             $passwordName = substr($user->getName(), 0, 2);
             $passwordFName = substr($user->getFirstName(), 0, 2);
-            $password = $passwordFName.$passwordName.$year->format("Y");
+            $password = $passwordFName . $passwordName . $year->format("Y");
             $message = new \Swift_Message();
             $message->setTo($user->getEmail())
                 ->setSubject("Votre inscription")
@@ -272,8 +271,6 @@ class AdminController extends AbstractController
         }
 //
     }
-
-
 
 
 }

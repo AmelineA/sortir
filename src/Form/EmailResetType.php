@@ -21,13 +21,12 @@ class EmailResetType extends AbstractType
     {
         $builder
             ->add('email', EmailType::class, [
-                'label'=>'email',
-                'attr'=>[
-                    'placeholder'=>'veuillez saisir votre email'
+                'label' => 'email',
+                'attr' => [
+                    'placeholder' => 'veuillez saisir votre email'
                 ],
-                'empty_data'=> ""
-            ])
-        ;
+                'empty_data' => ""
+            ]);
     }
 
     /**

@@ -45,7 +45,9 @@ class SecurityController extends AbstractController
      *     "/logout",
      *     name="app_logout")
      */
-    public function logout(){}
+    public function logout()
+    {
+    }
 
 
     /**
@@ -57,11 +59,11 @@ class SecurityController extends AbstractController
      */
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
-        $authChecker=$this->get('security.authorization_checker');
-        $router=$this->get('router');
+        $authChecker = $this->get('security.authorization_checker');
+        $router = $this->get('router');
 
         //redirect to the home page if the user is already connected
-        if($this->isGranted("ROLE_USER")){
+        if ($this->isGranted("ROLE_USER")) {
             return $this->redirectToRoute('home');
         }
 
@@ -83,7 +85,7 @@ class SecurityController extends AbstractController
         $firstConnForm = $this->createForm(FirstConnectionType::class, $currentUser);
         $firstConnForm->handleRequest($request);
 
-        if($firstConnForm->isSubmitted() && $firstConnForm->isValid()){
+        if ($firstConnForm->isSubmitted() && $firstConnForm->isValid()) {
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($currentUser);
@@ -110,54 +112,54 @@ class SecurityController extends AbstractController
      */
     public function updateMyProfile(UserPasswordEncoderInterface $encoder, Request $request, $id)
     {
-        $fileUploader=new FileUploader('img/profile-pictures');
+        $fileUploader = new FileUploader('img/profile-pictures');
         $currentUser = $this->getUser();
         $registerForm = $this->createForm(UserType::class, $currentUser);
         //gets the name of the picture file from the User object
-        $profilePictureName=$currentUser->getProfilePictureName();
+        $profilePictureName = $currentUser->getProfilePictureName();
         // gets the password to keep the connection
         $password = $this->getUser()->getPassword();
         //handleRequest gets then erases every field
         $registerForm->handleRequest($request);
 
-        if($registerForm->isSubmitted() && $registerForm->isValid()){
+        if ($registerForm->isSubmitted() && $registerForm->isValid()) {
             $currentUser = $registerForm->getData();
             $currentUser->setProfilePictureName($profilePictureName);
 
-                //if the user wants to upload a picture
-                if (null !== $registerForm->get("profilePictureName")->getData()) {
-                    //this block allows to add a picture
+            //if the user wants to upload a picture
+            if (null !== $registerForm->get("profilePictureName")->getData()) {
+                //this block allows to add a picture
 
-                    //get the picture file
-                    $profilePicture = $registerForm->get("profilePictureName")->getData();
-                    //builds the unique filename with the real extension of the file and copies the file into the directory and deletes the former picture file
-                    $profilePictureName = $fileUploader->upload($profilePicture, $profilePictureName);
-                    // sets the file name in the User object
-                    $currentUser->setProfilePictureName($profilePictureName);
-                } // or if the user does NOT want to upload, the link between the User object and the file name must be kept
-                else {
-                    // sets again the name of the file to the User object
-                    $currentUser->setProfilePictureName($profilePictureName);
-                }
-
-                //si le champs pseudo est vide, inserer firstname.name
-                $fieldUserName = $registerForm->get('username')->getData();
-                if($fieldUserName === ""){
-                        $currentUser->setUserName($currentUser->getFirstName() . "." . $currentUser->getName());
-                }
-
-                //persiter en BDD
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($currentUser);
-                $em->flush();
-
-                $this->addFlash("success", 'Votre compte a bien été modifié ! ');
-                return $this->redirectToRoute('home');
+                //get the picture file
+                $profilePicture = $registerForm->get("profilePictureName")->getData();
+                //builds the unique filename with the real extension of the file and copies the file into the directory and deletes the former picture file
+                $profilePictureName = $fileUploader->upload($profilePicture, $profilePictureName);
+                // sets the file name in the User object
+                $currentUser->setProfilePictureName($profilePictureName);
+            } // or if the user does NOT want to upload, the link between the User object and the file name must be kept
+            else {
+                // sets again the name of the file to the User object
+                $currentUser->setProfilePictureName($profilePictureName);
             }
 
-        return $this->render('security/myprofile.html.twig',[
-          'registerForm'=>$registerForm->createView(),
-          'user'=>$currentUser
+            //si le champs pseudo est vide, inserer firstname.name
+            $fieldUserName = $registerForm->get('username')->getData();
+            if ($fieldUserName === "") {
+                $currentUser->setUserName($currentUser->getFirstName() . "." . $currentUser->getName());
+            }
+
+            //persiter en BDD
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($currentUser);
+            $em->flush();
+
+            $this->addFlash("success", 'Votre compte a bien été modifié ! ');
+            return $this->redirectToRoute('home');
+        }
+
+        return $this->render('security/myprofile.html.twig', [
+            'registerForm' => $registerForm->createView(),
+            'user' => $currentUser
         ]);
 
     }

@@ -165,7 +165,6 @@ class User implements UserInterface
     }
 
 
-
     /**
      * A visual identifier that represents this user.
      *
@@ -173,9 +172,8 @@ class User implements UserInterface
      */
     public function getUsername(): string
     {
-        return (string) $this->username;
+        return (string)$this->username;
     }
-
 
 
     public function setUsername(string $username): self
@@ -184,7 +182,6 @@ class User implements UserInterface
 
         return $this;
     }
-
 
 
     /**
@@ -211,7 +208,7 @@ class User implements UserInterface
      */
     public function getPassword(): string
     {
-        return (string) $this->password;
+        return (string)$this->password;
     }
 
     public function setPassword(string $password): self
@@ -256,7 +253,6 @@ class User implements UserInterface
     }
 
 
-
     public function setFirstName(string $firstName): self
     {
         $this->firstName = $firstName;
@@ -265,12 +261,10 @@ class User implements UserInterface
     }
 
 
-
     public function getTelephone(): ?string
     {
         return $this->telephone;
     }
-
 
 
     public function setTelephone(string $telephone): self
@@ -281,12 +275,10 @@ class User implements UserInterface
     }
 
 
-
     public function getEmail(): ?string
     {
         return $this->email;
     }
-
 
 
     public function setEmail(string $email): self
@@ -297,12 +289,10 @@ class User implements UserInterface
     }
 
 
-
     public function getActivated(): ?bool
     {
         return $this->activated;
     }
-
 
 
     public function setActivated(bool $activated): self
@@ -322,7 +312,6 @@ class User implements UserInterface
     }
 
 
-
     public function addOrganizedEvent(Event $organizedEvent): self
     {
         if (!$this->organizedEvents->contains($organizedEvent)) {
@@ -332,7 +321,6 @@ class User implements UserInterface
 
         return $this;
     }
-
 
 
     public function removeOrganizedEvent(Event $organizedEvent): self
@@ -349,12 +337,10 @@ class User implements UserInterface
     }
 
 
-
     public function getSite(): ?Site
     {
         return $this->site;
     }
-
 
 
     public function setSite(?Site $site): self
@@ -363,7 +349,6 @@ class User implements UserInterface
 
         return $this;
     }
-
 
 
     /**
@@ -375,7 +360,6 @@ class User implements UserInterface
     }
 
 
-
     public function addSignedOnEvent(Event $signedOnEvent): self
     {
         if (!$this->signedOnEvents->contains($signedOnEvent)) {
@@ -385,7 +369,6 @@ class User implements UserInterface
 
         return $this;
     }
-
 
 
     public function removeSignedOnEvent(Event $signedOnEvent): self
