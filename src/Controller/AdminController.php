@@ -136,37 +136,5 @@ class AdminController extends AbstractController
         }
         return $this->redirectToRoute('show_list_of_users');
     }
-
-
-    /**
-     * is used to send messages to users when their profiles are created by an admin
-     * @param \Swift_Mailer $mailer
-     * @param \DateTime $time
-     * @throws \Exception
-     */
-    private function sendMessageToUsers(\Swift_Mailer $mailer, \DateTime $time)
-    {
-        $userRepo = $this->getDoctrine()->getRepository(User::class);
-        $users = $userRepo->findAfterDate($time);
-        $year = new \DateTime();
-
-        foreach ($users as $user) {
-            $username = $user->getUsername();
-            //generate a password with the 2 first letters of the name, the first name and the year of registration
-            $passwordName = substr($user->getName(), 0, 2);
-            $passwordFName = substr($user->getFirstName(), 0, 2);
-            $password = $passwordFName . $passwordName . $year->format("Y");
-            $message = new \Swift_Message();
-            $message->setTo($user->getEmail())
-                ->setSubject("Votre inscription")
-                ->setFrom("ameline.aubin2018@campus-eni.fr")
-                ->setBody($this->renderView('mail/email.html.twig', [
-                    'username' => $username,
-                    'password' => $password
-                ]));
-            $mailer->send($message);
-        }
-    }
-
-
+    
 }

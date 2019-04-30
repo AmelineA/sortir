@@ -42,7 +42,10 @@ class EventType extends AbstractType
                 'data' => new \DateTime('now'),
             ])
             ->add('duration', IntegerType::class, [
-                'label' => 'Durée',
+                'label' => 'Durée de la Sortie',
+                'attr' => [
+                    'placeholder' => 'en minutes',
+                    ],
                 'empty_data' => ""
             ])
             ->add('signOnDeadline', DateTimeType::class, [
@@ -56,7 +59,7 @@ class EventType extends AbstractType
                 'empty_data' => ""
             ])
             ->add('description', TextType::class, [
-                'label' => 'Infos sortie',
+                'label' => 'Infos sur la sortie',
                 'empty_data' => ""
             ]);
     }

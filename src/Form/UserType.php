@@ -27,16 +27,12 @@ class UserType extends AbstractType
     {
 
         $builder
-            //block conservé en commentaire pour l'exeple de syntaxe "constraints"
             ->add('username', TextType::class, [
                 'label' => 'Pseudo',
                 'attr' => [
                     'placeholder' => 'ex:yoyo44'
                 ],
                 'empty_data' => "",
-//               ajout d'une contrainte à la place d'une annotation sur l'entity,
-//               ce cette manière le username n'est pas obligatoire dans UserByAdminType
-                'constraints' => [new NotBlank(['message' => "Veuillez rensigner un identifiant!"])]
             ])
             ->add('name', TextType::class, [
                 'label' => 'Nom',
@@ -65,23 +61,6 @@ class UserType extends AbstractType
                 'choice_label' => 'name',
                 'empty_data' => ""
             ])
-//            AUTH for email
-//            ->add('email', TextType::class, [
-//                'label'=>'Email',
-//                'attr'=>[
-//                    'placeholder'=>'ex : monEmail@Email.com'
-//                ],
-//                'empty_data' => "",
-//            ])
-
-//            ->add('password', PasswordType::class, [
-//                'label'=>'Mot de passe',
-//                'attr'=>[
-//                    'placeholder'=>'ex: K!4851o$'
-//                ],
-//                'empty_data' => "",
-//                'constraints'=>[new NotBlank(['message'=>'Veuillez renseigner un mot de passe'])]
-//            ])
             ->add('profilePictureName', FileType::class, [
                 'label' => "Ma photo",
                 'required' => false,
@@ -90,7 +69,6 @@ class UserType extends AbstractType
                     'value' => 'choisir une photo'
                 ],
                 'empty_data' => "",
-
             ]);
     }
 
