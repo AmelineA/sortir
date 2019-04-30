@@ -90,7 +90,6 @@ class AppController extends AbstractController
 
         $eventRepo = $this->getDoctrine()->getRepository(Event::class);
 
-        //dd($site);
         $events = $eventRepo->findListEventsBy($user, $site, $searchBar, $dateStart, $dateEnd, $organizer, $signedOn, $notSignedOn, $pastEvents);
 
         return $this->render('app/home.html.twig', [

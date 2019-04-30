@@ -226,7 +226,7 @@ class EventController extends AbstractController
 
         if ($locationForm->isSubmitted() && $locationForm->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            //crée l'objet
+            //create object
             $em->persist($location);
             // compares the coordinates of $location with the coordinates of every location in database
             if ($location->getLatitude() !== null && $location->getLongitude() !== null) {
@@ -236,7 +236,7 @@ class EventController extends AbstractController
                         return $this->redirectToRoute('create_event');
                     }
                 }
-                // compares the adresses of $location with the adresses of every location in database
+                // compares the adresses of $location with the addresses of every location in database
             } else {
                 foreach ($locations as $loc) {
                     if ($loc->getStreet() === $location->getStreet() && $loc->getCity() === $location->getCity()) {

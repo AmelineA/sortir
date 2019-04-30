@@ -121,13 +121,13 @@ class SecurityController extends AbstractController
                 $currentUser->setProfilePictureName($profilePictureName);
             }
 
-            //si le champs pseudo est vide, inserer firstname.name
+            //if username field is empty, insert firstname.name
             $fieldUserName = $registerForm->get('username')->getData();
             if ($fieldUserName === "") {
                 $currentUser->setUserName($currentUser->getFirstName() . "." . $currentUser->getName());
             }
 
-            //persiter en BDD
+            //persist in DB
             $em = $this->getDoctrine()->getManager();
             $em->persist($currentUser);
             $em->flush();

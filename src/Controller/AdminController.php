@@ -148,7 +148,6 @@ class AdminController extends AbstractController
     {
         $userRepo = $this->getDoctrine()->getRepository(User::class);
         $users = $userRepo->findAfterDate($time);
-//        dd($users)        //OK
         $year = new \DateTime();
 
         foreach ($users as $user) {
@@ -167,7 +166,6 @@ class AdminController extends AbstractController
                 ]));
             $mailer->send($message);
         }
-//
     }
 
 
