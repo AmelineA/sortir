@@ -395,14 +395,26 @@ textarea{
     width: 30px;
     height: 30px;
     margin: 5px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    background-size: 25px;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
-.btn-icon img{
-    width: 25px;
-    height: 25px
+
+#show-btn{
+    background-image: url("../img/view.png");
+}
+
+#signOn-btn{
+    background-image: url("../img/signonIcon.png");
+}
+
+#cancel-btn{
+    background-image: url("../img/cancelIcon.png");
+}
+
+#withdraw-btn{
+    background-image: url("../img/withdrawIcon.png");
 }
 
 /***********************************HEADER***************************************/
@@ -493,4 +505,5 @@ p{
     display: flex;
     flex-direction: column;
 }
+
 

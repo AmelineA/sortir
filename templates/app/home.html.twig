@@ -124,15 +124,15 @@
                 <td class="hidden"> {{ event.state }} </td>
                 <td class="hidden"> <a href="{{ path('show_profile', {'id':event.organizer.id}) }}">{{ event.organizer.firstName }} {{ event.organizer.name }} </a></td>
                 <td class="icon">
-                    <a href="{{ path('display_event', {'eventId':event.id}) }}"><button class="btn btn-sm btn-primary btn-icon" title="Voir l'événement"><img src="{{ asset('img/view.png') }}" alt="show"></button></a>
+                    <a href="{{ path('display_event', {'eventId':event.id}) }}"><button id="show-btn" class="btn btn-sm btn-primary btn-icon" title="Voir l'événement"></button></a>
                 {% if app.user in event.participants %}
-                    <a href="{{ path('withdraw_event', {'eventId' : event.id}) }}"><button class="btn btn-sm btn-primary btn-icon" title="Se désister"><img src="{{ asset('img/withdrawIcon.png') }}" alt="withdraw"></button></a>
+                    <a href="{{ path('withdraw_event', {'eventId' : event.id}) }}"><button id="withdraw-btn" class="btn btn-sm btn-primary btn-icon" title="Se désister"></button></a>
                 {% else %}
-                    <a href="{{ path('sign_on_to_event', {'eventId':event.id}) }}"><button class="btn btn-sm btn-primary btn-icon" title="S'inscrire"><img src="{{ asset('img/signonIcon.png') }}" alt="sign on"></button></a>
+                    <a href="{{ path('sign_on_to_event', {'eventId':event.id}) }}"><button id="signOn-btn" class="btn btn-sm btn-primary btn-icon" title="S'inscrire"></button></a>
                 {% endif %}
                 {% if is_granted('ROLE_ADMIN') or event.organizer.id == app.user.id %}
                     {% if "annulé"is not same as(event.state) and "terminé"is not same as(event.state) %}
-                    <a href="{{ path('cancel_event', {'eventId' : event.id}) }}"><button class="btn btn-sm btn-primary btn-icon" title="Annuler"><img src="{{ asset('img/cancelIcon.png') }}" alt="cancel"></button></a>
+                    <a href="{{ path('cancel_event', {'eventId' : event.id}) }}"><button id="cancel-btn" class="btn btn-sm btn-primary btn-icon" title="Annuler"></button></a>
                     {% endif %}
                 {% endif %}
                 </td>
