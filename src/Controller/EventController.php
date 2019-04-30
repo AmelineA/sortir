@@ -236,7 +236,7 @@ class EventController extends AbstractController
                         return $this->redirectToRoute('create_event');
                     }
                 }
-                // compares the adresses of $location with the addresses of every location in database
+                // compares the addresses of $location with the addresses of every location in database
             } else {
                 foreach ($locations as $loc) {
                     if ($loc->getStreet() === $location->getStreet() && $loc->getCity() === $location->getCity()) {

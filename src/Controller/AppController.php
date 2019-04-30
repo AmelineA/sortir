@@ -28,7 +28,7 @@ class AppController extends AbstractController
     public function home()
     {
         if (empty($this->getUser()->getSite())) {
-            return $this->redirectToRoute('first_connection'); //rediriger vers le formulaire de choix du site
+            return $this->redirectToRoute('first_connection'); //redirect to the Site choice Form
         }
 
         $today = new \DateTime();
@@ -69,7 +69,7 @@ class AppController extends AbstractController
      */
     public function search(Request $request)
     {
-        //éléments nécessaire à l'affichage de base de home
+        // needed elements to display the home page
         $today = new \DateTime();
 
         $user = $this->getUser();
@@ -78,7 +78,7 @@ class AppController extends AbstractController
         $sites = $siteRepo->findAll();
 
 
-        //récupération des données du formulaire
+        //get the data from the Form
         $site = $request->request->get('site');
         $searchBar = $request->request->get('searchBar');
         $dateStart = $request->request->get('dateStart');
@@ -126,7 +126,7 @@ class AppController extends AbstractController
             $user = $userRepo->find($id);
             return $this->render('app/show-profile.html.twig', [
                 'user' => $user,
-                //moderation to false to display the moderation button
+                //moderation at false in order to display the moderation button
                 'moderation' => false
             ]);
         } else {
@@ -142,7 +142,7 @@ class AppController extends AbstractController
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function moderate(Request $request, $id)
+    public function moderate($id)
     {
         $userRepo = $this->getDoctrine()->getRepository(User::class);
         $reporter = $this->getUser();
