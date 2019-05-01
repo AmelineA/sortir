@@ -42,8 +42,8 @@ class SecurityController extends AbstractController
      */
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
-        $authChecker = $this->get('security.authorization_checker');
-        $router = $this->get('router');
+       /* $authChecker = $this->get('security.authorization_checker');
+        $router = $this->get('router');*/
 
         //redirect to the home page if the user is already connected
         if ($this->isGranted("ROLE_USER")) {
@@ -74,7 +74,6 @@ class SecurityController extends AbstractController
             $em->persist($currentUser);
             $em->flush();
 
-//            $this->addFlash("success", 'Votre compte a bien été modifié ! ');
             return $this->redirectToRoute('home');
         }
         return $this->render('security/first-connection.html.twig', [
@@ -89,15 +88,13 @@ class SecurityController extends AbstractController
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
-    public function updateMyProfile(UserPasswordEncoderInterface $encoder, Request $request, $id)
+    public function updateMyProfile(Request $request)
     {
         $fileUploader = new FileUploader('img/profile-pictures');
         $currentUser = $this->getUser();
         $registerForm = $this->createForm(UserType::class, $currentUser);
         //gets the name of the picture file from the User object
         $profilePictureName = $currentUser->getProfilePictureName();
-        // gets the password to keep the connection
-        $password = $this->getUser()->getPassword();
         //handleRequest gets then erases every field
         $registerForm->handleRequest($request);
 
@@ -120,14 +117,7 @@ class SecurityController extends AbstractController
                 // sets again the name of the file to the User object
                 $currentUser->setProfilePictureName($profilePictureName);
             }
-
-            //si le champs pseudo est vide, inserer firstname.name
-            $fieldUserName = $registerForm->get('username')->getData();
-            if ($fieldUserName === "") {
-                $currentUser->setUserName($currentUser->getFirstName() . "." . $currentUser->getName());
-            }
-
-            //persiter en BDD
+          //persist in DB
             $em = $this->getDoctrine()->getManager();
             $em->persist($currentUser);
             $em->flush();
