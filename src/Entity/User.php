@@ -122,7 +122,7 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=50, nullable=true)
      * @Assert\File(maxSize = "2048k",
      *              mimeTypes={"image/png" ,"image/jpg","image/jpeg"},
-     *              mimeTypesMessage = "Svp inserer une image valide (png,jpg,jpeg)")
+     *              mimeTypesMessage = "Svp inserer une image valide (png,jpg,jpeg) de taille inférieure à 2 Mo")
      */
     private $profilePictureName;
 
