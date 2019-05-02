@@ -10,6 +10,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Form\FormError;
 
 
 /**
@@ -38,6 +39,7 @@ class EventController extends AbstractController
         $eventForm->handleRequest($request);
 
         if ($eventForm->isSubmitted() && $eventForm->isValid()) {
+
             $em = $this->getDoctrine()->getManager();
             $em->persist($event);
             $em->flush();
@@ -170,7 +172,7 @@ class EventController extends AbstractController
         if ($_POST) {
 
             $motif = $request->request->get('motif');
-            if(!$motif === ""){
+            if($motif !== ""){
                 $event->setDescription($motif);
                 $event->setState('annulé');
                 $em = $this->getDoctrine()->getManager();
