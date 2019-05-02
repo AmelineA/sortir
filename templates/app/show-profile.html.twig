@@ -30,9 +30,9 @@
             </div>
             <a href="javascript:history.go(-1)"><button type="button" class="btn btn-md btn-primary" >Retour</button></a>
             {% if moderation %}
-                <a href="{{ path('deactivate_user', {'userId':user.id}) }}"><button type="button" class="btn btn-md btn-primary" >Désactivé</button></a>
+                <a href="{{ path('deactivate_user', {'userId':user.id}) }}"><button type="button" class="btn btn-md btn-primary" >Désactiver l'utilisateur</button></a>
             {% else %}
-                <a href="{{ path('moderate', {'id':user.id}) }}" ><button type="button" class="btn btn-md btn-primary" >Signalé</button></a>
+                <a href="{{ path('moderate', {'id':user.id}) }}" ><button type="button" class="btn btn-md btn-primary" >Signaler un contenu inapproprié</button></a>
             {% endif %}
         </div><!--col right-->
     </div><!--container-->
