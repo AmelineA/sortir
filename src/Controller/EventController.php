@@ -228,10 +228,11 @@ class EventController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             //create object
             $em->persist($location);
+
             // compares the coordinates of $location with the coordinates of every location in database
             if ($location->getLatitude() !== null && $location->getLongitude() !== null) {
                 foreach ($locations as $loc) {
-                    if ($loc->getLatitude() === $location->getLatitude() && $loc->getLongitude() === $location->getLongitude()) {
+                    if (!$loc->getLatitude() === "" && $loc->getLatitude() === $location->getLatitude() && !$loc->getLongitude() === "" && $loc->getLongitude() === $location->getLongitude()) {
                         $this->addFlash('danger', 'Il semblerait que ce lieu existe déjà au vu des coordonnées renseignées');
                         return $this->redirectToRoute('create_event');
                     }

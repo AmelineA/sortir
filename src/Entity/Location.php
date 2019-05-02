@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\LocationRepository")
+ *  @UniqueEntity(fields={"name"}, message="Ce lieu existe déjà!")
  */
 class Location
 {
@@ -19,6 +20,7 @@ class Location
     private $id;
 
     /**
+     * @Assert\NotBlank(message="Veuillez renseigner le champ nom du lieu !")
      * @ORM\Column(type="string", length=255)
      */
     private $name;
