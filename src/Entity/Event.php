@@ -32,6 +32,7 @@ class Event
     private $name;
 
     /**
+     * @Assert\GreaterThan("today")
      * @Assert\NotBlank(message=" Veuillez donner un rendez-vous !")
      * @Assert\DateTime()
      * @ORM\Column(type="datetime")
@@ -46,6 +47,7 @@ class Event
     private $duration;
 
     /**
+     * @Assert\GreaterThan("today")
      * @Assert\NotBlank(message=" Veuillez préciser la limite d'inscription !")
      * @Assert\DateTime()
      * @ORM\Column(type="datetime")

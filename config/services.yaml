@@ -6,7 +6,6 @@
 parameters:
     locale: 'en'
     profile_pictures_directory: '%kernel.project_dir%/public/img/profile-pictures'
-    csv_directory: '%kernel.project_dir%/public/CSVusers'
 
 services:
     # default configuration for services in *this* file
@@ -33,6 +32,4 @@ services:
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 
-    import.cvstoarray:
-        class: App\Services\ConvertCsvToArray
 
