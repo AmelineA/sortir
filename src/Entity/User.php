@@ -124,12 +124,6 @@ class User implements UserInterface
      */
     private $profilePictureName;
 
-//    AUTH
-//    /**
-//     * @ORM\Column(type="string", length=255, nullable=true)
-//     */
-//    private $resetPassword;
-
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
@@ -396,18 +390,6 @@ class User implements UserInterface
 
         return $this;
     }
-
-//    public function getResetPassword(): ?string
-//    {
-//        return $this->resetPassword;
-//    }
-//
-//    public function setResetPassword(?string $resetPassword): self
-//    {
-//        $this->resetPassword = $resetPassword;
-//
-//        return $this;
-//    }
 
     public function getAddedOn(): ?\DateTimeInterface
     {
