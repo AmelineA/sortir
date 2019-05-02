@@ -170,17 +170,19 @@ class EventController extends AbstractController
         if ($_POST) {
 
             $motif = $request->request->get('motif');
-            $event->setDescription($motif);
-            $event->setState('annulé');
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($event);
-            $em->flush();
+            if(!$motif === ""){
+                $event->setDescription($motif);
+                $event->setState('annulé');
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($event);
+                $em->flush();
 
-            $this->addFlash('success', "La sortie a bien été annulée !");
-            return $this->redirectToRoute("home");
+                $this->addFlash('success', "La sortie a bien été annulée !");
+                return $this->redirectToRoute("home");
+            }else {
+                $this->addFlash('error', "le motif d'annulation est obligatoire !");
+            }
         }
-
-
         return $this->render('event/cancel-event.html.twig', [
             'user' => $user,
             'event' => $event
