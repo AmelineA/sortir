@@ -8,8 +8,10 @@ use App\Form\EventType;
 use App\Form\LocationType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Tests\Fixtures\ToString;
 
 
 /**
@@ -36,6 +38,12 @@ class EventController extends AbstractController
         $eventForm = $this->createForm(EventType::class, $event);
 
         $eventForm->handleRequest($request);
+
+        //checking if the signOnDeadline date is greater than rdvTime date
+        if($eventForm->isSubmitted() && $eventForm->get('rdvTime')->getData() < $eventForm->get('signOnDeadline')->getData()){
+            $error = new FormError("erreur");
+            $eventForm->get('signOnDeadline')->addError($error);
+        }
 
         if ($eventForm->isSubmitted() && $eventForm->isValid()) {
             $em = $this->getDoctrine()->getManager();
