@@ -400,7 +400,6 @@ textarea{
     background-position: center;
 }
 
-
 #show-btn{
     background-image: url("../img/view.png");
 }
@@ -428,11 +427,18 @@ header{
 #site-title a{
     font-size: 3em;
     color: #78cce2;
+    display: flex;
+    align-items: center;
+}
+
+#site-title p{
+    margin: 0;
 }
 
 #site-title img{
-    height: 40px;
+    height: 45px;
     margin-right: 10px;
+    margin-bottom: 0;
 }
 
 .row-justify-between{
