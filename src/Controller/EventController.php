@@ -188,7 +188,7 @@ class EventController extends AbstractController
                 $this->addFlash('success', "La sortie a bien été annulée !");
                 return $this->redirectToRoute("home");
             }else {
-                $this->addFlash('error', "le motif d'annulation est obligatoire !");
+                $this->addFlash('danger', "le motif d'annulation est obligatoire !");
             }
         }
         return $this->render('event/cancel-event.html.twig', [
