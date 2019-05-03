@@ -60,42 +60,5 @@ class UserRepository extends ServiceEntityRepository
         $query = $qb->getQuery();
         return $query->getResult();
     }
-//    public function findByAfterDate(DateTime $time)
-//    {
-//        return $this->createQueryBuilder('u')
-//            ->andWhere('u.addedOn=:time')
-//            ->setParameter('time', $time)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
 
-    // /**
-    //  * @return User[] Returns an array of User objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('u')
-            ->andWhere('u.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('u.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?User
-    {
-        return $this->createQueryBuilder('u')
-            ->andWhere('u.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

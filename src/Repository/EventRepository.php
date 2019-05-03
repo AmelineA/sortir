@@ -114,9 +114,6 @@ class EventRepository extends ServiceEntityRepository
 
         //list the events the user has NOT signed on
         if ($notSignedOn === 'on') {
-//            $qb->expr()->neq('p.id', $user->getId());
-//            $qb->andWhere(new Expr\Comparison('p.id', '!=', ':userId'));
-//            $qb->andWhere('p.id<>:userId');
             //get the events where user is participant
             $idEvents = $this->signedOnEvents($user->getId());
             //add where event.id is not in the array returned (id events)
