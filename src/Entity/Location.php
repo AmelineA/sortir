@@ -48,11 +48,13 @@ class Location
     private $event;
 
     /**
+     * @Assert\NotBlank(message="Veuillez renseigner le champ code postal !")
      * @ORM\Column(type="string", length=10, nullable=true)
      */
     private $zipCode;
 
     /**
+     * @Assert\NotBlank(message="Veuillez renseigner le champ ville !")
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $city;
