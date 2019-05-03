@@ -26,7 +26,6 @@ class User implements UserInterface
     private $id;
 
     /**
-     * @Assert\NotBlank(message="Veuillez renseigner le champ pseudo !")
      * @Assert\Length(
      *     min="3",
      *     max="180",

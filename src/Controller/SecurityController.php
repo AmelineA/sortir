@@ -70,6 +70,11 @@ class SecurityController extends AbstractController
 
         if ($firstConnForm->isSubmitted() && $firstConnForm->isValid()) {
 
+            //set a username by default if field empty
+            if($request->request->get('username')->getData() === ""){
+                $username= $currentUser->getFirstName().$currentUser->getName();
+                $currentUser->setUsername($username);
+            }
             $em = $this->getDoctrine()->getManager();
             $em->persist($currentUser);
             $em->flush();
@@ -99,6 +104,12 @@ class SecurityController extends AbstractController
         $registerForm->handleRequest($request);
 
         if ($registerForm->isSubmitted() && $registerForm->isValid()) {
+
+            //set a username by default if field empty
+            if($request->request->get('username')->getData() === ""){
+                $username= $currentUser->getFirstName().$currentUser->getName();
+                $currentUser->setUsername($username);
+            }
             $currentUser = $registerForm->getData();
             $currentUser->setProfilePictureName($profilePictureName);
 
