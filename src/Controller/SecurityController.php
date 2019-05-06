@@ -99,8 +99,13 @@ class SecurityController extends AbstractController
         $registerForm->handleRequest($request);
 
         if ($registerForm->isSubmitted() && $registerForm->isValid()) {
-            $currentUser = $registerForm->getData();
+//            $currentUser = $registerForm->getData();
             $currentUser->setProfilePictureName($profilePictureName);
+
+            if(empty($currentUser->getUsername())){
+                $username = $this->getUser()->getFirstName().$this->getUser()->getName();
+                $currentUser->setUsername($username);
+            }
 
             //if the user wants to upload a picture
             if (null !== $registerForm->get("profilePictureName")->getData()) {
