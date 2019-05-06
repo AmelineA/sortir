@@ -7,9 +7,9 @@
     <div class="container-event">
         <h1>Détails de la sortie</h1>
 
-        <div class="info-event">
+        <div class="info-event"><!--info event-->
             <h4>Informations</h4>
-            <div>
+            <div><!--info top-->
                 <div class="row-justify-between align-items-baseline">
                     <label>Nom de la sortie : </label>
                     <p class="col-6">{{ event.name }}</p>
@@ -37,7 +37,7 @@
                     </div>
                 {% endif %}
             </div><!--info top-->
-            <div>
+            <div><!--info bottom-->
                 <div class="row-justify-between align-items-baseline">
                     <label>Campus de l'organisateur : </label>
                     <p class="col-6"> {{ event.site.name }}</p>
@@ -88,7 +88,7 @@
     </div><!--container-->
 
 
-        <div class="participants-event">
+        <div class="participants-event"><!--participants events-->
             <h4>Liste des participants inscrits</h4>
             <table class="table table-striped">
                 <tr>

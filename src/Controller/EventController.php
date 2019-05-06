@@ -188,7 +188,7 @@ class EventController extends AbstractController
                 $this->addFlash('success', "La sortie a bien été annulée !");
                 return $this->redirectToRoute("home");
             }else {
-                $this->addFlash('error', "le motif d'annulation est obligatoire !");
+                $this->addFlash('danger', "le motif d'annulation est obligatoire !");
             }
         }
         return $this->render('event/cancel-event.html.twig', [
@@ -240,9 +240,9 @@ class EventController extends AbstractController
             $em->persist($location);
 
             // compares the coordinates of $location with the coordinates of every location in database
-            if ($location->getLatitude() !== null && $location->getLongitude() !== null) {
+            if ($location->getLatitude() !== "" && $location->getLongitude() !== "") {
                 foreach ($locations as $loc) {
-                    if (!$loc->getLatitude() === "" && $loc->getLatitude() === $location->getLatitude() && !$loc->getLongitude() === "" && $loc->getLongitude() === $location->getLongitude()) {
+                    if ($loc->getLatitude() === $location->getLatitude() && $loc->getLongitude() === $location->getLongitude()) {
                         $this->addFlash('danger', 'Il semblerait que ce lieu existe déjà au vu des coordonnées renseignées');
                         return $this->redirectToRoute('create_event');
                     }

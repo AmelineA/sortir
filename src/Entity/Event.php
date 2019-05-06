@@ -32,7 +32,7 @@ class Event
     private $name;
 
     /**
-     * @Assert\GreaterThan("today")
+     * @Assert\GreaterThan("today", message="Veuillez choisir une date postérieure à aujourd'hui")
      * @Assert\NotBlank(message=" Veuillez donner un rendez-vous !")
      * @Assert\DateTime()
      * @ORM\Column(type="datetime")
